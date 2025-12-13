@@ -1,0 +1,652 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <title>A Christmas Surprise 🎄</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            body {
+                font-family: 'Georgia', serif;
+                background: linear-gradient(135deg, #0f1419 0%, #1a0d0d 50%, #0f1419 100%);
+                overflow: hidden;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                touch-action: none;
+            }
+
+            .snowflakes {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            .snowflake {
+                position: absolute;
+                top: -10px;
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 1em;
+                animation: fall linear infinite;
+            }
+
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                }
+            }
+
+            .container {
+                position: relative;
+                z-index: 10;
+                text-align: center;
+                width: 100%;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .instruction-text {
+                color: #fff;
+                font-size: 1.6em;
+                margin-bottom: 60px;
+                text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+                animation: fadeIn 2s ease-in;
+                line-height: 1.8;
+                padding: 0 20px;
+            }
+
+            .emoji {
+                display: inline-block;
+                animation: twinkle 2s ease-in-out infinite;
+            }
+
+            @keyframes twinkle {
+                0%, 100% { opacity: 1; transform: scale(1); }
+                50% { opacity: 0.7; transform: scale(1.15); }
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .scene-3d {
+                position: relative;
+                width: 400px;
+                height: 450px;
+                perspective: 1200px;
+                transform-style: preserve-3d;
+            }
+
+            .gift-wrapper {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                transform-style: preserve-3d;
+                transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
+            .gift-wrapper.opened {
+                transform: translateY(-150px) scale(0.8);
+            }
+
+            /* Gift Box Base */
+            .gift-box-base {
+                position: absolute;
+                width: 280px;
+                height: 280px;
+                left: 50%;
+                bottom: 50px;
+                transform: translateX(-50%);
+                background: linear-gradient(145deg, #8B0000 0%, #A52A2A 50%, #8B0000 100%);
+                border-radius: 8px;
+                box-shadow: 0 30px 80px rgba(0,0,0,0.7),
+                            inset 0 -8px 30px rgba(0,0,0,0.4),
+                            inset 0 8px 30px rgba(255,255,255,0.15);
+                transform-style: preserve-3d;
+            }
+
+            .gift-box-base::before {
+                content: '';
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                border: 2px solid rgba(255, 215, 0, 0.2);
+                border-radius: 5px;
+            }
+
+            /* Gift Lid */
+            .gift-lid {
+                position: absolute;
+                width: 300px;
+                height: 80px;
+                left: 50%;
+                bottom: 330px;
+                transform: translateX(-50%);
+                transform-style: preserve-3d;
+                transform-origin: bottom center;
+                transition: all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                z-index: 10;
+            }
+
+            .gift-lid-top {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(145deg, #A52A2A 0%, #8B0000 50%, #A52A2A 100%);
+                border-radius: 8px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.6),
+                            inset 0 -5px 15px rgba(0,0,0,0.3),
+                            inset 0 5px 15px rgba(255,255,255,0.2);
+            }
+
+            .gift-wrapper.opened .gift-lid {
+                transform: translateX(-50%) rotateX(-135deg) translateZ(20px);
+                opacity: 0;
+            }
+
+            /* Ribbons */
+            .ribbon-vertical {
+                position: absolute;
+                width: 50px;
+                height: 360px;
+                left: 50%;
+                bottom: 50px;
+                transform: translateX(-50%);
+                background: linear-gradient(90deg, #B8860B 0%, #FFD700 30%, #FFED4E 50%, #FFD700 70%, #B8860B 100%);
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.6),
+                            inset 0 0 15px rgba(0,0,0,0.2),
+                            inset 3px 0 8px rgba(255,255,255,0.3);
+                z-index: 5;
+                transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
+            .ribbon-horizontal {
+                position: absolute;
+                width: 280px;
+                height: 50px;
+                bottom: 190px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(180deg, #B8860B 0%, #FFD700 30%, #FFED4E 50%, #FFD700 70%, #B8860B 100%);
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.6),
+                            inset 0 0 15px rgba(0,0,0,0.2),
+                            inset 0 3px 8px rgba(255,255,255,0.3);
+                z-index: 4;
+                transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
+            /* Bow */
+            .bow {
+                position: absolute;
+                top: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 140px;
+                height: 100px;
+                cursor: grab;
+                touch-action: none;
+                z-index: 20;
+                filter: drop-shadow(0 10px 25px rgba(0,0,0,0.5));
+                transition: transform 0.2s ease;
+            }
+
+            .bow:active {
+                cursor: grabbing;
+            }
+
+            .bow-loop {
+                position: absolute;
+                width: 60px;
+                height: 70px;
+                background: linear-gradient(145deg, #FFED4E 0%, #FFD700 50%, #B8860B 100%);
+                border-radius: 50% 50% 50% 0;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.4),
+                            inset -3px -3px 8px rgba(0,0,0,0.3),
+                            inset 3px 3px 8px rgba(255,255,255,0.4);
+            }
+
+            .bow-loop-left {
+                left: 0;
+                transform: rotate(-45deg);
+            }
+
+            .bow-loop-right {
+                right: 0;
+                transform: rotate(135deg);
+            }
+
+            .bow-center {
+                position: absolute;
+                width: 40px;
+                height: 40px;
+                background: linear-gradient(145deg, #FFED4E, #FFD700);
+                border-radius: 50%;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.5),
+                            inset 0 3px 6px rgba(255,255,255,0.4);
+                z-index: 1;
+            }
+
+            .bow-tails {
+                position: absolute;
+                top: 70px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100px;
+            }
+
+            .bow-tail {
+                position: absolute;
+                width: 25px;
+                height: 60px;
+                background: linear-gradient(180deg, #FFD700, #B8860B);
+                clip-path: polygon(50% 0%, 0% 0%, 25% 100%);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            }
+
+            .bow-tail-left {
+                left: 15px;
+                transform: rotate(-15deg);
+            }
+
+            .bow-tail-right {
+                right: 15px;
+                transform: rotate(15deg);
+            }
+
+            .gift-wrapper.opened .ribbon-vertical,
+            .gift-wrapper.opened .ribbon-horizontal,
+            .gift-wrapper.opened .bow {
+                opacity: 0;
+                transform: translateY(200px) rotate(180deg) scale(0.5);
+            }
+
+            /* Gift Content Inside */
+            .gift-content {
+                position: absolute;
+                width: 260px;
+                height: 260px;
+                left: 50%;
+                bottom: 60px;
+                transform: translateX(-50%) translateY(20px) scale(0.7);
+                opacity: 0;
+                transition: all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                pointer-events: none;
+            }
+
+            .gift-wrapper.opened .gift-content {
+                transform: translateX(-50%) translateY(0) scale(1);
+                opacity: 1;
+                transition-delay: 1s;
+            }
+
+            .gift-card {
+                background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+                border-radius: 0px;
+                padding: 10px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.4),
+                            inset 0 1px 0 rgba(255,255,255,0.5);
+                text-align: center;
+                border: 3px solid #DAA520;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .gift-card::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(45deg, transparent 30%, rgba(255,215,0,0.1) 50%, transparent 70%);
+                animation: shimmer 3s infinite;
+            }
+
+            @keyframes shimmer {
+                0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+                100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            }
+
+            .spa-logo {
+                font-size: 2.8em;
+                font-weight: bold;
+                background: linear-gradient(135deg, #2C5F2D 0%, #97BC62 50%, #2C5F2D 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                letter-spacing: 8px;
+                margin-bottom: 15px;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .spa-tagline {
+                font-size: 1em;
+                color: #2C5F2D;
+                font-style: italic;
+                margin-bottom: 20px;
+                letter-spacing: 2px;
+            }
+
+            .spa-icon {
+                font-size: 3em;
+                margin: 15px 0;
+                filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+            }
+
+            .location-text {
+                font-size: 1.1em;
+                color: #555;
+                margin-top: 15px;
+                font-weight: 500;
+            }
+
+            .christmas-message {
+                margin-top: 20px;
+                font-size: 1.3em;
+                color: #8B0000;
+                font-weight: bold;
+            }
+
+            /* Particles */
+            .particle {
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                background: radial-gradient(circle, #FFD700, transparent);
+                border-radius: 50%;
+                pointer-events: none;
+                animation: particle-float 2s ease-out forwards;
+                opacity: 0;
+            }
+
+            @keyframes particle-float {
+                0% {
+                    transform: translateY(0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-200px) scale(0);
+                    opacity: 0;
+                }
+            }
+
+            .drag-hint {
+                position: absolute;
+                bottom: -80px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: rgba(255, 215, 0, 0.9);
+                font-size: 1.2em;
+                animation: bounce 2s ease-in-out infinite;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+                font-weight: 500;
+            }
+
+            @keyframes bounce {
+                0%, 100% { transform: translateX(-50%) translateY(0); }
+                50% { transform: translateX(-50%) translateY(-15px); }
+            }
+
+            .gift-wrapper.opened .drag-hint {
+                opacity: 0;
+            }
+
+            /* Bokeh */
+            .bokeh {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                pointer-events: none;
+                z-index: 2;
+            }
+
+            .bokeh-light {
+                position: absolute;
+                border-radius: 50%;
+                background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, transparent 70%);
+                animation: float 6s ease-in-out infinite;
+            }
+
+            @keyframes float {
+                0%, 100% { transform: translateY(0) translateX(0); }
+                50% { transform: translateY(-30px) translateX(20px); }
+            }
+
+            .final-message {
+                position: fixed;
+                bottom: 40px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: rgba(255, 255, 255, 0);
+                font-size: 1.4em;
+                text-align: center;
+                transition: color 1s ease;
+                text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+                z-index: 100;
+            }
+
+            .gift-wrapper.opened ~ .final-message {
+                color: rgba(255, 255, 255, 1);
+                transition-delay: 2s;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="snowflakes" id="snowflakes"></div>
+        <div class="bokeh" id="bokeh"></div>
+
+        <div class="container">
+            <div class="instruction-text" id="instructionText">
+                <span class="emoji">🎄</span> A little Christmas surprise just for you <span class="emoji">🎄</span>
+                <br>
+                Touch and drag the ribbon to open your gift
+            </div>
+
+            <div class="scene-3d">
+                <div class="gift-wrapper" id="giftWrapper">
+                    <div class="bow" id="bow">
+                        <div class="bow-loop bow-loop-left"></div>
+                        <div class="bow-loop bow-loop-right"></div>
+                        <div class="bow-center"></div>
+                        <div class="bow-tails">
+                            <div class="bow-tail bow-tail-left"></div>
+                            <div class="bow-tail bow-tail-right"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="ribbon-vertical" id="ribbonV"></div>
+                    <div class="ribbon-horizontal" id="ribbonH"></div>
+                    
+                    <div class="gift-lid">
+                        <div class="gift-lid-top"></div>
+                    </div>
+                    
+                    <div class="gift-box-base"></div>
+                    
+                    <div class="gift-content">
+                        <div class="gift-card">
+                            <div class="spa-logo">KOENA</div>
+                            <div class="spa-tagline">SPA & WELLNESS</div>
+                            <div class="spa-icon">🌿 ✨ 💆‍♀️</div>
+                            <div class="christmas-message">Merry Christmas! 🎄</div>
+                        </div>
+                    </div>
+                    
+                    <div class="drag-hint">👆 Drag the bow down</div>
+                </div>
+            </div>
+
+            <div class="final-message">A gift of relaxation and rejuvenation awaits you ✨</div>
+        </div>
+
+        <script>
+            // Create snowflakes
+            const snowContainer = document.getElementById('snowflakes');
+            for (let i = 0; i < 60; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.animationDelay = Math.random() * 5 + 's';
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+                snowContainer.appendChild(snowflake);
+            }
+
+            // Create bokeh lights
+            const bokehContainer = document.getElementById('bokeh');
+            for (let i = 0; i < 25; i++) {
+                const light = document.createElement('div');
+                light.className = 'bokeh-light';
+                const size = Math.random() * 120 + 60;
+                light.style.width = size + 'px';
+                light.style.height = size + 'px';
+                light.style.left = Math.random() * 100 + '%';
+                light.style.top = Math.random() * 100 + '%';
+                light.style.animationDelay = Math.random() * 3 + 's';
+                light.style.animationDuration = (Math.random() * 4 + 5) + 's';
+                bokehContainer.appendChild(light);
+            }
+
+            // Bow dragging logic
+            const bow = document.getElementById('bow');
+            const ribbonV = document.getElementById('ribbonV');
+            const ribbonH = document.getElementById('ribbonH');
+            const giftWrapper = document.getElementById('giftWrapper');
+            const instructionText = document.getElementById('instructionText');
+
+            let isDragging = false;
+            let startY = 0;
+            let dragDistance = 0;
+            const dragThreshold = 120;
+            let hasOpened = false;
+
+            function createParticles(x, y) {
+                for (let i = 0; i < 15; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = x + (Math.random() - 0.5) * 50 + 'px';
+                    particle.style.top = y + (Math.random() - 0.5) * 50 + 'px';
+                    particle.style.animationDelay = (Math.random() * 0.3) + 's';
+                    document.body.appendChild(particle);
+                    
+                    setTimeout(() => particle.remove(), 2000);
+                }
+            }
+
+            function handleStart(e) {
+                if (hasOpened) return;
+                isDragging = true;
+                startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+                bow.style.cursor = 'grabbing';
+            }
+
+            function handleMove(e) {
+                if (!isDragging || hasOpened) return;
+                
+                e.preventDefault();
+                const currentY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+                dragDistance = Math.max(0, currentY - startY);
+                
+                const bowProgress = Math.min(1, dragDistance / dragThreshold);
+                
+                // Move and rotate bow naturally
+                bow.style.transform = `translateX(-50%) translateY(${dragDistance}px) rotate(${dragDistance * 0.8}deg) scale(${1 - bowProgress * 0.3})`;
+                
+                // Fade ribbons
+                const opacity = Math.max(0, 1 - (dragDistance / dragThreshold));
+                ribbonV.style.opacity = opacity;
+                ribbonH.style.opacity = opacity;
+                ribbonV.style.transform = `translateX(-50%) scaleY(${1 - bowProgress * 0.5})`;
+                
+                // Create particles during drag
+                if (dragDistance > 20 && Math.random() > 0.85) {
+                    const rect = bow.getBoundingClientRect();
+                    createParticles(rect.left + rect.width / 2, rect.top + rect.height / 2);
+                }
+                
+                if (dragDistance > dragThreshold) {
+                    openGift();
+                }
+            }
+
+            function handleEnd() {
+                if (!isDragging || hasOpened) return;
+                
+                isDragging = false;
+                bow.style.cursor = 'grab';
+                
+                if (dragDistance < dragThreshold) {
+                    // Bounce back
+                    bow.style.transition = 'transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                    bow.style.transform = 'translateX(-50%)';
+                    ribbonV.style.opacity = 1;
+                    ribbonH.style.opacity = 1;
+                    ribbonV.style.transform = 'translateX(-50%)';
+                    
+                    setTimeout(() => {
+                        bow.style.transition = 'transform 0.2s ease';
+                    }, 500);
+                }
+            }
+
+            function openGift() {
+                if (hasOpened) return;
+                hasOpened = true;
+                isDragging = false;
+                
+                // Create burst of particles
+                const rect = bow.getBoundingClientRect();
+                for (let i = 0; i < 30; i++) {
+                    setTimeout(() => {
+                        createParticles(rect.left + rect.width / 2, rect.top + rect.height / 2);
+                    }, i * 30);
+                }
+                
+                // Open the gift
+                giftWrapper.classList.add('opened');
+                
+                // Fade instruction text
+                instructionText.style.transition = 'opacity 0.8s ease';
+                instructionText.style.opacity = '0';
+            }
+
+            // Touch events
+            bow.addEventListener('touchstart', handleStart, { passive: false });
+            bow.addEventListener('touchmove', handleMove, { passive: false });
+            bow.addEventListener('touchend', handleEnd);
+
+            // Mouse events
+            bow.addEventListener('mousedown', handleStart);
+            document.addEventListener('mousemove', handleMove);
+            document.addEventListener('mouseup', handleEnd);
+        </script>
+    </body>
+    </html>
