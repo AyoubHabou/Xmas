@@ -159,6 +159,51 @@
         @media(max-width:1400px){.main-layout{grid-template-columns:1fr}.email-preview{position:relative;top:0}}
         @media(max-width:1024px){.compartments-grid{grid-template-columns:repeat(3,1fr)}.form-grid{grid-template-columns:1fr}.header-stats{display:none}.dips-grid{grid-template-columns:1fr}.dips-summary{grid-template-columns:1fr}}
         @media(max-width:640px){.compartments-grid{grid-template-columns:repeat(2,1fr)}.header-left{flex-direction:column;text-align:center}.btn-group{flex-direction:column}.tab-nav{flex-wrap:wrap}.tab-btn{font-size:0.75rem;padding:0.5rem 0.625rem}}
+        
+        /* === SIDEBAR === */
+        .sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:#0F172A;display:flex;flex-direction:column;z-index:100}
+        .sidebar-logo{padding:0.875rem 1rem;border-bottom:1px solid #1E293B;display:flex;align-items:center;gap:0.625rem}
+        .sidebar-logo img{height:28px;border-radius:4px;background:white;padding:1px}
+        .sidebar-logo span{color:#fff;font-weight:800;font-size:0.8125rem;letter-spacing:-0.02em}
+        .sidebar-nav{flex:1;padding:0.5rem;overflow-y:auto}
+        .nav-item{display:flex;align-items:center;gap:0.625rem;padding:0.5625rem 0.75rem;border-radius:0.5rem;color:#94A3B8;cursor:pointer;font-size:0.75rem;font-weight:500;transition:all 0.12s;margin-bottom:2px;position:relative;user-select:none}
+        .nav-item:hover{background:#1E293B;color:#E2E8F0}
+        .nav-item.active{background:#1D4ED8;color:#fff;font-weight:600}
+        .nav-item .nav-icon{font-size:1rem;width:1.25rem;text-align:center;flex-shrink:0}
+        .nav-item .nav-badge{position:absolute;right:0.5rem;background:#DC2626;color:#fff;font-size:0.5625rem;font-weight:700;padding:0.0625rem 0.375rem;border-radius:10px;min-width:18px;text-align:center}
+        .nav-section{color:#475569;font-size:0.5625rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:0.625rem 0.75rem 0.375rem}
+        .main-content{margin-left:220px;height:100vh;overflow-y:auto;padding:1rem 1.25rem;width:calc(100vw - 220px)}
+        /* === PAGINATION === */
+        .pagination{display:flex;align-items:center;justify-content:center;gap:0.375rem;padding:0.625rem}
+        .page-btn{width:30px;height:30px;border:1px solid #E2E8F0;border-radius:0.375rem;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:600;transition:all 0.12s}
+        .page-btn:hover{border-color:#1D4ED8;color:#1D4ED8}
+        .page-btn.active{background:#1D4ED8;color:#fff;border-color:#1D4ED8}
+        .page-btn:disabled{opacity:0.3;cursor:default}
+        .page-info{font-size:0.6875rem;color:#475569;font-weight:500;margin-left:0.375rem}
+        .stats-row{display:grid;gap:0.5rem;margin-bottom:0.75rem}
+        .stats-row-4{grid-template-columns:repeat(4,1fr)}
+        .stats-row-3{grid-template-columns:repeat(3,1fr)}
+        .stat-card{background:#fff;border:1px solid #E2E8F0;border-radius:0.5rem;padding:0.625rem;text-align:center;cursor:pointer;transition:all 0.15s}
+        .stat-card:hover{border-color:#1D4ED8;box-shadow:0 2px 8px rgba(29,78,216,0.08)}
+        .stat-card.active{border-color:#1D4ED8;background:#DBEAFE}
+        .stat-val{font-size:1.5rem;font-weight:800}
+        .stat-label{font-size:0.5625rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-top:0.125rem;color:#475569}
+        .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
+        .page-header h1{font-size:1.125rem;font-weight:800}
+        .page-header-sub{font-size:0.6875rem;color:#94A3B8;font-weight:500}
+        .data-table{width:100%;border-collapse:collapse;font-size:0.6875rem}
+        .data-table thead th{background:#1E293B;color:#fff;padding:0.5rem 0.625rem;font-weight:600;font-size:0.625rem;text-align:left;letter-spacing:0.03em}
+        .data-table tbody tr{border-bottom:1px solid #E2E8F0;transition:background 0.1s}
+        .data-table tbody tr:nth-child(even){background:#F8FAFC}
+        .data-table tbody tr:hover{background:#F1F5F9}
+        .data-table td{padding:0.375rem 0.625rem}
+        .badge-dot{width:6px;height:6px;border-radius:50%;display:inline-block;animation:pulse 2s infinite}
+        .sick-bar{height:6px;border-radius:3px;background:#E2E8F0;overflow:hidden;width:100%}
+        .sick-bar-fill{height:100%;border-radius:3px;transition:width 0.3s}
+        .empty-state{text-align:center;padding:2rem;color:#94A3B8}
+        .empty-icon{font-size:2rem;margin-bottom:0.375rem}
+        .empty-text{font-size:0.75rem}
+
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
     </style>
 </head>
@@ -895,8 +940,9 @@
         }
 
         // ==================== MAIN APP ====================
+        
         // ===== B-620 INSPECTION DATA =====
-        const B620_DATA = [
+        const B620_DATA_INIT = [
             {unit:"86",V:"January 27, 2025",K:"January 27, 2025",P:"December 31, 2020",UC:"December 31, 2020",I:"December 31, 2020",RV:"January 27, 2025"},
             {unit:"87",V:"January 28, 2026",K:"January 28, 2026",P:"January 28, 2026",UC:"January 28, 2026",I:"January 28, 2026",RV:"January 28, 2026"},
             {unit:"88",V:"July 7, 2025",K:"July 7, 2025",P:"May 8, 2023",UC:"May 8, 2023",I:"May 8, 2023",RV:"July 7, 2025"},
@@ -941,172 +987,282 @@
             str = str.replace(/(\d+)(st|nd|rd|th)/gi, '$1').replace(/Janurary/i,'January').trim();
             const d = new Date(str);
             if (!isNaN(d.getTime())) return d;
-            // Try ISO format
             const iso = str.match(/(\d{4})-(\d{2})-(\d{2})/);
             if (iso) return new Date(parseInt(iso[1]), parseInt(iso[2])-1, parseInt(iso[3]));
             return null;
         }
-        function getExpiry(inspDate, cycleYears) {
+        // B620 expiry = end of month, cycleYears after inspection date
+        function getB620Expiry(inspDate, cycleYears) {
             if (!inspDate) return null;
-            const exp = new Date(inspDate);
-            exp.setFullYear(exp.getFullYear() + cycleYears);
+            const d = new Date(inspDate);
+            // Add cycle years, then go to last day of that month
+            d.setFullYear(d.getFullYear() + cycleYears);
+            // Last day of that month
+            const exp = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+            exp.setHours(23, 59, 59);
             return exp;
         }
-        function getStatus(inspDateStr, cycleYears) {
+        function getB620Status(inspDateStr, cycleYears) {
             const now = new Date();
             const d = parseFlexDate(inspDateStr);
-            if (!d) return {status:'unknown', label:'No Date', color:'#94A3B8'};
-            const exp = getExpiry(d, cycleYears);
+            if (!d) return {status:'unknown', label:'No Date', color:'#94A3B8', bg:'#F8FAFC'};
+            const exp = getB620Expiry(d, cycleYears);
             const daysLeft = Math.ceil((exp - now) / (1000*60*60*24));
-            const warn = new Date(exp); warn.setDate(warn.getDate() - 14);
-            if (now >= exp) return {status:'expired', label:`Expired ${Math.abs(daysLeft)}d ago`, daysLeft, color:'#DC2626', bg:'#FEF2F2'};
-            if (now >= warn) return {status:'warning', label:`${daysLeft}d left`, daysLeft, color:'#D97706', bg:'#FFFBEB'};
-            if (daysLeft <= 90) return {status:'upcoming', label:`${daysLeft}d left`, daysLeft, color:'#2563EB', bg:'#EFF6FF'};
-            return {status:'ok', label:`${daysLeft}d left`, daysLeft, color:'#16A34A', bg:'#F0FDF4'};
+            const warn14 = new Date(exp); warn14.setDate(warn14.getDate() - 14);
+            if (now >= exp) return {status:'expired', label:`Expired ${Math.abs(daysLeft)}d ago`, daysLeft, exp, color:'#DC2626', bg:'#FEF2F2'};
+            if (now >= warn14) return {status:'warning', label:`${daysLeft}d left`, daysLeft, exp, color:'#D97706', bg:'#FFFBEB'};
+            if (daysLeft <= 90) return {status:'upcoming', label:`${daysLeft}d`, daysLeft, exp, color:'#2563EB', bg:'#EFF6FF'};
+            return {status:'ok', label:`${daysLeft}d`, daysLeft, exp, color:'#16A34A', bg:'#F0FDF4'};
+        }
+        function getB620AlertCount() {
+            let c = 0;
+            B620_DATA_INIT.forEach(t => INSPECTION_TYPES.forEach(it => {
+                const s = getB620Status(t[it.key], it.cycle);
+                if (s.status === 'expired' || s.status === 'warning') c++;
+            }));
+            return c;
         }
 
         function B620Dashboard() {
-            const [b620Filter, setB620Filter] = useState('all');
-            const [b620Search, setB620Search] = useState('');
+            const [filter, setFilter] = useState('all');
+            const [search, setSearch] = useState('');
             const [editingCell, setEditingCell] = useState(null);
-            const [b620Data, setB620Data] = useState(B620_DATA);
-            const [expandedUnit, setExpandedUnit] = useState(null);
+            const [data, setData] = useState(B620_DATA_INIT);
+            const [page, setPage] = useState(0);
+            const PER_PAGE = 6;
 
             const now = new Date();
-            // Compute stats
-            let expiredCount = 0, warningCount = 0, okCount = 0;
-            const alertTrailers = new Set();
-            b620Data.forEach(t => {
-                INSPECTION_TYPES.forEach(it => {
-                    const s = getStatus(t[it.key], it.cycle);
-                    if (s.status === 'expired') { expiredCount++; alertTrailers.add(t.unit); }
-                    else if (s.status === 'warning') { warningCount++; alertTrailers.add(t.unit); }
-                    else okCount++;
-                });
-            });
+            let expiredCount = 0, warningCount = 0;
+            const alertUnits = new Set();
+            data.forEach(t => INSPECTION_TYPES.forEach(it => {
+                const s = getB620Status(t[it.key], it.cycle);
+                if (s.status === 'expired') { expiredCount++; alertUnits.add(t.unit); }
+                else if (s.status === 'warning') { warningCount++; alertUnits.add(t.unit); }
+            }));
 
-            // Filter trailers
-            let filtered = [...b620Data];
-            if (b620Search) filtered = filtered.filter(t => t.unit.toLowerCase().includes(b620Search.toLowerCase()));
-            if (b620Filter === 'expired') filtered = filtered.filter(t => INSPECTION_TYPES.some(it => getStatus(t[it.key], it.cycle).status === 'expired'));
-            else if (b620Filter === 'warning') filtered = filtered.filter(t => INSPECTION_TYPES.some(it => getStatus(t[it.key], it.cycle).status === 'warning'));
-            else if (b620Filter === 'alerts') filtered = filtered.filter(t => alertTrailers.has(t.unit));
+            let filtered = [...data];
+            if (search) filtered = filtered.filter(t => t.unit.toLowerCase().includes(search.toLowerCase()));
+            if (filter === 'expired') filtered = filtered.filter(t => INSPECTION_TYPES.some(it => getB620Status(t[it.key], it.cycle).status === 'expired'));
+            else if (filter === 'warning') filtered = filtered.filter(t => INSPECTION_TYPES.some(it => getB620Status(t[it.key], it.cycle).status === 'warning'));
+            else if (filter === 'alerts') filtered = filtered.filter(t => alertUnits.has(t.unit));
+
+            const totalPages = Math.ceil(filtered.length / PER_PAGE);
+            const paged = filtered.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
 
             const updateDate = (unit, key, newDate) => {
-                setB620Data(prev => prev.map(t => t.unit === unit ? {...t, [key]: newDate} : t));
+                setData(prev => prev.map(t => t.unit === unit ? {...t, [key]: newDate} : t));
                 setEditingCell(null);
             };
 
-            return (
-                <div className="card">
-                    <div className="card-header">
-                        <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
-                            <div style={{fontSize:'1.5rem'}}>🔧</div>
-                            <div><h2 className="card-title" style={{margin:0}}>B-620 Trailer Inspections</h2>
-                            <div style={{fontSize:'0.625rem',color:'var(--text-tertiary)',marginTop:'0.125rem'}}>Track inspection dates & expiry alerts for all trailers</div></div>
-                        </div>
+            return (<>
+                <div className="page-header"><div><h1>🔧 B-620 Trailer Inspections</h1><div className="page-header-sub">Track inspection dates & expiry alerts — expires end of month</div></div></div>
+
+                <div className="stats-row stats-row-4">
+                    <div className={`stat-card ${filter==='alerts'?'active':''}`} onClick={() => {setFilter(filter==='alerts'?'all':'alerts');setPage(0);}}>
+                        <div className="stat-val" style={{color:'#1E293B'}}>{alertUnits.size}</div>
+                        <div className="stat-label" style={{color:'var(--text-secondary)'}}>Trailers w/ Alerts</div>
                     </div>
-                    <div className="card-body" style={{padding:'0.75rem'}}>
-                        {/* Summary cards */}
-                        <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'0.5rem',marginBottom:'0.75rem'}}>
-                            <div onClick={() => setB620Filter(b620Filter==='alerts'?'all':'alerts')} style={{cursor:'pointer',background:b620Filter==='alerts'?'#1E293B':'var(--bg-primary)',border:'1px solid '+(b620Filter==='alerts'?'#1E293B':'var(--border-light)'),borderRadius:'0.5rem',padding:'0.625rem',textAlign:'center',transition:'all 0.15s'}}>
-                                <div style={{fontSize:'1.5rem',fontWeight:800,color:b620Filter==='alerts'?'#fff':'var(--text-primary)'}}>{alertTrailers.size}</div>
-                                <div style={{fontSize:'0.5625rem',fontWeight:600,color:b620Filter==='alerts'?'#94A3B8':'var(--text-secondary)',textTransform:'uppercase',letterSpacing:'0.05em'}}>Trailers w/ Alerts</div>
-                            </div>
-                            <div onClick={() => setB620Filter(b620Filter==='expired'?'all':'expired')} style={{cursor:'pointer',background:b620Filter==='expired'?'#FEF2F2':'var(--bg-primary)',border:'1px solid '+(b620Filter==='expired'?'#FECACA':'var(--border-light)'),borderRadius:'0.5rem',padding:'0.625rem',textAlign:'center',transition:'all 0.15s'}}>
-                                <div style={{fontSize:'1.5rem',fontWeight:800,color:'#DC2626'}}>{expiredCount}</div>
-                                <div style={{fontSize:'0.5625rem',fontWeight:600,color:'#991B1B',textTransform:'uppercase',letterSpacing:'0.05em'}}>Expired</div>
-                            </div>
-                            <div onClick={() => setB620Filter(b620Filter==='warning'?'all':'warning')} style={{cursor:'pointer',background:b620Filter==='warning'?'#FFFBEB':'var(--bg-primary)',border:'1px solid '+(b620Filter==='warning'?'#FDE68A':'var(--border-light)'),borderRadius:'0.5rem',padding:'0.625rem',textAlign:'center',transition:'all 0.15s'}}>
-                                <div style={{fontSize:'1.5rem',fontWeight:800,color:'#D97706'}}>{warningCount}</div>
-                                <div style={{fontSize:'0.5625rem',fontWeight:600,color:'#92400E',textTransform:'uppercase',letterSpacing:'0.05em'}}>Due in 14 Days</div>
-                            </div>
-                            <div onClick={() => setB620Filter('all')} style={{cursor:'pointer',background:b620Filter==='all'?'#F0FDF4':'var(--bg-primary)',border:'1px solid '+(b620Filter==='all'?'#BBF7D0':'var(--border-light)'),borderRadius:'0.5rem',padding:'0.625rem',textAlign:'center',transition:'all 0.15s'}}>
-                                <div style={{fontSize:'1.5rem',fontWeight:800,color:'#16A34A'}}>{b620Data.length}</div>
-                                <div style={{fontSize:'0.5625rem',fontWeight:600,color:'#166534',textTransform:'uppercase',letterSpacing:'0.05em'}}>Total Trailers</div>
-                            </div>
-                        </div>
-
-                        {/* Search */}
-                        <div style={{marginBottom:'0.5rem'}}>
-                            <input className="dips-search" placeholder="🔍 Search trailer unit #..." value={b620Search} onChange={e => setB620Search(e.target.value)} style={{width:'100%',maxWidth:300}} />
-                        </div>
-
-                        {/* Legend */}
-                        <div style={{display:'flex',gap:'0.75rem',marginBottom:'0.625rem',flexWrap:'wrap',fontSize:'0.5625rem',fontWeight:600}}>
-                            <span style={{display:'flex',alignItems:'center',gap:'0.25rem'}}><span style={{width:8,height:8,borderRadius:2,background:'#DC2626',display:'inline-block'}}></span> Expired</span>
-                            <span style={{display:'flex',alignItems:'center',gap:'0.25rem'}}><span style={{width:8,height:8,borderRadius:2,background:'#D97706',display:'inline-block'}}></span> Due ≤14 days</span>
-                            <span style={{display:'flex',alignItems:'center',gap:'0.25rem'}}><span style={{width:8,height:8,borderRadius:2,background:'#2563EB',display:'inline-block'}}></span> Due ≤90 days</span>
-                            <span style={{display:'flex',alignItems:'center',gap:'0.25rem'}}><span style={{width:8,height:8,borderRadius:2,background:'#16A34A',display:'inline-block'}}></span> OK</span>
-                            <span style={{fontSize:'0.5rem',color:'var(--text-tertiary)',marginLeft:'auto'}}>Click any date to update it</span>
-                        </div>
-
-                        {/* Table */}
-                        <div style={{overflowX:'auto',borderRadius:'0.5rem',border:'1px solid var(--border-light)'}}>
-                            <table style={{width:'100%',borderCollapse:'collapse',fontSize:'0.6875rem'}}>
-                                <thead>
-                                    <tr style={{background:'#1E293B'}}>
-                                        <th style={{padding:'0.5rem 0.625rem',color:'#fff',fontWeight:700,textAlign:'left',fontSize:'0.625rem',letterSpacing:'0.03em',position:'sticky',left:0,background:'#1E293B',zIndex:1,minWidth:70}}>UNIT #</th>
-                                        {INSPECTION_TYPES.map(it => (
-                                            <th key={it.key} style={{padding:'0.5rem 0.5rem',color:'#fff',fontWeight:600,textAlign:'center',fontSize:'0.5625rem',minWidth:110}}>
-                                                <div>{it.icon} {it.label}</div>
-                                                <div style={{fontSize:'0.5rem',color:'#94A3B8',fontWeight:400,marginTop:'0.125rem'}}>{it.cycle === 1 ? 'Annual' : `${it.cycle}-Year`}</div>
-                                            </th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {filtered.map((trailer, idx) => {
-                                        const hasAlert = alertTrailers.has(trailer.unit);
-                                        return (
-                                            <tr key={trailer.unit} style={{background: hasAlert ? (idx%2===0?'#FFF7ED':'#FFFBF0') : (idx%2===0?'#fff':'#F8FAFC'), borderBottom:'1px solid var(--border-light)', transition:'background 0.1s'}}
-                                                onMouseEnter={e => e.currentTarget.style.background='#F1F5F9'} onMouseLeave={e => e.currentTarget.style.background=hasAlert?(idx%2===0?'#FFF7ED':'#FFFBF0'):(idx%2===0?'#fff':'#F8FAFC')}>
-                                                <td style={{padding:'0.5rem 0.625rem',fontWeight:700,fontSize:'0.75rem',color:'var(--text-primary)',position:'sticky',left:0,background:'inherit',zIndex:1,borderRight:'2px solid var(--border-light)'}}>
-                                                    <div style={{display:'flex',alignItems:'center',gap:'0.375rem'}}>
-                                                        {hasAlert && <span style={{width:6,height:6,borderRadius:'50%',background:'#DC2626',display:'inline-block',animation:'pulse 2s infinite'}}></span>}
-                                                        {trailer.unit}
-                                                    </div>
-                                                </td>
-                                                {INSPECTION_TYPES.map(it => {
-                                                    const s = getStatus(trailer[it.key], it.cycle);
-                                                    const d = parseFlexDate(trailer[it.key]);
-                                                    const exp = d ? getExpiry(d, it.cycle) : null;
-                                                    const isEditing = editingCell === trailer.unit+'-'+it.key;
-                                                    return (
-                                                        <td key={it.key} style={{padding:'0.25rem 0.375rem',textAlign:'center',position:'relative'}}>
-                                                            {isEditing ? (
-                                                                <input type="date" autoFocus style={{fontSize:'0.625rem',padding:'0.25rem',border:'2px solid #3B82F6',borderRadius:4,width:'100%'}}
-                                                                    defaultValue={d ? d.toISOString().split('T')[0] : ''}
-                                                                    onBlur={e => { if (e.target.value) { const nd = new Date(e.target.value); updateDate(trailer.unit, it.key, nd.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})); } else setEditingCell(null); }}
-                                                                    onKeyDown={e => { if(e.key==='Enter') e.target.blur(); if(e.key==='Escape') setEditingCell(null); }}
-                                                                />
-                                                            ) : (
-                                                                <div onClick={() => setEditingCell(trailer.unit+'-'+it.key)} style={{cursor:'pointer',background:s.bg||'transparent',border:'1px solid '+(s.status==='expired'?'#FECACA':s.status==='warning'?'#FDE68A':'transparent'),borderRadius:6,padding:'0.25rem 0.375rem',transition:'all 0.15s'}}>
-                                                                    <div style={{fontSize:'0.5625rem',fontWeight:600,color:s.color}}>{s.label}</div>
-                                                                    <div style={{fontSize:'0.5rem',color:'var(--text-tertiary)',marginTop:'0.0625rem'}}>{d ? d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—'}</div>
-                                                                    {exp && <div style={{fontSize:'0.4375rem',color:'#94A3B8',marginTop:'0.0625rem'}}>exp: {exp.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</div>}
-                                                                </div>
-                                                            )}
-                                                        </td>
-                                                    );
-                                                })}
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div style={{fontSize:'0.5625rem',color:'var(--text-tertiary)',marginTop:'0.5rem',display:'flex',justifyContent:'space-between'}}>
-                            <span>Showing {filtered.length} of {b620Data.length} trailers</span>
-                            <span>V = External Visual (1yr) | K = Leakage (1yr) | P = Pressure (5yr) | UC = Upper Coupling (5yr) | I = Internal (5yr) | RV = Vapor Recovery (1yr)</span>
-                        </div>
+                    <div className={`stat-card ${filter==='expired'?'active':''}`} onClick={() => {setFilter(filter==='expired'?'all':'expired');setPage(0);}}>
+                        <div className="stat-val" style={{color:'#DC2626'}}>{expiredCount}</div>
+                        <div className="stat-label" style={{color:'#991B1B'}}>Expired</div>
+                    </div>
+                    <div className={`stat-card ${filter==='warning'?'active':''}`} onClick={() => {setFilter(filter==='warning'?'all':'warning');setPage(0);}}>
+                        <div className="stat-val" style={{color:'#D97706'}}>{warningCount}</div>
+                        <div className="stat-label" style={{color:'#92400E'}}>Due ≤14 Days</div>
+                    </div>
+                    <div className={`stat-card ${filter==='all'?'active':''}`} onClick={() => {setFilter('all');setPage(0);}}>
+                        <div className="stat-val" style={{color:'#16A34A'}}>{data.length}</div>
+                        <div className="stat-label" style={{color:'#166534'}}>Total Trailers</div>
                     </div>
                 </div>
-            );
+
+                <div className="card">
+                    <div className="card-header" style={{justifyContent:'space-between'}}>
+                        <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
+                            <input className="dips-search" placeholder="🔍 Search unit #..." value={search} onChange={e => {setSearch(e.target.value);setPage(0);}} style={{width:180}} />
+                            <span style={{fontSize:'0.5625rem',color:'var(--text-tertiary)'}}>Click any cell to update date</span>
+                        </div>
+                        <div style={{display:'flex',gap:'0.375rem',fontSize:'0.5625rem',fontWeight:600,alignItems:'center'}}>
+                            <span style={{display:'flex',alignItems:'center',gap:'0.2rem'}}><span style={{width:8,height:8,borderRadius:2,background:'#DC2626',display:'inline-block'}}></span> Expired</span>
+                            <span style={{display:'flex',alignItems:'center',gap:'0.2rem'}}><span style={{width:8,height:8,borderRadius:2,background:'#D97706',display:'inline-block'}}></span> ≤14d</span>
+                            <span style={{display:'flex',alignItems:'center',gap:'0.2rem'}}><span style={{width:8,height:8,borderRadius:2,background:'#2563EB',display:'inline-block'}}></span> ≤90d</span>
+                            <span style={{display:'flex',alignItems:'center',gap:'0.2rem'}}><span style={{width:8,height:8,borderRadius:2,background:'#16A34A',display:'inline-block'}}></span> OK</span>
+                        </div>
+                    </div>
+                    <div className="card-body" style={{padding:0}}>
+                        <div style={{overflowX:'auto'}}>
+                            <table className="data-table">
+                                <thead><tr>
+                                    <th style={{minWidth:70,position:'sticky',left:0,background:'#1E293B',zIndex:3}}>UNIT #</th>
+                                    {INSPECTION_TYPES.map(it => <th key={it.key} style={{textAlign:'center',minWidth:120}}>
+                                        <div>{it.icon} {it.label}</div>
+                                        <div style={{fontSize:'0.5rem',color:'#94A3B8',fontWeight:400}}>{it.cycle===1?'Annual':`${it.cycle}-Year`} · End of month</div>
+                                    </th>)}
+                                </tr></thead>
+                                <tbody>{paged.map((t, idx) => {
+                                    const hasAlert = alertUnits.has(t.unit);
+                                    return <tr key={t.unit} style={hasAlert?{background:idx%2===0?'#FFF7ED':'#FFFBF0'}:{}}>
+                                        <td style={{fontWeight:700,fontSize:'0.8125rem',position:'sticky',left:0,background:'inherit',zIndex:1,borderRight:'2px solid var(--border-light)'}}>
+                                            <div style={{display:'flex',alignItems:'center',gap:'0.375rem'}}>
+                                                {hasAlert && <span className="badge-dot" style={{background:'#DC2626'}}></span>}
+                                                {t.unit}
+                                            </div>
+                                        </td>
+                                        {INSPECTION_TYPES.map(it => {
+                                            const s = getB620Status(t[it.key], it.cycle);
+                                            const d = parseFlexDate(t[it.key]);
+                                            const isEditing = editingCell === t.unit+'-'+it.key;
+                                            return <td key={it.key} style={{textAlign:'center',padding:'0.375rem'}}>
+                                                {isEditing ? <input type="date" autoFocus style={{fontSize:'0.6875rem',padding:'0.25rem 0.375rem',border:'2px solid #3B82F6',borderRadius:4,width:'100%'}}
+                                                    defaultValue={d?d.toISOString().split('T')[0]:''}
+                                                    onBlur={e=>{if(e.target.value){const nd=new Date(e.target.value);updateDate(t.unit,it.key,nd.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}));}else setEditingCell(null);}}
+                                                    onKeyDown={e=>{if(e.key==='Enter')e.target.blur();if(e.key==='Escape')setEditingCell(null);}}
+                                                /> : <div onClick={()=>setEditingCell(t.unit+'-'+it.key)} style={{cursor:'pointer',background:s.bg,border:'1px solid '+(s.status==='expired'?'#FECACA':s.status==='warning'?'#FDE68A':'transparent'),borderRadius:6,padding:'0.375rem 0.25rem',transition:'all 0.15s'}}>
+                                                    <div style={{fontSize:'0.6875rem',fontWeight:700,color:s.color}}>{s.label}</div>
+                                                    <div style={{fontSize:'0.5625rem',color:'var(--text-tertiary)',marginTop:'0.125rem'}}>{d?d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—'}</div>
+                                                    {s.exp && <div style={{fontSize:'0.5rem',color:'#94A3B8'}}>exp: {s.exp.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</div>}
+                                                </div>}
+                                            </td>;
+                                        })}
+                                    </tr>;
+                                })}</tbody>
+                            </table>
+                        </div>
+                        {totalPages > 1 && <div className="pagination">
+                            <button className="page-btn" disabled={page===0} onClick={()=>setPage(p=>p-1)}>◀</button>
+                            {Array.from({length:totalPages},(_,i)=><button key={i} className={`page-btn ${page===i?'active':''}`} onClick={()=>setPage(i)}>{i+1}</button>)}
+                            <button className="page-btn" disabled={page>=totalPages-1} onClick={()=>setPage(p=>p+1)}>▶</button>
+                            <span className="page-info">{page*PER_PAGE+1}–{Math.min((page+1)*PER_PAGE,filtered.length)} of {filtered.length}</span>
+                        </div>}
+                    </div>
+                </div>
+            </>);
         }
 
-        function DispatchSystem() {
-            const [activeTab, setActiveTab] = useState('dispatch');
+        // ===== SICK DAYS DATA =====
+        const SICK_DAYS_DRIVERS = [
+            {name:"Abd Abdalrazek",startDate:"7/16/2021",carry2025:0,earned2026:1,used2026:0,balance:1,remaining:10},
+            {name:"Ahmad Kammouni",startDate:"8/30/2023",carry2025:0,earned2026:1,used2026:0,balance:1,remaining:10},
+            {name:"Alain Therrien",startDate:"7/23/2024",carry2025:8,earned2026:1,used2026:0,balance:9,remaining:10},
+            {name:"Arthur E.Lacroix",startDate:"8/24/2015",carry2025:9,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Bader Saif",startDate:"4/16/2023",carry2025:1,earned2026:1,used2026:1,balance:1,remaining:9},
+            {name:"Christophe Tremblay",startDate:"10/5/2020",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Donald Bigras",startDate:"6/8/2016",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Duane Locke",startDate:"8/19/2014",carry2025:0,earned2026:1,used2026:1,balance:0,remaining:9},
+            {name:"George Chalhoub",startDate:"4/16/2023",carry2025:3,earned2026:1,used2026:2,balance:2,remaining:8},
+            {name:"Habtamu Tadesse",startDate:"8/1/2023",carry2025:7,earned2026:1,used2026:0,balance:8,remaining:10},
+            {name:"Jacques Parent",startDate:"5/23/2016",carry2025:0,earned2026:1,used2026:1,balance:0,remaining:9},
+            {name:"James Masse",startDate:"5/17/2019",carry2025:1,earned2026:1,used2026:0,balance:2,remaining:10},
+            {name:"Khalid Wahid",startDate:"11/11/2019",carry2025:9,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Mark Manery",startDate:"8/22/2013",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Mohamed Abougafar",startDate:"8/16/2021",carry2025:5,earned2026:1,used2026:3,balance:3,remaining:7},
+            {name:"Mohamed M. Ahmed Mazen",startDate:"6/3/2024",carry2025:9,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Nidal Farara",startDate:"8/10/2021",carry2025:0,earned2026:1,used2026:0,balance:1,remaining:10},
+            {name:"Parfait Ngabonziza",startDate:"7/4/2018",carry2025:4,earned2026:1,used2026:0,balance:5,remaining:10},
+            {name:"Randy Armitage",startDate:"9/12/2018",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Sahnd Gailan Al-Mufti",startDate:"6/8/2021",carry2025:6,earned2026:1,used2026:0,balance:7,remaining:10},
+            {name:"Sean Vanwallegham",startDate:"6/23/2016",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Stephane Dore",startDate:"5/18/2021",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Bellefeuille, Michael",startDate:"12/12/2024",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Kabunda, Léon Richard",startDate:"1/1/2025",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Abou Karnib, Tarek",startDate:"12/19/2024",carry2025:0,earned2026:1,used2026:1,balance:0,remaining:9},
+            {name:"Nguyen, Thanh T. (Arthur N.)",startDate:"8/19/2024",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Burchill, James",startDate:"12/9/2024",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Fellner, Neil",startDate:"10/7/2024",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Imonia, Omojero",startDate:"3/13/2024",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Kazem, Fawaz",startDate:"6/17/2024",carry2025:9,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Alkhouri, Loranc",startDate:"6/18/2024",carry2025:9,earned2026:1,used2026:1,balance:9,remaining:9},
+            {name:"Sinzinkayo, Dauphin",startDate:"1/10/2025",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Zouwayni, Nidal (2.0)",startDate:"8/1/2024",carry2025:5,earned2026:1,used2026:0,balance:6,remaining:10},
+            {name:"Matar, Fawaz",startDate:"2/21/2025",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"McCormick, Matt",startDate:"3/25/2025",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
+            {name:"Andrii Riabeka",startDate:"6/16/2025",carry2025:8,earned2026:1,used2026:0,balance:9,remaining:10},
+            {name:"Louis-Philippe Gravel",startDate:"7/7/2025",carry2025:7,earned2026:1,used2026:0,balance:8,remaining:10},
+            {name:"Rohan James",startDate:"7/7/2025",carry2025:7,earned2026:1,used2026:0,balance:8,remaining:10},
+            {name:"Willy Senoga",startDate:"8/10/2025",carry2025:6,earned2026:1,used2026:1,balance:6,remaining:9}
+        ];
+        const SICK_DAYS_MECHANICS = []; // TODO: add when user provides data
+        const SICK_DAYS_OFFICE = []; // TODO: add when user provides data
+
+        function SickDaysDashboard() {
+            const [sickTab, setSickTab] = useState('drivers');
+            const [search, setSearch] = useState('');
+            const [page, setPage] = useState(0);
+            const PER_PAGE = 10;
+            const dataMap = {drivers: SICK_DAYS_DRIVERS, mechanics: SICK_DAYS_MECHANICS, office: SICK_DAYS_OFFICE};
+            const allData = dataMap[sickTab] || [];
+
+            let filtered = allData;
+            if (search) filtered = filtered.filter(e => e.name.toLowerCase().includes(search.toLowerCase()));
+
+            const totalUsed = filtered.reduce((s,e) => s + e.used2026, 0);
+            const lowBalance = filtered.filter(e => e.balance <= 2).length;
+            const totalPages = Math.ceil(filtered.length / PER_PAGE);
+            const paged = filtered.slice(page * PER_PAGE, (page+1) * PER_PAGE);
+
+            return (<>
+                <div className="page-header"><div><h1>🤒 Sick Days Tracker — 2026</h1><div className="page-header-sub">Government sick leave system · 10 days/year cap</div></div></div>
+
+                <div style={{display:'flex',gap:'0.375rem',marginBottom:'0.625rem'}}>
+                    {[{k:'drivers',l:'🚛 Drivers',c:SICK_DAYS_DRIVERS.length},{k:'mechanics',l:'🔧 Mechanics',c:SICK_DAYS_MECHANICS.length},{k:'office',l:'🏢 Office',c:SICK_DAYS_OFFICE.length}].map(t =>
+                        <button key={t.k} className={`btn ${sickTab===t.k?'btn-primary':'btn-outline'}`} onClick={()=>{setSickTab(t.k);setPage(0);setSearch('');}}>{t.l} ({t.c})</button>
+                    )}
+                </div>
+
+                <div className="stats-row stats-row-3">
+                    <div className="stat-card"><div className="stat-val" style={{color:'var(--primary)'}}>{filtered.length}</div><div className="stat-label">Employees</div></div>
+                    <div className="stat-card"><div className="stat-val" style={{color:'var(--warning)'}}>{totalUsed}</div><div className="stat-label">Total Days Used (2026)</div></div>
+                    <div className="stat-card"><div className="stat-val" style={{color:lowBalance>0?'var(--danger)':'var(--success)'}}>{lowBalance}</div><div className="stat-label">Low Balance (≤2 days)</div></div>
+                </div>
+
+                <div className="card">
+                    <div className="card-header" style={{justifyContent:'space-between'}}>
+                        <input className="dips-search" placeholder="🔍 Search name..." value={search} onChange={e=>{setSearch(e.target.value);setPage(0);}} style={{width:220}} />
+                        <span style={{fontSize:'0.5625rem',color:'var(--text-tertiary)'}}>Carry Over 2025 + Earned 2026 - Used 2026 = Current Balance (cap 10/yr)</span>
+                    </div>
+                    <div className="card-body" style={{padding:0}}>
+                        {filtered.length === 0 ? <div className="empty-state"><div className="empty-icon">📋</div><div className="empty-text">{allData.length === 0 ? 'No data yet for this category' : 'No results'}</div></div> :
+                        <table className="data-table">
+                            <thead><tr>
+                                <th style={{minWidth:180}}>Employee</th>
+                                <th style={{textAlign:'center',width:90}}>Start Date</th>
+                                <th style={{textAlign:'center',width:70}}>Carry Over '25</th>
+                                <th style={{textAlign:'center',width:70}}>Earned '26</th>
+                                <th style={{textAlign:'center',width:70}}>Used '26</th>
+                                <th style={{textAlign:'center',width:90}}>Balance</th>
+                                <th style={{textAlign:'center',width:90}}>Yearly Cap</th>
+                            </tr></thead>
+                            <tbody>{paged.map(e => {
+                                const pct = Math.round((e.balance / 10) * 100);
+                                const barColor = e.balance <= 0 ? '#DC2626' : e.balance <= 2 ? '#D97706' : e.balance <= 5 ? '#2563EB' : '#16A34A';
+                                return <tr key={e.name}>
+                                    <td style={{fontWeight:600}}>{e.balance <= 2 && <span className="badge-dot" style={{background:e.balance<=0?'#DC2626':'#D97706',marginRight:6}}></span>}{e.name}</td>
+                                    <td style={{textAlign:'center',color:'var(--text-tertiary)',fontSize:'0.625rem'}}>{e.startDate}</td>
+                                    <td style={{textAlign:'center',fontWeight:600}}>{e.carry2025}</td>
+                                    <td style={{textAlign:'center',fontWeight:600,color:'var(--success)'}}>{e.earned2026}</td>
+                                    <td style={{textAlign:'center',fontWeight:700,color:e.used2026>0?'var(--danger)':'var(--text-tertiary)'}}>{e.used2026}</td>
+                                    <td style={{textAlign:'center'}}>
+                                        <div style={{fontWeight:700,fontSize:'0.8125rem',color:barColor}}>{e.balance}</div>
+                                        <div className="sick-bar"><div className="sick-bar-fill" style={{width:pct+'%',background:barColor}}></div></div>
+                                    </td>
+                                    <td style={{textAlign:'center',fontWeight:600,color:'var(--text-secondary)'}}>{e.remaining}/10</td>
+                                </tr>;
+                            })}</tbody>
+                        </table>}
+                        {totalPages > 1 && <div className="pagination">
+                            <button className="page-btn" disabled={page===0} onClick={()=>setPage(p=>p-1)}>◀</button>
+                            {Array.from({length:totalPages},(_,i)=><button key={i} className={`page-btn ${page===i?'active':''}`} onClick={()=>setPage(i)}>{i+1}</button>)}
+                            <button className="page-btn" disabled={page>=totalPages-1} onClick={()=>setPage(p=>p+1)}>▶</button>
+                            <span className="page-info">{page*PER_PAGE+1}–{Math.min((page+1)*PER_PAGE,filtered.length)} of {filtered.length}</span>
+                        </div>}
+                    </div>
+                </div>
+            </>);
+        }
+
+
+        function DispatchSystem({ activePage }) {
+            const activeTab = activePage;
             const [driverName, setDriverName] = useState('');
             const [truckNumber, setTruckNumber] = useState('');
             const [trailerNumber, setTrailerNumber] = useState('');
@@ -1358,17 +1514,7 @@
             const resetEmailEdit = () => { setEmailManuallyEdited(false); };
             const criticalCount = useMemo(() => { let c = 0; dipsData.forEach(s => Object.values(s.latestData).forEach(p => { if (p.volume && (p.volume/p.capacity) <= 0.30) c++; })); return c; }, [dipsData]);
 
-            return (<div className="app-container">
-                <header className="header"><div className="header-content">
-                    <div className="header-left"><img src="logo.jpg" alt="Schooner Transport" style={{height:'42px',borderRadius:'6px',background:'white',padding:'2px'}} /><div className="header-text"><h1>Schooner Transport Dispatch</h1><p>Professional Fuel Delivery Management</p></div></div>
-                    <div className="header-stats"><div className="stat-box"><div className="stat-label">Stops</div><div className="stat-value">{stops.length}</div></div><div className="stat-box"><div className="stat-label">Total Volume</div><div className="stat-value">{(totalVolume/1000).toFixed(1)}K</div></div></div>
-                </div></header>
-
-                <div className="tab-nav">
-                    <button className={`tab-btn ${activeTab === 'dispatch' ? 'active' : ''}`} onClick={() => setActiveTab('dispatch')}>📋 Dispatch</button>
-                    <button className={`tab-btn ${activeTab === 'dips' ? 'active' : ''}`} onClick={() => setActiveTab('dips')}>⛽ Fuel Dips {criticalCount > 0 && <span className="tab-badge">{criticalCount}</span>}</button>
-                    <button className={`tab-btn ${activeTab === 'b620' ? 'active' : ''}`} onClick={() => setActiveTab('b620')}>🔧 B-620 {(() => { const now = new Date(); let alerts = 0; B620_DATA.forEach(t => { INSPECTION_TYPES.forEach(it => { const d = parseFlexDate(t[it.key]); if (d) { const exp = new Date(d); exp.setFullYear(exp.getFullYear() + it.cycle); const warn = new Date(exp); warn.setDate(warn.getDate() - 14); if (now >= warn && now < exp) alerts++; if (now >= exp) alerts++; } }); }); return alerts > 0 ? <span className="tab-badge">{alerts}</span> : null; })()}</button>
-                </div>
+            return (<div>
 
                 {activeTab === 'dips' ? (
                     <div className="card"><div className="card-header">
@@ -1582,7 +1728,75 @@
             </div>);
         }
 
-        ReactDOM.render(<DispatchSystem />, document.getElementById('root'));
+        
+        function MainApp() {
+            const [activePage, setActivePage] = useState('dispatch');
+            const b620Alerts = getB620AlertCount();
+            
+            // Compute dips critical count for badge
+            const dipsCritical = useMemo(() => {
+                let c = 0;
+                DIPS_DATA.forEach(s => Object.values(s.latestData || {}).forEach(p => {
+                    if (p.volume && p.capacity && (p.volume/p.capacity) <= 0.30) c++;
+                }));
+                return c;
+            }, []);
+
+            const navItems = [
+                {key:'dispatch', icon:'📋', label:'Dispatch', badge:null},
+                {key:'dips', icon:'⛽', label:'Fuel Dips', badge:dipsCritical > 0 ? dipsCritical : null},
+                {key:'b620', icon:'🔧', label:'B-620 Inspections', badge:b620Alerts > 0 ? b620Alerts : null},
+                {key:'sick', icon:'🤒', label:'Sick Days', badge:null},
+            ];
+
+            return (
+                <div style={{display:'flex',height:'100vh'}}>
+                    {/* SIDEBAR */}
+                    <div className="sidebar">
+                        <div className="sidebar-logo">
+                            <img src="logo.jpg" alt="" />
+                            <span>Schooner Transport</span>
+                        </div>
+                        <nav className="sidebar-nav">
+                            <div className="nav-section">Operations</div>
+                            {navItems.map(item => (
+                                <div key={item.key} className={`nav-item ${activePage === item.key ? 'active' : ''}`} onClick={() => setActivePage(item.key)}>
+                                    <span className="nav-icon">{item.icon}</span>
+                                    {item.label}
+                                    {item.badge && <span className="nav-badge">{item.badge}</span>}
+                                </div>
+                            ))}
+                            <div className="nav-section" style={{marginTop:'1rem'}}>Coming Soon</div>
+                            <div className="nav-item" style={{opacity:0.4,cursor:'default'}}>
+                                <span className="nav-icon">📅</span> Driver Schedules
+                            </div>
+                            <div className="nav-item" style={{opacity:0.4,cursor:'default'}}>
+                                <span className="nav-icon">🚛</span> Fleet & Trailers
+                            </div>
+                            <div className="nav-item" style={{opacity:0.4,cursor:'default'}}>
+                                <span className="nav-icon">📊</span> Fuel Planner
+                            </div>
+                        </nav>
+                        <div style={{padding:'0.75rem',borderTop:'1px solid #1E293B',fontSize:'0.5625rem',color:'#64748B'}}>
+                            Schooner Operations v23
+                        </div>
+                    </div>
+
+                    {/* MAIN CONTENT */}
+                    <div className="main-content">
+                        {activePage === 'sick' ? (
+                            <SickDaysDashboard />
+                        ) : activePage === 'b620' ? (
+                            <B620Dashboard />
+                        ) : (
+                            <DispatchSystem activePage={activePage} />
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<MainApp />, document.getElementById('root'));
     </script>
 </body>
 </html>
