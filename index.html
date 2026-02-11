@@ -191,8 +191,8 @@
         .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
         .page-header h1{font-size:1.125rem;font-weight:800}
         .page-header-sub{font-size:0.6875rem;color:#94A3B8;font-weight:500}
-        .data-table{width:100%;border-collapse:collapse;font-size:0.6875rem}
-        .data-table thead th{background:#1E293B;color:#fff;padding:0.5rem 0.625rem;font-weight:600;font-size:0.625rem;text-align:left;letter-spacing:0.03em}
+        .data-table{width:100%;border-collapse:collapse;font-size:0.8125rem}
+        .data-table thead th{background:#1E293B;color:#fff;padding:0.5rem 0.625rem;font-weight:600;font-size:0.6875rem;text-align:left;letter-spacing:0.03em}
         .data-table tbody tr{border-bottom:1px solid #E2E8F0;transition:background 0.1s}
         .data-table tbody tr:nth-child(even){background:#F8FAFC}
         .data-table tbody tr:hover{background:#F1F5F9}
@@ -1144,67 +1144,144 @@
 const SICK_DAYS_MECHANICS = [{"name": "Erik Morin", "startDate": "2022-07-03", "carry2025": 7, "earned2026": 1, "used2026": 1, "balance": 7, "remaining": 9, "usedDates": ["2026-02-06"]}, {"name": "Jennifer Chamberlin", "startDate": "2023-02-27", "carry2025": 5, "earned2026": 1, "used2026": 1, "balance": 5, "remaining": 9, "usedDates": ["2026-01-12"]}, {"name": "Orry Peck", "startDate": "2009-02-24", "carry2025": 5, "earned2026": 1, "used2026": 0, "balance": 6, "remaining": 10, "usedDates": []}, {"name": "Scott Pieroway", "startDate": "2024-05-10", "carry2025": 0, "earned2026": 1, "used2026": 0, "balance": 1, "remaining": 10, "usedDates": []}, {"name": "Jonathan Ryan", "startDate": "2012-03-19", "carry2025": 5, "earned2026": 1, "used2026": 0, "balance": 6, "remaining": 10, "usedDates": []}, {"name": "David Lalonde", "startDate": "2006-06-12", "carry2025": 8, "earned2026": 1, "used2026": 0, "balance": 9, "remaining": 10, "usedDates": []}, {"name": "Chris Richards", "startDate": "2005-12-28", "carry2025": 8, "earned2026": 1, "used2026": 0, "balance": 9, "remaining": 10, "usedDates": []}, {"name": "", "startDate": "", "carry2025": 0, "earned2026": 0, "used2026": 0, "balance": 0, "remaining": 0, "usedDates": []}];
 const SICK_DAYS_OFFICE = [{"name": "Yannick", "startDate": "2005-04-11", "carry2025": 4, "earned2026": 1, "used2026": 0, "balance": 5, "remaining": 10, "usedDates": []}, {"name": "Tetiana Krytskaliyuk", "startDate": "2022-10-23", "carry2025": 7, "earned2026": 1, "used2026": 0, "balance": 8, "remaining": 10, "usedDates": []}, {"name": "Sandra Helou", "startDate": "2024-07-29", "carry2025": 7, "earned2026": 1, "used2026": 1, "balance": 7, "remaining": 9, "usedDates": ["02/09/2026 (half day)"]}, {"name": "Marie Jose", "startDate": "2025-03-10", "carry2025": 8, "earned2026": 1, "used2026": 0, "balance": 9, "remaining": 10, "usedDates": []}, {"name": "Norman Skene", "startDate": "2025-02-02", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Ayoub Habou", "startDate": "2025-04-24", "carry2025": 8, "earned2026": 1, "used2026": 0, "balance": 9, "remaining": 10, "usedDates": []}, {"name": "Shina Pak", "startDate": "2025-05-21", "carry2025": 5, "earned2026": 1, "used2026": 0, "balance": 6, "remaining": 10, "usedDates": []}, {"name": "Joseph Khawaja", "startDate": "2025-11-03", "carry2025": 2, "earned2026": 1, "used2026": 1, "balance": 2, "remaining": 9, "usedDates": ["2026-01-27"]}, {"name": "", "startDate": "", "carry2025": 0, "earned2026": 0, "used2026": 0, "balance": 0, "remaining": 0, "usedDates": []}];
 
+        const CONTACTS_DRIVERS = [{"name": "Al-Rufaye; Mishaal", "email": "abu.talal1781@gmail.com", "phone": "(613) 400-2009", "emergency": "", "notes": "", "section": "Gas", "role": "yes"}, {"name": "Given; Robert", "email": "robertgiven2014@gmail.com", "phone": "(613) 716-9526", "emergency": "Beatrice Given (613) 521-1548", "notes": "", "section": "Gas", "role": "yes"}, {"name": "McQuillan; Ken", "email": "strongbowken@gmail.com", "phone": "(343) 542-7978", "emergency": "Jim McQuillan (613) 316-7370", "notes": "Or is Ken's correct cell #: (343) 597-9950?", "section": "Gas", "role": "yes"}, {"name": "Wahid; Khalid", "email": "wahidkhalidbm@gmail.com", "phone": "(819) 576-8425", "emergency": "Zineb Lkotbi (wife): (819) 576-3120", "notes": "", "section": "Gas", "role": "yes"}, {"name": "Perras, Jamie", "email": "jamieperras74@gmail.com", "phone": "(613) 866-9376", "emergency": "", "notes": "", "section": "Gas", "role": "yes"}, {"name": "Abdalrarazek; Abdalrazek (Abd)", "email": "abdalajueany@gmail.com", "phone": "613-791-4338", "emergency": "Mutstafa (close friend): (613) 400-3565", "notes": "", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Abougafar; Mohamed", "email": "mabojafer@gmail.com", "phone": "(514) 232-9807", "emergency": "Marwa Etorki (wife): (819) 830-0182", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Al-Mufti; Sahand", "email": "sahandmufti@gmail.com", "phone": "613-263-3877", "emergency": "Zeen (wife): (613) 263-1877", "notes": "", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Armitage; Randy", "email": "rwarmitage@hotmail.com", "phone": "613-285-1620", "emergency": "Kim Whitehead: (613) 981-9065", "notes": "Banned from CREWS", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Bellefeuille; Michael (Mike)", "email": "michaelbellefeuille1981@gmail.com", "phone": "(343) 961-1160", "emergency": "", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Bigras; Don", "email": "farmers500@hotmail.com", "phone": "(613) 677-6769", "emergency": "Sandra Bigras (cell): (613) 677-4618", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Chalhoub; George", "email": "geo911@gmail.com", "phone": "(343) 987-4142", "emergency": "Amal Daoud (wife): (343) 987-4167", "notes": "", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Farara; Nidal", "email": "nidalfarara@gmail.com", "phone": "613-252-4183", "emergency": "", "notes": "", "section": "Gas/Ethanol Drivers", "role": "Yes"}, {"name": "James; Rohan", "email": "oneluvjah@hotmail.com", "phone": "(613) 807-7027", "emergency": "", "notes": "referred by Ahmad Kammouni (Rohan is his buddy)", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Gemechu Jima; Daniel", "email": "danielgemechu123@gmail.com", "phone": "(613) 263-8597", "emergency": "Mahlet Tadesse Yimer (wife): 613.552.9776", "notes": "", "section": "Gas/Ethanol Drivers", "role": "training"}, {"name": "Kabunda Léon; Richard", "email": "kodorichard560@gmail.com", "phone": "819-639-8661", "emergency": "", "notes": "", "section": "Gas/Ethanol Drivers", "role": "training"}, {"name": "Kammouni; Ahmad", "email": "ahmadkammouni709@gmail.com", "phone": "343-202-3520", "emergency": "Badih Zakaria (step-dad): (613) 725-7915", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Abou Karnib; Tarek", "email": "tarek_lc@hotmail.com", "phone": "613-220-2190", "emergency": "", "notes": "", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Lacroix; Arthur (Art)", "email": "artcroix87@gmail.com", "phone": "613-979-7798", "emergency": "", "notes": "", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Larche; André", "email": "andylarche552@yahoo.ca", "phone": "(613) 805-6565", "emergency": "Micheline Larche (sister): (613) 821-0813", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Locke; Duane", "email": "duaneloc@gmail.com", "phone": "(613) 875-1122", "emergency": "Heather (wife): (613) 581-2244", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Manary; Mark", "email": "jogibear23@yahoo.ca", "phone": "613-206-5888", "emergency": "Christine Marcil (wife): (613) 206-7685", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Masse; James", "email": "djamesmasse@gmail.com", "phone": "613-501-2713", "emergency": "Carrie Steeves (wife): (613) 600-9321", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Matar; Fawaz", "email": "fawaz4000@gmail.com", "phone": "613-266-6605", "emergency": "", "notes": "", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Mazen; Mohamed (Mohamed M) \"M&M\"", "email": "mazeen7786@gmail.com", "phone": "613-255-7290", "emergency": "Omer Mazen (brother): 403-667-3515", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "McCormick; Matt", "email": "mattmccormick300@gmail.com", "phone": "780-932-9579", "emergency": "David McCormick (father): 613-898-3111", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Miehm; Jarren", "email": "jsmiehm@gmail.com", "phone": "(613) 617-6554", "emergency": "Sabrina Duckworth (Fiancée) 343-961-2924", "notes": "", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Ngabonziza; Parfait", "email": "pngabonziza@gmail.com", "phone": "613-875-0408", "emergency": "Mugisha carine Grâce (wife): 613.890.9390", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Nguyen; Thanh Trunng (Arthur N.)", "email": "kakigoogi@gmail.com", "phone": "819-918-7863", "emergency": "", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Parent; Jacques (Jack)", "email": "ja_pa_3@hotmail.com", "phone": "613 790-5189", "emergency": "Joanne Henri (wife): (613) 864-1712", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Saif; Bader", "email": "abonasser_1979@hotmail.com", "phone": "613-265-6266", "emergency": "Afaf (wife): (613) 262-1744", "notes": "", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Senoga; Willy", "email": "willysenoga7@gmail.com", "phone": "(343) 550-9700", "emergency": "Kenneth Atwongeire (friend): (613) 762-0251", "notes": "", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Tadesse; Habtamu", "email": "keabnati2015@gmail.com", "phone": "514-756-1050", "emergency": "Hiwot Shfiraw (wife): (613) 617-0643", "notes": "", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Tremblay; Christophe", "email": "cb2262251@icloud.com", "phone": "514-443-2444", "emergency": "Martin Tremblay (Father) 514-238-4857", "notes": "", "section": "Gas/Ethanol Drivers", "role": "yes"}, {"name": "Corey Spenceley", "email": "coreyspenceley@gmail.com", "phone": "(705) 358-1162", "emergency": "Brawn (partner): (519) 377-6111", "notes": "", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Abdihamid Hussein", "email": "hussiein@hotmail.com", "phone": "(613) 700-4798", "emergency": "", "notes": "", "section": "Gas/Ethanol Drivers", "role": ""}, {"name": "Alkhouri; Loranc", "email": "loransalkhoury99@gmail.com", "phone": "(819) 230-1976", "emergency": "Ehab Abboud (friend) (819) 319-2860", "notes": "", "section": "Asphalt", "role": ""}, {"name": "Burchill; James", "email": "james.d.burchill@gmail.com", "phone": "(613) 325-8600", "emergency": "", "notes": "", "section": "Asphalt", "role": ""}, {"name": "Dore; Stephane (Stef)", "email": "stephanedore1961@gmail.com", "phone": "613-222-9750", "emergency": "Tracy Johnson (wife) (613) 371-8387", "notes": "", "section": "Asphalt", "role": ""}, {"name": "Fellner; Neil", "email": "neilrffellner@hotmail.com", "phone": "(613) 207-0314", "emergency": "Megan Fellner (wife) (613) 207-1712", "notes": "", "section": "Asphalt", "role": ""}, {"name": "Gravel; Louis-Philippe (Louis)", "email": "lougravel05@gmail.com", "phone": "(438) 520-2893", "emergency": "Martin Tremblay (father) (514) 238-4857", "notes": "Note: Christophe Tremblay's brother", "section": "Asphalt", "role": ""}, {"name": "Imonia; Omojero", "email": "iomojero@gmail.com", "phone": "(613) 769-5997", "emergency": "", "notes": "", "section": "Asphalt", "role": ""}, {"name": "Kazem; Fawaz", "email": "fawaz_salem22@hotmail.com", "phone": "(613) 882-4426", "emergency": "Nawaf Kazem (brother) (613) 262-6961", "notes": "", "section": "Asphalt", "role": ""}, {"name": "Riabeka; Andrii", "email": "riabeka-andre@ukr.net", "phone": "(343) 297-6343", "emergency": "Olga Gorban (wife) (613) 400-9779", "notes": "", "section": "Asphalt", "role": ""}, {"name": "Sinzinkayo; Dauphin", "email": "sinzinkayofils@yahoo.com", "phone": "(613) 286-5392", "emergency": "", "notes": "", "section": "Asphalt", "role": ""}, {"name": "Vanwallegham; Sean", "email": "vanwalleghamsean@yahoo.com", "phone": "613-898-1607", "emergency": "Vye-Ronica (wife) (c) 613.296.2911", "notes": "", "section": "Asphalt", "role": ""}, {"name": "Zouwayni; Nidal (2.0)", "email": "n.k.z@hotmail.com", "phone": "613-301-3555", "emergency": "Safaa Algharib (wife): (343) 961-6005", "notes": "", "section": "Asphalt", "role": ""}];
+const CONTACTS_MECHANICS = [{"name": "Chamberlin, Jen", "email": "jchamberlin22@yahoo.com", "phone": "", "emergency": "", "notes": "", "section": "Maintenance", "role": ""}, {"name": "Greer; Emery", "email": "eskg73@gmail.com", "phone": "(c): (613) 795-1201", "emergency": "", "notes": "", "section": "Maintenance", "role": "Garage Foreman / Supervisor"}, {"name": "Peck ; Orry", "email": "chartarisboy@hotmail.com", "phone": "(c): (819) 431-2225", "emergency": "", "notes": "", "section": "Maintenance", "role": "Mechanic"}, {"name": "Lalonde, David", "email": "past_the_shit@hotmail.com", "phone": "(c): (873) 355-6450", "emergency": "", "notes": "", "section": "Maintenance", "role": "Technician"}, {"name": "Pieroway; Scott", "email": "donremo@hotmail.com", "phone": "(c):", "emergency": "H: 613-835-3278", "notes": "", "section": "Maintenance", "role": "Equipment Cleaning"}, {"name": "Richards; Chris", "email": "", "phone": "", "emergency": "", "notes": "", "section": "Maintenance", "role": "Welder / Technician"}, {"name": "Ryan; Johnathan", "email": "johnathancryan@outlook.com", "phone": "(613) 314-3189", "emergency": "", "notes": "", "section": "Maintenance", "role": "Technician"}, {"name": "Morin; Erik", "email": "erikymorin@gmail.com", "phone": "(c): (613) 294-8145", "emergency": "", "notes": "", "section": "Maintenance", "role": "Technician"}];
+const CONTACTS_TERMINALS = [{"name": "Carlos Sang\nVP & GM - D&W Forwarders inc.", "email": "carlos.sang@dwforwarders.com", "phone": "Office:", "emergency": "Personal cell (emerg. only):\n(905) 965-0938", "notes": "", "section": "Asphalt Contacts", "role": ""}, {"name": "Hughie Sheppard\nTerminal Manager - IKO Brampton\nD&W Forwarders Inc.", "email": "hughiesheppard@dwforwarders.com", "phone": "Office: ", "emergency": "Personal cell (emerg. only):\n(416) 896-1501", "notes": "", "section": "Asphalt Contacts", "role": ""}, {"name": "Jonathan Durocher", "email": "jonathan.durocher@dwforwarders.com", "phone": "", "emergency": "", "notes": "", "section": "Asphalt Contacts", "role": ""}, {"name": "Green Infrastructure Partners (GIP) / Coco", "email": "", "phone": "", "emergency": "", "notes": "", "section": "Asphalt Contacts", "role": ""}, {"name": "Coco / G.I.P Millhaven Terminal", "email": "7 Jim Snow Drive, R.R. #3, Bath, Ont.", "phone": "613.389.1861", "emergency": "after hours, press \"0\" for terminal", "notes": "** email & phone number to be used when drivers are late for scheduled loading appointment", "section": "Asphalt Contacts", "role": ""}, {"name": "Tomlinson Rideau Quarry & Plant", "email": "3500 Rideau Rd., Ottawa, Ont. K1G 3Y3", "phone": "(613) 822-0935", "emergency": "", "notes": "", "section": "Asphalt Contacts", "role": ""}, {"name": "Eddy Lawlor - plant manager", "email": "", "phone": "cell: (613) 229-3904", "emergency": "", "notes": "", "section": "Asphalt Contacts", "role": ""}, {"name": "Greenfield Global (ethanol)", "email": "", "phone": "", "emergency": "", "notes": "", "section": "Asphalt Contacts", "role": ""}, {"name": "Philippe Potvin - Dir. Logistics\nGreenfield Global", "email": "philippe.potvin@greenfield.com", "phone": "(450) 652-1800 x.8869", "emergency": "personal cell: (514) 291-6477", "notes": "", "section": "Terminals", "role": ""}, {"name": "Karen Hoare - Env., Health & Safety Mgr\nGreenfield Global", "email": "karen.hoare@greenfield.com", "phone": "(o): (613) 925-1385 x. 7733", "emergency": "personal cell: (613) 349-0286", "notes": "", "section": "Terminals", "role": ""}, {"name": "Greenfield / Johnstown", "email": "Greenfield / Johnstown - the plant only", "phone": "(613) 925-1385", "emergency": "ext. 7711 = \"Security\"", "notes": "ext. 7782 = \"Operations\"", "section": "Terminals", "role": ""}, {"name": "CREWS", "email": "Canadian Rail Equipment Works & Services Inc.", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Onsite Operations:", "email": "", "phone": "Gate: (613) 258-6919 ext. 106", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Nicole Benoit - Service Specialist\nLogistics & Administration", "email": "admin@crewsrail.com", "phone": "(613) 258-6919 ext. 105", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Kawartha Ethanol Inc. - Operations", "email": "6830 Highway #7, Havelock, Ont.  K0L 1Z0", "phone": "(705) 778-1916 ext. 3", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Jamie Bowman", "email": "jbowman@kawarthaethanol.ca", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Carrie Hoskin-Williamson\nAccounting Manager", "email": "choskin@kawarthaethanol.ca", "phone": "(705) 778-1916 ext. 225", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Imperial Oil / Esso", "email": "", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "IOL TOU", "email": "ioL.toc@esso.ca", "phone": "800-279-8047", "emergency": "option #3 (terminal operations)", "notes": "", "section": "Terminals", "role": ""}, {"name": "IOL Terminal Operator (general #)", "email": "", "phone": "(613) 226-1661", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "David R. Johnston\nIOL Ottawa Terminal Operator", "email": "david.r.johnston@esso.ca", "phone": "(613) 226-1661", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Johathan Sztuka\nIOL Ottawa Terminal Operator", "email": "jonathan.c.sztuka@exxonmobil.com", "phone": "(613) 226-1661", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Shell Ottawa", "email": "Dennis Kaddie - terminal operator", "phone": "(613) 225-9160", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Shell Ottawa", "email": "Steve Stewart - terminal operator", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Shell Ottawa", "email": "Mark Ozimek - terminal operator", "phone": "(613) 225-9160", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Shell Ottawa", "email": "David Majid - Terminal Mgr (Ottawa/Kingston)", "phone": "office: (613) 498-5660", "emergency": "personal cell: (613) 227-7991", "notes": "", "section": "Terminals", "role": ""}, {"name": "Suncor Energy", "email": "distribution@suncor.com", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Suncor Montréal", "email": "Yannick Descoteaux - terminal mgr.", "phone": "(514) 650-4438", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Suncor Metro Depot (North York)", "email": "", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Dave Orr - Terminal Lead (North York)", "email": "daorr@suncor.com", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Jaspreet Kaur - Business Process Advisor, Business Process (Operations & Logistics)", "email": "jaspreetkaur@suncor.com", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Micheal (Mike) Latimer - Distribution Operator, Metro Depot (North York)", "email": "mlatimer@suncor.com", "phone": "(416) 891-9679", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Econo Petroleum", "email": "", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Debbie Cleghorn - dispatcher (& pricing)", "email": "c.dispatch@econogas.ca", "phone": "o): (613) 723-1253  x1025", "emergency": "personal cell (613) 882-0844", "notes": "", "section": "Terminals", "role": ""}, {"name": "Juan Valencia - dispatcher", "email": "jvalencia@econogas.ca", "phone": "(613) 723-1253 x. 1021", "emergency": "personal cell: (819) 230-0303", "notes": "", "section": "Terminals", "role": ""}, {"name": "Rajat Sood - dispatcher", "email": "rajat.soor@sconopetro.com", "phone": "(613) 723-1253 x. 1021", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Charbel Estephan - [4Refuel]", "email": "4Refuel", "phone": "(c) (613) 614-8118", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Valero Maitland", "email": "1031 County Rd. 15, Maitland, Ont.  K0E 1PO", "phone": "613-348-3265 ext 0", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Shelby Bremner - Terminal Operator", "email": "shelby.bremner@valero.com", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Kyle King - Terminal Operator", "email": "kyle.king@valero.com", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Damian Jones - Terminal Operator", "email": "damian.jones@valero.com", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Troy Jones - Terminal Operator.", "email": "troy.jones@valero.com", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Aaron Wagar - Terminal Operator, H&S rep.", "email": "aaron.wagar@valero.com", "phone": "(613) 348-3265 ext. 2222", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Jim Wagar - Manager, Area Terminals\nValero Energy Inc.", "email": "jim.wagar@valero.com", "phone": "(o): (613) 348-3265 x. 227", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Valero Montréal  (Operations)", "email": "preposeMtl-Est@valero.com", "phone": "514.640.2357", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Valero - Scheduling (CBOB, etc.)", "email": "Todd Decker - Scheduler - Products", "phone": "(c): (438) 462-2077", "emergency": "i think this should  be Mr Eric Scott", "notes": "From Nathalie St-Crr - Manager Supply Operations: Oct. '24\n\"Please take note Éric Scott & Eric Hardy are now referring to the Terminal & Pipeline Group and are no longer in charge of the road transport (Distribution Group)\"", "section": "Terminals", "role": ""}, {"name": "Nathalie St-Cyr - Manager, Supply Operations", "email": "nathalie.st-cyr@valero.com", "phone": "(o): (514) 982-8279", "emergency": "", "notes": "\"HSE\" = Health, Safety, Environment", "section": "Terminals", "role": ""}, {"name": "Christian Greaves - Distribution Coordinator\n- jet fuel - (Jan. 2025)\nAlso for all HSE at Valero\n(spill, mix, incident, accident, etc.)", "email": "christian.greaves@valero.com", "phone": "(o): (514) 640-2331", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Lise Couillard - Risk Notice at Valero", "email": "lise.couillard@valero.com", "phone": "(418) 838-6700", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Direct line to terminal operator", "email": "", "phone": "(514) 640-2357", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Norcan Terminal (Montreal)", "email": "controle@petrolesnorcan.ca", "phone": "(514) 255-2470", "emergency": "", "notes": "Drivers to call 15 min. B4 Arrival:", "section": "Terminals", "role": "6370, rue Nortre-Dame Est\nMontreal, QC  H1N 2E1"}, {"name": "Parkland Energy / Sunoco LP", "email": "", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Tarik Dedek - Sunoco Operations", "email": "repartitionmtl@sunoco.com", "phone": "(514) 207-9824", "emergency": "Office: (514) 687-3183", "notes": "", "section": "Terminals", "role": ""}, {"name": "Wade Essensa - mgr: North Bay (BP)", "email": "wade.essensa@sunoco.com", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Kathleen Taylor - Planner, Dist. East", "email": "kathleen.taylor@sunoco.com", "phone": "(289) 439-3348", "emergency": "Office: (905) 633-3455", "notes": "", "section": "Terminals", "role": ""}, {"name": "Sunoco /Pioneer Dispatch", "email": "ppDispatch@sunoco.com", "phone": "", "emergency": "", "notes": "Safety & Environment 24h Emergency: (888) 996-1122", "section": "Terminals", "role": ""}, {"name": "Paul Vickery", "email": "paul.vickery@sunoco.com", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Nina Pacheco - Regional Logistics Mgr (Ont.)", "email": "nina.pacheco@sunoco.com", "phone": "(w): (905) 633-2412", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Michel Tellier - Dist. Ops Mgr Québec Sites", "email": "michel.blanchettetellier@parkland.ca", "phone": "(w): (888) 346-2026 ext. 2", "emergency": "", "notes": "Emergency ONLY: (514) 516-5315", "section": "Terminals", "role": ""}, {"name": "Bastien Goulet\n(took over from Michel Tellier, Mar. 2025)", "email": "bastien.goulet@sunoco.com", "phone": "(514) 499-6402", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Marie-Josee Constantin\nRegional Distribution Mgr., East (Québec)", "email": "marie-josee.constantin@sunoco.com", "phone": "(514) 705-3135", "emergency": "Office: (514) 499-6193", "notes": "", "section": "Terminals", "role": ""}, {"name": "Patrick MacPherson \nDistribution Specialist - W. Qué. (Gatineau)", "email": "patrick.macpherson@sunoco.com", "phone": "(w): (514) 218-4922", "emergency": "", "notes": "Patrick is part of Parkland's Québec distribution team, responsible for Western Québec (i.e. \"Gatineau\").", "section": "Terminals", "role": ""}, {"name": "Mike Mifsud - \n3rd Party Carrier Relationships (Ontario)", "email": "mike.mifsud@sunoco.com", "phone": "(w): (905) 633-3455", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Jason Mailloux - Distribution Mgr\nBroker Operations Ontario", "email": "jason.mailloux@sunoco.com", "phone": "(905) 512-1162", "emergency": "Office: (905) 633-3437", "notes": "", "section": "Terminals", "role": ""}, {"name": "Brad Boutilier - Regional Distribution Mgr\nOntario & Western Canada", "email": "brad.boutilier@sunoco.com", "phone": "(w): (587) 997-1452", "emergency": "", "notes": "Parkland Corporation\nSuite 1800, 240-4th Ave. SW, Calgary AB, T2P4H4", "section": "Terminals", "role": ""}, {"name": "Eric Poliquin\nTransport / Logistics Dispatcher", "email": "eric.poliquin@sunoco.com", "phone": "(c): (438) 495-8526", "emergency": "Office: (514) 876-0399", "notes": "", "section": "Terminals", "role": ""}, {"name": "Sunoco Montréal East Terminal\n9997 Hochelaga, Montréal Est   H1L 2S1\n[ customer service ]", "email": "montrealeastCS.terminal@sunoco.com", "phone": "(514) 687-6020", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Audrey Forest\nCustomer Service - Sunoco Mtl E. Terminal", "email": "audrey.forest@sunoco.com", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Aline LeBlanc\nCommercial Operations Coordinator\nSunoco Montréal E. Terminal", "email": "aline.leblanc@sunoco.com", "phone": "office: (514) 687-6018", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "Vanessa Jeffrey\nCommercial Operations Manager\nSunoco Terminals of Eastern Canada", "email": "vanessa.jeffrey@sunoco.com", "phone": "office: 514) 687-4207", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "MacEwen Petroleum", "email": "", "phone": "", "emergency": "", "notes": "", "section": "Terminals", "role": ""}, {"name": "MacEwen Pembroke BP\n680 River Rd., Pembroke Ont.", "email": "Pembroke Gate Code: 1946", "phone": "", "emergency": "Office: (613) 735-0597", "notes": "After-hours support available; same office number", "section": "Terminals", "role": ""}, {"name": "MacEwen Maxville BP\n18 Adelaide St., Maxville, Ont.  K0C 1T0", "email": "", "phone": "(613) 527-2100", "emergency": "\"Matt\" (613) 551-7744", "notes": "", "section": "Terminals", "role": ""}, {"name": "MacEwen Minden BP (Cardlock)\n11495 Hwy 35, Minden Ont.  K0M 2K0", "email": "francisyoundale@macewen.ca", "phone": "(705) 286-2738", "emergency": "Chris Youngdale - mgr (705) 455-2221\nAfter-hours emergencies ONLY", "notes": "", "section": "Terminals", "role": ""}];
+
+        function ContactsDirectory() {
+            const [tab, setTab] = useState('drivers');
+            const [search, setSearch] = useState('');
+            const dataMap = {drivers: CONTACTS_DRIVERS, mechanics: CONTACTS_MECHANICS, terminals: CONTACTS_TERMINALS};
+            const data = dataMap[tab] || [];
+            let filtered = data;
+            if (search) filtered = filtered.filter(c => (c.name+' '+c.email+' '+c.phone).toLowerCase().includes(search.toLowerCase()));
+
+            return (<>
+                <div className="page-header"><div><h1>📇 Contacts Directory</h1><div className="page-header-sub">Drivers, mechanics & terminal contacts</div></div></div>
+
+                <div style={{display:'flex',gap:'0.375rem',marginBottom:'0.75rem',alignItems:'center',flexWrap:'wrap'}}>
+                    {[{k:'drivers',l:'🚛 Drivers',c:CONTACTS_DRIVERS.length},{k:'mechanics',l:'🔧 Mechanics',c:CONTACTS_MECHANICS.length},{k:'terminals',l:'🏭 Terminals',c:CONTACTS_TERMINALS.length}].map(t =>
+                        <button key={t.k} className={'btn '+(tab===t.k?'btn-primary':'btn-outline')} onClick={()=>{setTab(t.k);setSearch('');}}>{t.l} ({t.c})</button>
+                    )}
+                    <input className="dips-search" placeholder="🔍 Search..." value={search} onChange={e=>setSearch(e.target.value)} style={{marginLeft:'auto',width:220}} />
+                </div>
+
+                <div className="card"><div className="card-body" style={{padding:0}}>
+                    <div style={{overflowX:'auto'}}>
+                    <table className="data-table" style={{fontSize:'0.8125rem'}}>
+                        <thead><tr>
+                            <th style={{minWidth:200,fontSize:'0.6875rem'}}>Name</th>
+                            <th style={{minWidth:200,fontSize:'0.6875rem'}}>Email</th>
+                            <th style={{minWidth:140,fontSize:'0.6875rem'}}>Phone</th>
+                            <th style={{minWidth:180,fontSize:'0.6875rem'}}>Emergency Contact</th>
+                            <th style={{fontSize:'0.6875rem'}}>Notes</th>
+                        </tr></thead>
+                        <tbody>{filtered.map((c,i) => <tr key={i}>
+                            <td style={{fontWeight:600,fontSize:'0.8125rem',whiteSpace:'pre-line'}}>{c.name}</td>
+                            <td style={{fontSize:'0.75rem'}}>{c.email ? <a href={'mailto:'+c.email} style={{color:'#1D4ED8',textDecoration:'none'}}>{c.email}</a> : '—'}</td>
+                            <td style={{fontSize:'0.75rem',whiteSpace:'nowrap'}}>{c.phone ? <a href={'tel:'+c.phone.replace(/[^+\d]/g,'')} style={{color:'#1D4ED8',textDecoration:'none'}}>{c.phone}</a> : '—'}</td>
+                            <td style={{fontSize:'0.6875rem',color:'#475569',whiteSpace:'pre-line'}}>{c.emergency || '—'}</td>
+                            <td style={{fontSize:'0.6875rem',color:'#64748B'}}>{c.notes || ''}</td>
+                        </tr>)}</tbody>
+                    </table></div>
+                </div></div>
+            </>);
+        }
+
         function SickDaysDashboard() {
-            const STORAGE_KEY = 'schooner_sick_data';
+            const STORAGE_KEY = 'schooner_sick_data_v2';
+            
+            // === FORMULA LOGIC (matching Google Sheet) ===
+            // After 30 days of work: earn 3 sick days
+            // Then 1 per completed month until reaching 10
+            function calcEarned2026(startDateStr) {
+                if (!startDateStr) return 0;
+                const sd = new Date(startDateStr + 'T12:00:00');
+                const today = new Date();
+                const yearEnd = new Date(2026, 11, 31);
+                if (isNaN(sd.getTime())) return 0;
+                // Hired after 2026 end
+                if (sd > yearEnd) return 0;
+                // Hired before 2026 - existing employee
+                if (sd < new Date(2026, 0, 1)) {
+                    const m = today.getMonth(); // 0-based
+                    if (m === 0) return 0; // January = 0 earned yet
+                    return Math.min(10, m); // 1 per month completed
+                }
+                // Hired during 2026
+                const daysSinceHire = Math.floor((today - sd) / (1000*60*60*24));
+                if (daysSinceHire < 30) return 0;
+                // After 30 days: 3 days, then 1 per month after that
+                const hireDate30 = new Date(sd);
+                hireDate30.setDate(hireDate30.getDate() + 30);
+                let months = 0;
+                const d = new Date(hireDate30);
+                while (d <= today) { d.setMonth(d.getMonth() + 1); if (d <= today) months++; }
+                return Math.min(10, 3 + months);
+            }
+            
+            function recalcBalance(emp) {
+                const earned = calcEarned2026(emp.startDate);
+                const balance = emp.carry2025 > 0 ? Math.min(10, emp.carry2025 + earned) - emp.used2026 : earned - emp.used2026;
+                const remaining = Math.max(10 - emp.used2026, 0);
+                return { ...emp, earned2026: earned, balance: Math.max(0, balance), remaining };
+            }
+
             const loadData = () => {
-                try { const s = localStorage.getItem(STORAGE_KEY); if (s) return JSON.parse(s); } catch(e) {}
-                return { drivers: SICK_DAYS_DRIVERS, mechanics: SICK_DAYS_MECHANICS, office: SICK_DAYS_OFFICE };
+                try { const s = localStorage.getItem(STORAGE_KEY); if (s) { const d = JSON.parse(s); return {drivers: d.drivers.map(recalcBalance), mechanics: d.mechanics.map(recalcBalance), office: d.office.map(recalcBalance)}; } } catch(e) {}
+                return { drivers: SICK_DAYS_DRIVERS.map(recalcBalance), mechanics: SICK_DAYS_MECHANICS.map(recalcBalance), office: SICK_DAYS_OFFICE.map(recalcBalance) };
             };
             const [allData, setAllData] = useState(loadData);
             const [sickTab, setSickTab] = useState('drivers');
             const [search, setSearch] = useState('');
             const [showAddModal, setShowAddModal] = useState(false);
-            const [showSickModal, setShowSickModal] = useState(null); // employee name
+            const [showSickModal, setShowSickModal] = useState(null);
             const [newName, setNewName] = useState('');
             const [newStartDate, setNewStartDate] = useState('');
             const [sickDate, setSickDate] = useState(new Date().toISOString().split('T')[0]);
 
-            const save = (d) => { setAllData(d); try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch(e) {} };
+            const save = (d) => { const recalced = {drivers: d.drivers.map(recalcBalance), mechanics: d.mechanics.map(recalcBalance), office: d.office.map(recalcBalance)}; setAllData(recalced); try { localStorage.setItem(STORAGE_KEY, JSON.stringify(recalced)); } catch(e) {} };
 
             const data = allData[sickTab] || [];
-            let filtered = data;
+            let filtered = data.filter(e => e.name && e.name.trim());
             if (search) filtered = filtered.filter(e => e.name.toLowerCase().includes(search.toLowerCase()));
 
             const addEmployee = () => {
-                if (!newName.trim()) return;
-                const emp = { name: newName.trim(), startDate: newStartDate || new Date().toISOString().split('T')[0], carry2025: 0, earned2026: 0, used2026: 0, balance: 0, remaining: 10, usedDates: [] };
-                const updated = { ...allData, [sickTab]: [...data, emp] };
-                save(updated);
+                if (!newName.trim() || !newStartDate) return;
+                const emp = { name: newName.trim(), startDate: newStartDate, carry2025: 0, earned2026: 0, used2026: 0, balance: 0, remaining: 10, usedDates: [] };
+                save({ ...allData, [sickTab]: [...data, emp] });
                 setNewName(''); setNewStartDate(''); setShowAddModal(false);
             };
 
             const deleteEmployee = (name) => {
                 if (!confirm('Remove ' + name + '?')) return;
-                const updated = { ...allData, [sickTab]: data.filter(e => e.name !== name) };
-                save(updated);
+                save({ ...allData, [sickTab]: data.filter(e => e.name !== name) });
             };
 
             const addSickDay = (empName) => {
                 if (!sickDate) return;
-                const updated = { ...allData, [sickTab]: data.map(e => {
+                save({ ...allData, [sickTab]: data.map(e => {
                     if (e.name !== empName) return e;
                     if (e.balance <= 0) { alert(e.name + ' has no sick day balance remaining!'); return e; }
                     if (e.usedDates && e.usedDates.includes(sickDate)) { alert('This date is already recorded.'); return e; }
-                    return { ...e, used2026: e.used2026 + 1, balance: e.balance - 1, remaining: e.remaining - 1, usedDates: [...(e.usedDates||[]), sickDate].sort() };
-                })};
-                save(updated);
+                    return { ...e, used2026: e.used2026 + 1, usedDates: [...(e.usedDates||[]), sickDate].sort() };
+                })});
                 setShowSickModal(null);
             };
 
             const removeSickDay = (empName, dateStr) => {
-                const updated = { ...allData, [sickTab]: data.map(e => {
+                save({ ...allData, [sickTab]: data.map(e => {
                     if (e.name !== empName) return e;
-                    return { ...e, used2026: Math.max(0, e.used2026 - 1), balance: e.balance + 1, remaining: Math.min(10, e.remaining + 1), usedDates: (e.usedDates||[]).filter(d => d !== dateStr) };
-                })};
-                save(updated);
+                    return { ...e, used2026: Math.max(0, e.used2026 - 1), usedDates: (e.usedDates||[]).filter(d => d !== dateStr) };
+                })});
             };
 
             return (<>
-                <div className="page-header"><div><h1>🤒 Sick Days Tracker — 2026</h1><div className="page-header-sub">Government sick leave · 10 days/year cap · Data saved locally</div></div></div>
+                <div className="page-header"><div><h1>🤒 Sick Days Tracker — 2026</h1><div className="page-header-sub">Govt sick leave · 3 days after 30 days, +1/month until 10 cap · Saved locally</div></div></div>
 
                 <div style={{display:'flex',gap:'0.375rem',marginBottom:'0.75rem',alignItems:'center',flexWrap:'wrap'}}>
-                    {[{k:'drivers',l:'🚛 Drivers',c:allData.drivers?.length||0},{k:'mechanics',l:'🔧 Mechanics',c:allData.mechanics?.length||0},{k:'office',l:'🏢 Office',c:allData.office?.length||0}].map(t =>
-                        <button key={t.k} className={`btn ${sickTab===t.k?'btn-primary':'btn-outline'}`} onClick={()=>{setSickTab(t.k);setSearch('');}}>{t.l} ({t.c})</button>
+                    {[{k:'drivers',l:'🚛 Drivers',c:(allData.drivers||[]).filter(e=>e.name&&e.name.trim()).length},{k:'mechanics',l:'🔧 Mechanics',c:(allData.mechanics||[]).filter(e=>e.name&&e.name.trim()).length},{k:'office',l:'🏢 Office',c:(allData.office||[]).filter(e=>e.name&&e.name.trim()).length}].map(t =>
+                        <button key={t.k} className={'btn '+(sickTab===t.k?'btn-primary':'btn-outline')} onClick={()=>{setSickTab(t.k);setSearch('');}}>{t.l} ({t.c})</button>
                     )}
                     <div style={{marginLeft:'auto',display:'flex',gap:'0.375rem'}}>
                         <input className="dips-search" placeholder="🔍 Search name..." value={search} onChange={e=>setSearch(e.target.value)} style={{width:200}} />
@@ -1212,36 +1289,37 @@ const SICK_DAYS_OFFICE = [{"name": "Yannick", "startDate": "2005-04-11", "carry2
                     </div>
                 </div>
 
-                {/* Add Employee Modal */}
                 {showAddModal && <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.4)',zIndex:200,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={()=>setShowAddModal(false)}>
                     <div style={{background:'#fff',borderRadius:12,padding:'1.25rem',width:360,boxShadow:'0 20px 60px rgba(0,0,0,0.3)'}} onClick={e=>e.stopPropagation()}>
-                        <h3 style={{fontSize:'0.875rem',fontWeight:700,marginBottom:'0.75rem'}}>Add New Employee</h3>
-                        <div style={{marginBottom:'0.5rem'}}><label style={{fontSize:'0.625rem',fontWeight:600,display:'block',marginBottom:'0.125rem'}}>Full Name *</label>
+                        <h3 style={{fontSize:'0.9375rem',fontWeight:700,marginBottom:'0.75rem'}}>Add New Employee to {sickTab.charAt(0).toUpperCase()+sickTab.slice(1)}</h3>
+                        <div style={{marginBottom:'0.5rem'}}><label style={{fontSize:'0.6875rem',fontWeight:600,display:'block',marginBottom:'0.125rem'}}>Full Name *</label>
                             <input className="form-input" value={newName} onChange={e=>setNewName(e.target.value)} placeholder="e.g., John Smith" /></div>
-                        <div style={{marginBottom:'0.75rem'}}><label style={{fontSize:'0.625rem',fontWeight:600,display:'block',marginBottom:'0.125rem'}}>Start Date</label>
+                        <div style={{marginBottom:'0.5rem'}}><label style={{fontSize:'0.6875rem',fontWeight:600,display:'block',marginBottom:'0.125rem'}}>Start Date *</label>
                             <input className="form-input" type="date" value={newStartDate} onChange={e=>setNewStartDate(e.target.value)} /></div>
+                        <div style={{fontSize:'0.625rem',color:'#64748B',marginBottom:'0.75rem',background:'#F8FAFC',padding:'0.5rem',borderRadius:6}}>Formula: 3 sick days after 30 days of work, then +1/month until 10 max. Balance auto-calculated from start date.</div>
                         <div style={{display:'flex',gap:'0.375rem',justifyContent:'flex-end'}}>
                             <button className="btn btn-outline" onClick={()=>setShowAddModal(false)}>Cancel</button>
-                            <button className="btn btn-primary" onClick={addEmployee}>Add to {sickTab}</button>
+                            <button className="btn btn-primary" onClick={addEmployee} disabled={!newName.trim()||!newStartDate}>Add Employee</button>
                         </div>
                     </div>
                 </div>}
 
-                {/* Record Sick Day Modal */}
                 {showSickModal && <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.4)',zIndex:200,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={()=>setShowSickModal(null)}>
-                    <div style={{background:'#fff',borderRadius:12,padding:'1.25rem',width:380,boxShadow:'0 20px 60px rgba(0,0,0,0.3)'}} onClick={e=>e.stopPropagation()}>
+                    <div style={{background:'#fff',borderRadius:12,padding:'1.25rem',width:400,boxShadow:'0 20px 60px rgba(0,0,0,0.3)'}} onClick={e=>e.stopPropagation()}>
                         {(() => { const emp = data.find(e=>e.name===showSickModal); if (!emp) return null; return <>
-                            <h3 style={{fontSize:'0.875rem',fontWeight:700,marginBottom:'0.125rem'}}>{emp.name}</h3>
-                            <div style={{fontSize:'0.6875rem',color:'var(--text-secondary)',marginBottom:'0.75rem'}}>Balance: <b style={{color:emp.balance<=2?'#DC2626':'#16A34A'}}>{emp.balance} days</b> · Used: {emp.used2026} · Cap: {emp.remaining}/10</div>
-                            <div style={{marginBottom:'0.75rem'}}><label style={{fontSize:'0.625rem',fontWeight:600,display:'block',marginBottom:'0.125rem'}}>Sick Day Date</label>
+                            <h3 style={{fontSize:'0.9375rem',fontWeight:700,marginBottom:'0.125rem'}}>{emp.name}</h3>
+                            <div style={{fontSize:'0.75rem',color:'#475569',marginBottom:'0.75rem'}}>Balance: <b style={{color:emp.balance<=2?'#DC2626':'#16A34A'}}>{emp.balance} days</b> | Used: {emp.used2026} | Cap: {emp.remaining}/10</div>
+                            <div style={{marginBottom:'0.75rem'}}><label style={{fontSize:'0.6875rem',fontWeight:600,display:'block',marginBottom:'0.125rem'}}>Sick Day Date</label>
                                 <input className="form-input" type="date" value={sickDate} onChange={e=>setSickDate(e.target.value)} /></div>
                             <button className="btn btn-danger" style={{width:'100%',marginBottom:'0.75rem'}} disabled={emp.balance<=0} onClick={()=>addSickDay(emp.name)}>{emp.balance<=0?'No Balance Remaining':'Record Sick Day'}</button>
                             {emp.usedDates && emp.usedDates.length > 0 && <div>
-                                <div style={{fontSize:'0.625rem',fontWeight:700,marginBottom:'0.375rem',color:'var(--text-secondary)'}}>SICK DAYS USED IN 2026:</div>
-                                {emp.usedDates.map(d => <div key={d} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.25rem 0.375rem',background:'#FEF2F2',borderRadius:4,marginBottom:'0.25rem',fontSize:'0.6875rem'}}>
+                                <div style={{fontSize:'0.6875rem',fontWeight:700,marginBottom:'0.375rem',color:'#475569'}}>SICK DAYS USED IN 2026:</div>
+                                <div style={{maxHeight:200,overflowY:'auto'}}>
+                                {emp.usedDates.map(d => <div key={d} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.3125rem 0.5rem',background:'#FEF2F2',borderRadius:4,marginBottom:'0.25rem',fontSize:'0.75rem'}}>
                                     <span>📅 {new Date(d+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'})}</span>
-                                    <button style={{background:'none',border:'none',cursor:'pointer',color:'#DC2626',fontSize:'0.75rem',fontWeight:700}} onClick={()=>removeSickDay(emp.name,d)}>✕</button>
+                                    <button style={{background:'none',border:'none',cursor:'pointer',color:'#DC2626',fontSize:'0.875rem',fontWeight:700}} onClick={()=>removeSickDay(emp.name,d)}>✕</button>
                                 </div>)}
+                                </div>
                             </div>}
                             <button className="btn btn-outline" style={{width:'100%',marginTop:'0.5rem'}} onClick={()=>setShowSickModal(null)}>Close</button>
                         </>; })()}
@@ -1249,38 +1327,38 @@ const SICK_DAYS_OFFICE = [{"name": "Yannick", "startDate": "2005-04-11", "carry2
                 </div>}
 
                 <div className="card"><div className="card-body" style={{padding:0}}>
-                    {filtered.length === 0 ? <div className="empty-state"><div className="empty-icon">📋</div><div className="empty-text">{data.length===0?'No employees yet — click "+ Add Employee"':'No results'}</div></div> :
+                    {filtered.length === 0 ? <div className="empty-state"><div className="empty-icon">📋</div><div className="empty-text">{data.length===0?'No employees yet':'No results'}</div></div> :
                     <div style={{overflowX:'auto'}}>
-                    <table className="data-table">
+                    <table className="data-table" style={{fontSize:'0.8125rem'}}>
                         <thead><tr>
-                            <th style={{minWidth:180}}>Employee</th>
-                            <th style={{textAlign:'center',width:90}}>Start Date</th>
-                            <th style={{textAlign:'center',width:65}}>Carry '25</th>
-                            <th style={{textAlign:'center',width:65}}>Earned '26</th>
-                            <th style={{textAlign:'center',width:65}}>Used '26</th>
-                            <th style={{textAlign:'center',width:80}}>Balance</th>
-                            <th style={{textAlign:'center',width:65}}>Cap</th>
-                            <th style={{textAlign:'center',width:100}}>Actions</th>
+                            <th style={{minWidth:200,fontSize:'0.6875rem'}}>Employee</th>
+                            <th style={{textAlign:'center',width:95,fontSize:'0.6875rem'}}>Start Date</th>
+                            <th style={{textAlign:'center',width:75,fontSize:'0.6875rem'}}>Carry '25</th>
+                            <th style={{textAlign:'center',width:75,fontSize:'0.6875rem'}}>Earned '26</th>
+                            <th style={{textAlign:'center',width:75,fontSize:'0.6875rem'}}>Used '26</th>
+                            <th style={{textAlign:'center',width:90,fontSize:'0.6875rem'}}>Balance</th>
+                            <th style={{textAlign:'center',width:70,fontSize:'0.6875rem'}}>Cap</th>
+                            <th style={{textAlign:'center',width:130,fontSize:'0.6875rem'}}>Actions</th>
                         </tr></thead>
                         <tbody>{filtered.map(e => {
                             const barColor = e.balance<=0?'#DC2626':e.balance<=2?'#D97706':e.balance<=5?'#2563EB':'#16A34A';
                             return <tr key={e.name}>
-                                <td style={{fontWeight:600,fontSize:'0.6875rem'}}>{e.balance<=2 && <span className="badge-dot" style={{background:e.balance<=0?'#DC2626':'#D97706',marginRight:6}}></span>}{e.name}</td>
-                                <td style={{textAlign:'center',color:'var(--text-tertiary)',fontSize:'0.625rem'}}>{e.startDate?.split(' ')[0]||'—'}</td>
-                                <td style={{textAlign:'center',fontWeight:600}}>{e.carry2025}</td>
-                                <td style={{textAlign:'center',fontWeight:600,color:'#16A34A'}}>{e.earned2026}</td>
-                                <td style={{textAlign:'center',fontWeight:700,color:e.used2026>0?'#DC2626':'#94A3B8'}}>{e.used2026}</td>
+                                <td style={{fontWeight:600,fontSize:'0.8125rem'}}>{e.balance<=2 && <span className="badge-dot" style={{background:e.balance<=0?'#DC2626':'#D97706',marginRight:6}}></span>}{e.name}</td>
+                                <td style={{textAlign:'center',color:'#475569',fontSize:'0.75rem'}}>{e.startDate ? e.startDate.split('T')[0].split(' ')[0] : '—'}</td>
+                                <td style={{textAlign:'center',fontWeight:600,fontSize:'0.8125rem'}}>{e.carry2025}</td>
+                                <td style={{textAlign:'center',fontWeight:600,color:'#16A34A',fontSize:'0.8125rem'}}>{e.earned2026}</td>
+                                <td style={{textAlign:'center',fontWeight:700,color:e.used2026>0?'#DC2626':'#94A3B8',fontSize:'0.8125rem'}}>{e.used2026}</td>
                                 <td style={{textAlign:'center'}}>
-                                    <div style={{fontWeight:700,fontSize:'0.8125rem',color:barColor}}>{e.balance}</div>
-                                    <div style={{height:4,borderRadius:2,background:'#E2E8F0',overflow:'hidden',marginTop:2}}>
-                                        <div style={{height:'100%',borderRadius:2,width:Math.round((e.balance/10)*100)+'%',background:barColor,transition:'width 0.3s'}}></div>
+                                    <div style={{fontWeight:800,fontSize:'0.9375rem',color:barColor}}>{e.balance}</div>
+                                    <div style={{height:5,borderRadius:3,background:'#E2E8F0',overflow:'hidden',marginTop:2}}>
+                                        <div style={{height:'100%',borderRadius:3,width:Math.round(Math.min(e.balance,10)/10*100)+'%',background:barColor,transition:'width 0.3s'}}></div>
                                     </div>
                                 </td>
-                                <td style={{textAlign:'center',fontWeight:600,color:'var(--text-secondary)',fontSize:'0.625rem'}}>{e.remaining}/10</td>
+                                <td style={{textAlign:'center',fontWeight:600,color:'#475569',fontSize:'0.75rem'}}>{e.remaining}/10</td>
                                 <td style={{textAlign:'center'}}>
                                     <div style={{display:'flex',gap:'0.25rem',justifyContent:'center'}}>
                                         <button className="btn btn-primary btn-sm" onClick={()=>{setShowSickModal(e.name);setSickDate(new Date().toISOString().split('T')[0]);}}>+ Sick Day</button>
-                                        <button className="btn btn-outline btn-sm" style={{color:'#DC2626',borderColor:'#FECACA',padding:'0.25rem'}} onClick={()=>deleteEmployee(e.name)}>🗑</button>
+                                        <button className="btn btn-outline btn-sm" style={{color:'#DC2626',borderColor:'#FECACA'}} onClick={()=>deleteEmployee(e.name)} title="Remove employee">🗑</button>
                                     </div>
                                 </td>
                             </tr>;
@@ -1776,6 +1854,7 @@ function DispatchSystem({ activePage }) {
                 {key:'dips', icon:'⛽', label:'Fuel Dips', badge:dipsCritical > 0 ? dipsCritical : null},
                 {key:'b620', icon:'🔧', label:'B-620 Inspections', badge:b620Alerts > 0 ? b620Alerts : null},
                 {key:'sick', icon:'🤒', label:'Sick Days', badge:null},
+                {key:'contacts', icon:'📇', label:'Contacts', badge:null},
             ];
 
             return (
@@ -1813,7 +1892,9 @@ function DispatchSystem({ activePage }) {
 
                     {/* MAIN CONTENT */}
                     <div className="main-content">
-                        {activePage === 'sick' ? (
+                        {activePage === 'contacts' ? (
+                            <ContactsDirectory />
+                        ) : activePage === 'sick' ? (
                             <SickDaysDashboard />
                         ) : activePage === 'b620' ? (
                             <B620Dashboard />
