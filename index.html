@@ -1029,7 +1029,7 @@
             const [editingCell, setEditingCell] = useState(null);
             const [data, setData] = useState(B620_DATA_INIT);
             const [page, setPage] = useState(0);
-            const PER_PAGE = 6;
+            const PER_PAGE = 999;
 
             const now = new Date();
             let expiredCount = 0, warningCount = 0;
@@ -1140,51 +1140,157 @@
         }
 
         // ===== SICK DAYS DATA =====
-        const SICK_DAYS_DRIVERS = [
-            {name:"Abd Abdalrazek",startDate:"7/16/2021",carry2025:0,earned2026:1,used2026:0,balance:1,remaining:10},
-            {name:"Ahmad Kammouni",startDate:"8/30/2023",carry2025:0,earned2026:1,used2026:0,balance:1,remaining:10},
-            {name:"Alain Therrien",startDate:"7/23/2024",carry2025:8,earned2026:1,used2026:0,balance:9,remaining:10},
-            {name:"Arthur E.Lacroix",startDate:"8/24/2015",carry2025:9,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Bader Saif",startDate:"4/16/2023",carry2025:1,earned2026:1,used2026:1,balance:1,remaining:9},
-            {name:"Christophe Tremblay",startDate:"10/5/2020",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Donald Bigras",startDate:"6/8/2016",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Duane Locke",startDate:"8/19/2014",carry2025:0,earned2026:1,used2026:1,balance:0,remaining:9},
-            {name:"George Chalhoub",startDate:"4/16/2023",carry2025:3,earned2026:1,used2026:2,balance:2,remaining:8},
-            {name:"Habtamu Tadesse",startDate:"8/1/2023",carry2025:7,earned2026:1,used2026:0,balance:8,remaining:10},
-            {name:"Jacques Parent",startDate:"5/23/2016",carry2025:0,earned2026:1,used2026:1,balance:0,remaining:9},
-            {name:"James Masse",startDate:"5/17/2019",carry2025:1,earned2026:1,used2026:0,balance:2,remaining:10},
-            {name:"Khalid Wahid",startDate:"11/11/2019",carry2025:9,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Mark Manery",startDate:"8/22/2013",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Mohamed Abougafar",startDate:"8/16/2021",carry2025:5,earned2026:1,used2026:3,balance:3,remaining:7},
-            {name:"Mohamed M. Ahmed Mazen",startDate:"6/3/2024",carry2025:9,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Nidal Farara",startDate:"8/10/2021",carry2025:0,earned2026:1,used2026:0,balance:1,remaining:10},
-            {name:"Parfait Ngabonziza",startDate:"7/4/2018",carry2025:4,earned2026:1,used2026:0,balance:5,remaining:10},
-            {name:"Randy Armitage",startDate:"9/12/2018",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Sahnd Gailan Al-Mufti",startDate:"6/8/2021",carry2025:6,earned2026:1,used2026:0,balance:7,remaining:10},
-            {name:"Sean Vanwallegham",startDate:"6/23/2016",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Stephane Dore",startDate:"5/18/2021",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Bellefeuille, Michael",startDate:"12/12/2024",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Kabunda, Léon Richard",startDate:"1/1/2025",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Abou Karnib, Tarek",startDate:"12/19/2024",carry2025:0,earned2026:1,used2026:1,balance:0,remaining:9},
-            {name:"Nguyen, Thanh T. (Arthur N.)",startDate:"8/19/2024",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Burchill, James",startDate:"12/9/2024",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Fellner, Neil",startDate:"10/7/2024",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Imonia, Omojero",startDate:"3/13/2024",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Kazem, Fawaz",startDate:"6/17/2024",carry2025:9,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Alkhouri, Loranc",startDate:"6/18/2024",carry2025:9,earned2026:1,used2026:1,balance:9,remaining:9},
-            {name:"Sinzinkayo, Dauphin",startDate:"1/10/2025",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Zouwayni, Nidal (2.0)",startDate:"8/1/2024",carry2025:5,earned2026:1,used2026:0,balance:6,remaining:10},
-            {name:"Matar, Fawaz",startDate:"2/21/2025",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"McCormick, Matt",startDate:"3/25/2025",carry2025:10,earned2026:1,used2026:0,balance:10,remaining:10},
-            {name:"Andrii Riabeka",startDate:"6/16/2025",carry2025:8,earned2026:1,used2026:0,balance:9,remaining:10},
-            {name:"Louis-Philippe Gravel",startDate:"7/7/2025",carry2025:7,earned2026:1,used2026:0,balance:8,remaining:10},
-            {name:"Rohan James",startDate:"7/7/2025",carry2025:7,earned2026:1,used2026:0,balance:8,remaining:10},
-            {name:"Willy Senoga",startDate:"8/10/2025",carry2025:6,earned2026:1,used2026:1,balance:6,remaining:9}
-        ];
-        const SICK_DAYS_MECHANICS = []; // TODO: add when user provides data
-        const SICK_DAYS_OFFICE = []; // TODO: add when user provides data
+        const SICK_DAYS_DRIVERS = [{"name": "Abd Abdalrazek", "startDate": "2021-07-16", "carry2025": 0, "earned2026": 1, "used2026": 0, "balance": 1, "remaining": 10, "usedDates": []}, {"name": "Ahmad Kammouni", "startDate": "2023-08-30", "carry2025": 0, "earned2026": 1, "used2026": 0, "balance": 1, "remaining": 10, "usedDates": []}, {"name": "Alain Therrien", "startDate": "2024-07-23", "carry2025": 8, "earned2026": 1, "used2026": 0, "balance": 9, "remaining": 10, "usedDates": []}, {"name": "Arthur E.Lacroix", "startDate": "2015-08-24", "carry2025": 9, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Bader Saif", "startDate": "2023-04-16", "carry2025": 1, "earned2026": 1, "used2026": 1, "balance": 1, "remaining": 9, "usedDates": ["2026-01-29"]}, {"name": "Christophe Tremblay", "startDate": "2020-10-05", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Donald Bigras", "startDate": "2016-06-08", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Duane Locke", "startDate": "2014-08-19", "carry2025": 0, "earned2026": 1, "used2026": 1, "balance": 0, "remaining": 9, "usedDates": []}, {"name": "George Chalhoub", "startDate": "2023-04-16", "carry2025": 3, "earned2026": 1, "used2026": 2, "balance": 2, "remaining": 8, "usedDates": ["2026-01-21", "2026-01-22"]}, {"name": "Habtamu Tadesse", "startDate": "2023-08-01", "carry2025": 7, "earned2026": 1, "used2026": 0, "balance": 8, "remaining": 10, "usedDates": []}, {"name": "Jacques Parent", "startDate": "2016-05-23", "carry2025": 0, "earned2026": 1, "used2026": 1, "balance": 0, "remaining": 9, "usedDates": ["2026-02-06"]}, {"name": "James Masse", "startDate": "2019-05-17", "carry2025": 1, "earned2026": 1, "used2026": 0, "balance": 2, "remaining": 10, "usedDates": []}, {"name": "Khalid Wahid", "startDate": "2019-11-11", "carry2025": 9, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Mark Manery", "startDate": "2013-08-22", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Mohamed Abougafar", "startDate": "2021-08-16", "carry2025": 5, "earned2026": 1, "used2026": 3, "balance": 3, "remaining": 7, "usedDates": ["2026-01-06", "2026-01-07", "2026-01-08"]}, {"name": "Mohamed Mazen Ahmed Mazen", "startDate": "2024-06-03", "carry2025": 9, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Nidal Farara", "startDate": "2021-08-10", "carry2025": 0, "earned2026": 1, "used2026": 0, "balance": 1, "remaining": 10, "usedDates": []}, {"name": "Parfait Ngabonziza", "startDate": "2018-07-04", "carry2025": 4, "earned2026": 1, "used2026": 0, "balance": 5, "remaining": 10, "usedDates": []}, {"name": "Randy Armitage", "startDate": "2018-09-12", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Sahnd Gailan Al-Mufti", "startDate": "2021-06-08", "carry2025": 6, "earned2026": 1, "used2026": 0, "balance": 7, "remaining": 10, "usedDates": []}, {"name": "Sean Vanwallegham", "startDate": "2016-06-23", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Stephane Dore", "startDate": "2021-05-18", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Bellefeuille, Michael", "startDate": "2024-12-12", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Kabunda, Léon Richard", "startDate": "2025-01-01", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Abou Karnib, Tarek", "startDate": "2024-12-19", "carry2025": 0, "earned2026": 1, "used2026": 1, "balance": 0, "remaining": 9, "usedDates": ["2026-02-08"]}, {"name": "Nguyen, Thanh Trunng (Arthur N.)", "startDate": "2024-08-19", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Burchill, James", "startDate": "2024-12-09", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Fellner, Neil", "startDate": "2024-10-07", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Imonia, Omojero", "startDate": "2024-03-13", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Kazem, Fawaz", "startDate": "2024-06-17", "carry2025": 9, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Alkhouri, Loranc", "startDate": "2024-06-18", "carry2025": 9, "earned2026": 1, "used2026": 1, "balance": 9, "remaining": 9, "usedDates": ["2026-01-24"]}, {"name": "Sinzinkayo, Dauphin", "startDate": "2025-01-10", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Zouwayni, Nidal (2.0)", "startDate": "2024-08-01", "carry2025": 5, "earned2026": 1, "used2026": 0, "balance": 6, "remaining": 10, "usedDates": []}, {"name": "Matar, Fawaz", "startDate": "2025-02-21", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "McCormick, Matt", "startDate": "2025-03-25", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Andrii Riabeka", "startDate": "2025-06-16", "carry2025": 8, "earned2026": 1, "used2026": 0, "balance": 9, "remaining": 10, "usedDates": []}, {"name": "Louis-Philippe Gravel", "startDate": "2025-07-07", "carry2025": 7, "earned2026": 1, "used2026": 0, "balance": 8, "remaining": 10, "usedDates": []}, {"name": "Rohan James", "startDate": "2025-07-07", "carry2025": 7, "earned2026": 1, "used2026": 0, "balance": 8, "remaining": 10, "usedDates": []}, {"name": "Willy Senoga", "startDate": "2025-08-10", "carry2025": 6, "earned2026": 1, "used2026": 1, "balance": 6, "remaining": 9, "usedDates": ["2026-01-05"]}, {"name": "", "startDate": "", "carry2025": 0, "earned2026": 0, "used2026": 0, "balance": 0, "remaining": 0, "usedDates": []}];
+const SICK_DAYS_MECHANICS = [{"name": "Erik Morin", "startDate": "2022-07-03", "carry2025": 7, "earned2026": 1, "used2026": 1, "balance": 7, "remaining": 9, "usedDates": ["2026-02-06"]}, {"name": "Jennifer Chamberlin", "startDate": "2023-02-27", "carry2025": 5, "earned2026": 1, "used2026": 1, "balance": 5, "remaining": 9, "usedDates": ["2026-01-12"]}, {"name": "Orry Peck", "startDate": "2009-02-24", "carry2025": 5, "earned2026": 1, "used2026": 0, "balance": 6, "remaining": 10, "usedDates": []}, {"name": "Scott Pieroway", "startDate": "2024-05-10", "carry2025": 0, "earned2026": 1, "used2026": 0, "balance": 1, "remaining": 10, "usedDates": []}, {"name": "Jonathan Ryan", "startDate": "2012-03-19", "carry2025": 5, "earned2026": 1, "used2026": 0, "balance": 6, "remaining": 10, "usedDates": []}, {"name": "David Lalonde", "startDate": "2006-06-12", "carry2025": 8, "earned2026": 1, "used2026": 0, "balance": 9, "remaining": 10, "usedDates": []}, {"name": "Chris Richards", "startDate": "2005-12-28", "carry2025": 8, "earned2026": 1, "used2026": 0, "balance": 9, "remaining": 10, "usedDates": []}, {"name": "", "startDate": "", "carry2025": 0, "earned2026": 0, "used2026": 0, "balance": 0, "remaining": 0, "usedDates": []}];
+const SICK_DAYS_OFFICE = [{"name": "Yannick", "startDate": "2005-04-11", "carry2025": 4, "earned2026": 1, "used2026": 0, "balance": 5, "remaining": 10, "usedDates": []}, {"name": "Tetiana Krytskaliyuk", "startDate": "2022-10-23", "carry2025": 7, "earned2026": 1, "used2026": 0, "balance": 8, "remaining": 10, "usedDates": []}, {"name": "Sandra Helou", "startDate": "2024-07-29", "carry2025": 7, "earned2026": 1, "used2026": 1, "balance": 7, "remaining": 9, "usedDates": ["02/09/2026 (half day)"]}, {"name": "Marie Jose", "startDate": "2025-03-10", "carry2025": 8, "earned2026": 1, "used2026": 0, "balance": 9, "remaining": 10, "usedDates": []}, {"name": "Norman Skene", "startDate": "2025-02-02", "carry2025": 10, "earned2026": 1, "used2026": 0, "balance": 10, "remaining": 10, "usedDates": []}, {"name": "Ayoub Habou", "startDate": "2025-04-24", "carry2025": 8, "earned2026": 1, "used2026": 0, "balance": 9, "remaining": 10, "usedDates": []}, {"name": "Shina Pak", "startDate": "2025-05-21", "carry2025": 5, "earned2026": 1, "used2026": 0, "balance": 6, "remaining": 10, "usedDates": []}, {"name": "Joseph Khawaja", "startDate": "2025-11-03", "carry2025": 2, "earned2026": 1, "used2026": 1, "balance": 2, "remaining": 9, "usedDates": ["2026-01-27"]}, {"name": "", "startDate": "", "carry2025": 0, "earned2026": 0, "used2026": 0, "balance": 0, "remaining": 0, "usedDates": []}];
 
         function SickDaysDashboard() {
+            const STORAGE_KEY = 'schooner_sick_data';
+            const loadData = () => {
+                try { const s = localStorage.getItem(STORAGE_KEY); if (s) return JSON.parse(s); } catch(e) {}
+                return { drivers: SICK_DAYS_DRIVERS, mechanics: SICK_DAYS_MECHANICS, office: SICK_DAYS_OFFICE };
+            };
+            const [allData, setAllData] = useState(loadData);
+            const [sickTab, setSickTab] = useState('drivers');
+            const [search, setSearch] = useState('');
+            const [showAddModal, setShowAddModal] = useState(false);
+            const [showSickModal, setShowSickModal] = useState(null); // employee name
+            const [newName, setNewName] = useState('');
+            const [newStartDate, setNewStartDate] = useState('');
+            const [sickDate, setSickDate] = useState(new Date().toISOString().split('T')[0]);
+
+            const save = (d) => { setAllData(d); try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch(e) {} };
+
+            const data = allData[sickTab] || [];
+            let filtered = data;
+            if (search) filtered = filtered.filter(e => e.name.toLowerCase().includes(search.toLowerCase()));
+
+            const addEmployee = () => {
+                if (!newName.trim()) return;
+                const emp = { name: newName.trim(), startDate: newStartDate || new Date().toISOString().split('T')[0], carry2025: 0, earned2026: 0, used2026: 0, balance: 0, remaining: 10, usedDates: [] };
+                const updated = { ...allData, [sickTab]: [...data, emp] };
+                save(updated);
+                setNewName(''); setNewStartDate(''); setShowAddModal(false);
+            };
+
+            const deleteEmployee = (name) => {
+                if (!confirm('Remove ' + name + '?')) return;
+                const updated = { ...allData, [sickTab]: data.filter(e => e.name !== name) };
+                save(updated);
+            };
+
+            const addSickDay = (empName) => {
+                if (!sickDate) return;
+                const updated = { ...allData, [sickTab]: data.map(e => {
+                    if (e.name !== empName) return e;
+                    if (e.balance <= 0) { alert(e.name + ' has no sick day balance remaining!'); return e; }
+                    if (e.usedDates && e.usedDates.includes(sickDate)) { alert('This date is already recorded.'); return e; }
+                    return { ...e, used2026: e.used2026 + 1, balance: e.balance - 1, remaining: e.remaining - 1, usedDates: [...(e.usedDates||[]), sickDate].sort() };
+                })};
+                save(updated);
+                setShowSickModal(null);
+            };
+
+            const removeSickDay = (empName, dateStr) => {
+                const updated = { ...allData, [sickTab]: data.map(e => {
+                    if (e.name !== empName) return e;
+                    return { ...e, used2026: Math.max(0, e.used2026 - 1), balance: e.balance + 1, remaining: Math.min(10, e.remaining + 1), usedDates: (e.usedDates||[]).filter(d => d !== dateStr) };
+                })};
+                save(updated);
+            };
+
+            return (<>
+                <div className="page-header"><div><h1>🤒 Sick Days Tracker — 2026</h1><div className="page-header-sub">Government sick leave · 10 days/year cap · Data saved locally</div></div></div>
+
+                <div style={{display:'flex',gap:'0.375rem',marginBottom:'0.75rem',alignItems:'center',flexWrap:'wrap'}}>
+                    {[{k:'drivers',l:'🚛 Drivers',c:allData.drivers?.length||0},{k:'mechanics',l:'🔧 Mechanics',c:allData.mechanics?.length||0},{k:'office',l:'🏢 Office',c:allData.office?.length||0}].map(t =>
+                        <button key={t.k} className={`btn ${sickTab===t.k?'btn-primary':'btn-outline'}`} onClick={()=>{setSickTab(t.k);setSearch('');}}>{t.l} ({t.c})</button>
+                    )}
+                    <div style={{marginLeft:'auto',display:'flex',gap:'0.375rem'}}>
+                        <input className="dips-search" placeholder="🔍 Search name..." value={search} onChange={e=>setSearch(e.target.value)} style={{width:200}} />
+                        <button className="btn btn-success btn-sm" onClick={()=>setShowAddModal(true)}>+ Add Employee</button>
+                    </div>
+                </div>
+
+                {/* Add Employee Modal */}
+                {showAddModal && <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.4)',zIndex:200,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={()=>setShowAddModal(false)}>
+                    <div style={{background:'#fff',borderRadius:12,padding:'1.25rem',width:360,boxShadow:'0 20px 60px rgba(0,0,0,0.3)'}} onClick={e=>e.stopPropagation()}>
+                        <h3 style={{fontSize:'0.875rem',fontWeight:700,marginBottom:'0.75rem'}}>Add New Employee</h3>
+                        <div style={{marginBottom:'0.5rem'}}><label style={{fontSize:'0.625rem',fontWeight:600,display:'block',marginBottom:'0.125rem'}}>Full Name *</label>
+                            <input className="form-input" value={newName} onChange={e=>setNewName(e.target.value)} placeholder="e.g., John Smith" /></div>
+                        <div style={{marginBottom:'0.75rem'}}><label style={{fontSize:'0.625rem',fontWeight:600,display:'block',marginBottom:'0.125rem'}}>Start Date</label>
+                            <input className="form-input" type="date" value={newStartDate} onChange={e=>setNewStartDate(e.target.value)} /></div>
+                        <div style={{display:'flex',gap:'0.375rem',justifyContent:'flex-end'}}>
+                            <button className="btn btn-outline" onClick={()=>setShowAddModal(false)}>Cancel</button>
+                            <button className="btn btn-primary" onClick={addEmployee}>Add to {sickTab}</button>
+                        </div>
+                    </div>
+                </div>}
+
+                {/* Record Sick Day Modal */}
+                {showSickModal && <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.4)',zIndex:200,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={()=>setShowSickModal(null)}>
+                    <div style={{background:'#fff',borderRadius:12,padding:'1.25rem',width:380,boxShadow:'0 20px 60px rgba(0,0,0,0.3)'}} onClick={e=>e.stopPropagation()}>
+                        {(() => { const emp = data.find(e=>e.name===showSickModal); if (!emp) return null; return <>
+                            <h3 style={{fontSize:'0.875rem',fontWeight:700,marginBottom:'0.125rem'}}>{emp.name}</h3>
+                            <div style={{fontSize:'0.6875rem',color:'var(--text-secondary)',marginBottom:'0.75rem'}}>Balance: <b style={{color:emp.balance<=2?'#DC2626':'#16A34A'}}>{emp.balance} days</b> · Used: {emp.used2026} · Cap: {emp.remaining}/10</div>
+                            <div style={{marginBottom:'0.75rem'}}><label style={{fontSize:'0.625rem',fontWeight:600,display:'block',marginBottom:'0.125rem'}}>Sick Day Date</label>
+                                <input className="form-input" type="date" value={sickDate} onChange={e=>setSickDate(e.target.value)} /></div>
+                            <button className="btn btn-danger" style={{width:'100%',marginBottom:'0.75rem'}} disabled={emp.balance<=0} onClick={()=>addSickDay(emp.name)}>{emp.balance<=0?'No Balance Remaining':'Record Sick Day'}</button>
+                            {emp.usedDates && emp.usedDates.length > 0 && <div>
+                                <div style={{fontSize:'0.625rem',fontWeight:700,marginBottom:'0.375rem',color:'var(--text-secondary)'}}>SICK DAYS USED IN 2026:</div>
+                                {emp.usedDates.map(d => <div key={d} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.25rem 0.375rem',background:'#FEF2F2',borderRadius:4,marginBottom:'0.25rem',fontSize:'0.6875rem'}}>
+                                    <span>📅 {new Date(d+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'})}</span>
+                                    <button style={{background:'none',border:'none',cursor:'pointer',color:'#DC2626',fontSize:'0.75rem',fontWeight:700}} onClick={()=>removeSickDay(emp.name,d)}>✕</button>
+                                </div>)}
+                            </div>}
+                            <button className="btn btn-outline" style={{width:'100%',marginTop:'0.5rem'}} onClick={()=>setShowSickModal(null)}>Close</button>
+                        </>; })()}
+                    </div>
+                </div>}
+
+                <div className="card"><div className="card-body" style={{padding:0}}>
+                    {filtered.length === 0 ? <div className="empty-state"><div className="empty-icon">📋</div><div className="empty-text">{data.length===0?'No employees yet — click "+ Add Employee"':'No results'}</div></div> :
+                    <div style={{overflowX:'auto'}}>
+                    <table className="data-table">
+                        <thead><tr>
+                            <th style={{minWidth:180}}>Employee</th>
+                            <th style={{textAlign:'center',width:90}}>Start Date</th>
+                            <th style={{textAlign:'center',width:65}}>Carry \'25</th>
+                            <th style={{textAlign:'center',width:65}}>Earned \'26</th>
+                            <th style={{textAlign:'center',width:65}}>Used \'26</th>
+                            <th style={{textAlign:'center',width:80}}>Balance</th>
+                            <th style={{textAlign:'center',width:65}}>Cap</th>
+                            <th style={{textAlign:'center',width:100}}>Actions</th>
+                        </tr></thead>
+                        <tbody>{filtered.map(e => {
+                            const barColor = e.balance<=0?'#DC2626':e.balance<=2?'#D97706':e.balance<=5?'#2563EB':'#16A34A';
+                            return <tr key={e.name}>
+                                <td style={{fontWeight:600,fontSize:'0.6875rem'}}>{e.balance<=2 && <span className="badge-dot" style={{background:e.balance<=0?'#DC2626':'#D97706',marginRight:6}}></span>}{e.name}</td>
+                                <td style={{textAlign:'center',color:'var(--text-tertiary)',fontSize:'0.625rem'}}>{e.startDate?.split(' ')[0]||'—'}</td>
+                                <td style={{textAlign:'center',fontWeight:600}}>{e.carry2025}</td>
+                                <td style={{textAlign:'center',fontWeight:600,color:'#16A34A'}}>{e.earned2026}</td>
+                                <td style={{textAlign:'center',fontWeight:700,color:e.used2026>0?'#DC2626':'#94A3B8'}}>{e.used2026}</td>
+                                <td style={{textAlign:'center'}}>
+                                    <div style={{fontWeight:700,fontSize:'0.8125rem',color:barColor}}>{e.balance}</div>
+                                    <div style={{height:4,borderRadius:2,background:'#E2E8F0',overflow:'hidden',marginTop:2}}>
+                                        <div style={{height:'100%',borderRadius:2,width:Math.round((e.balance/10)*100)+'%',background:barColor,transition:'width 0.3s'}}></div>
+                                    </div>
+                                </td>
+                                <td style={{textAlign:'center',fontWeight:600,color:'var(--text-secondary)',fontSize:'0.625rem'}}>{e.remaining}/10</td>
+                                <td style={{textAlign:'center'}}>
+                                    <div style={{display:'flex',gap:'0.25rem',justifyContent:'center'}}>
+                                        <button className="btn btn-primary btn-sm" onClick={()=>{setShowSickModal(e.name);setSickDate(new Date().toISOString().split('T')[0]);}}>+ Sick Day</button>
+                                        <button className="btn btn-outline btn-sm" style={{color:'#DC2626',borderColor:'#FECACA',padding:'0.25rem'}} onClick={()=>deleteEmployee(e.name)}>🗑</button>
+                                    </div>
+                                </td>
+                            </tr>;
+                        })}</tbody>
+                    </table></div>}
+                </div></div>
+            </>);
+        }
+
+function SickDaysDashboard() {
             const [sickTab, setSickTab] = useState('drivers');
             const [search, setSearch] = useState('');
             const [page, setPage] = useState(0);
