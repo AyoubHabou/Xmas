@@ -1029,7 +1029,7 @@
             const [editingCell, setEditingCell] = useState(null);
             const [data, setData] = useState(B620_DATA_INIT);
             const [page, setPage] = useState(0);
-            const PER_PAGE = 999;
+            const PER_PAGE = 15;
 
             const now = new Date();
             let expiredCount = 0, warningCount = 0;
@@ -1255,9 +1255,9 @@ const SICK_DAYS_OFFICE = [{"name": "Yannick", "startDate": "2005-04-11", "carry2
                         <thead><tr>
                             <th style={{minWidth:180}}>Employee</th>
                             <th style={{textAlign:'center',width:90}}>Start Date</th>
-                            <th style={{textAlign:'center',width:65}}>Carry \'25</th>
-                            <th style={{textAlign:'center',width:65}}>Earned \'26</th>
-                            <th style={{textAlign:'center',width:65}}>Used \'26</th>
+                            <th style={{textAlign:'center',width:65}}>Carry '25</th>
+                            <th style={{textAlign:'center',width:65}}>Earned '26</th>
+                            <th style={{textAlign:'center',width:65}}>Used '26</th>
                             <th style={{textAlign:'center',width:80}}>Balance</th>
                             <th style={{textAlign:'center',width:65}}>Cap</th>
                             <th style={{textAlign:'center',width:100}}>Actions</th>
@@ -1290,84 +1290,7 @@ const SICK_DAYS_OFFICE = [{"name": "Yannick", "startDate": "2005-04-11", "carry2
             </>);
         }
 
-function SickDaysDashboard() {
-            const [sickTab, setSickTab] = useState('drivers');
-            const [search, setSearch] = useState('');
-            const [page, setPage] = useState(0);
-            const PER_PAGE = 10;
-            const dataMap = {drivers: SICK_DAYS_DRIVERS, mechanics: SICK_DAYS_MECHANICS, office: SICK_DAYS_OFFICE};
-            const allData = dataMap[sickTab] || [];
-
-            let filtered = allData;
-            if (search) filtered = filtered.filter(e => e.name.toLowerCase().includes(search.toLowerCase()));
-
-            const totalUsed = filtered.reduce((s,e) => s + e.used2026, 0);
-            const lowBalance = filtered.filter(e => e.balance <= 2).length;
-            const totalPages = Math.ceil(filtered.length / PER_PAGE);
-            const paged = filtered.slice(page * PER_PAGE, (page+1) * PER_PAGE);
-
-            return (<>
-                <div className="page-header"><div><h1>🤒 Sick Days Tracker — 2026</h1><div className="page-header-sub">Government sick leave system · 10 days/year cap</div></div></div>
-
-                <div style={{display:'flex',gap:'0.375rem',marginBottom:'0.625rem'}}>
-                    {[{k:'drivers',l:'🚛 Drivers',c:SICK_DAYS_DRIVERS.length},{k:'mechanics',l:'🔧 Mechanics',c:SICK_DAYS_MECHANICS.length},{k:'office',l:'🏢 Office',c:SICK_DAYS_OFFICE.length}].map(t =>
-                        <button key={t.k} className={`btn ${sickTab===t.k?'btn-primary':'btn-outline'}`} onClick={()=>{setSickTab(t.k);setPage(0);setSearch('');}}>{t.l} ({t.c})</button>
-                    )}
-                </div>
-
-                <div className="stats-row stats-row-3">
-                    <div className="stat-card"><div className="stat-val" style={{color:'var(--primary)'}}>{filtered.length}</div><div className="stat-label">Employees</div></div>
-                    <div className="stat-card"><div className="stat-val" style={{color:'var(--warning)'}}>{totalUsed}</div><div className="stat-label">Total Days Used (2026)</div></div>
-                    <div className="stat-card"><div className="stat-val" style={{color:lowBalance>0?'var(--danger)':'var(--success)'}}>{lowBalance}</div><div className="stat-label">Low Balance (≤2 days)</div></div>
-                </div>
-
-                <div className="card">
-                    <div className="card-header" style={{justifyContent:'space-between'}}>
-                        <input className="dips-search" placeholder="🔍 Search name..." value={search} onChange={e=>{setSearch(e.target.value);setPage(0);}} style={{width:220}} />
-                        <span style={{fontSize:'0.5625rem',color:'var(--text-tertiary)'}}>Carry Over 2025 + Earned 2026 - Used 2026 = Current Balance (cap 10/yr)</span>
-                    </div>
-                    <div className="card-body" style={{padding:0}}>
-                        {filtered.length === 0 ? <div className="empty-state"><div className="empty-icon">📋</div><div className="empty-text">{allData.length === 0 ? 'No data yet for this category' : 'No results'}</div></div> :
-                        <table className="data-table">
-                            <thead><tr>
-                                <th style={{minWidth:180}}>Employee</th>
-                                <th style={{textAlign:'center',width:90}}>Start Date</th>
-                                <th style={{textAlign:'center',width:70}}>Carry Over '25</th>
-                                <th style={{textAlign:'center',width:70}}>Earned '26</th>
-                                <th style={{textAlign:'center',width:70}}>Used '26</th>
-                                <th style={{textAlign:'center',width:90}}>Balance</th>
-                                <th style={{textAlign:'center',width:90}}>Yearly Cap</th>
-                            </tr></thead>
-                            <tbody>{paged.map(e => {
-                                const pct = Math.round((e.balance / 10) * 100);
-                                const barColor = e.balance <= 0 ? '#DC2626' : e.balance <= 2 ? '#D97706' : e.balance <= 5 ? '#2563EB' : '#16A34A';
-                                return <tr key={e.name}>
-                                    <td style={{fontWeight:600}}>{e.balance <= 2 && <span className="badge-dot" style={{background:e.balance<=0?'#DC2626':'#D97706',marginRight:6}}></span>}{e.name}</td>
-                                    <td style={{textAlign:'center',color:'var(--text-tertiary)',fontSize:'0.625rem'}}>{e.startDate}</td>
-                                    <td style={{textAlign:'center',fontWeight:600}}>{e.carry2025}</td>
-                                    <td style={{textAlign:'center',fontWeight:600,color:'var(--success)'}}>{e.earned2026}</td>
-                                    <td style={{textAlign:'center',fontWeight:700,color:e.used2026>0?'var(--danger)':'var(--text-tertiary)'}}>{e.used2026}</td>
-                                    <td style={{textAlign:'center'}}>
-                                        <div style={{fontWeight:700,fontSize:'0.8125rem',color:barColor}}>{e.balance}</div>
-                                        <div className="sick-bar"><div className="sick-bar-fill" style={{width:pct+'%',background:barColor}}></div></div>
-                                    </td>
-                                    <td style={{textAlign:'center',fontWeight:600,color:'var(--text-secondary)'}}>{e.remaining}/10</td>
-                                </tr>;
-                            })}</tbody>
-                        </table>}
-                        {totalPages > 1 && <div className="pagination">
-                            <button className="page-btn" disabled={page===0} onClick={()=>setPage(p=>p-1)}>◀</button>
-                            {Array.from({length:totalPages},(_,i)=><button key={i} className={`page-btn ${page===i?'active':''}`} onClick={()=>setPage(i)}>{i+1}</button>)}
-                            <button className="page-btn" disabled={page>=totalPages-1} onClick={()=>setPage(p=>p+1)}>▶</button>
-                            <span className="page-info">{page*PER_PAGE+1}–{Math.min((page+1)*PER_PAGE,filtered.length)} of {filtered.length}</span>
-                        </div>}
-                    </div>
-                </div>
-            </>);
-        }
-
-
-        function DispatchSystem({ activePage }) {
+function DispatchSystem({ activePage }) {
             const activeTab = activePage;
             const [driverName, setDriverName] = useState('');
             const [truckNumber, setTruckNumber] = useState('');
