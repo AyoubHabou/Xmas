@@ -8,49 +8,53 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black:   #0d0d0d;
-    --yellow:  #FFD000;
-    --yellow2: #FFA500;
-    --white:   #F5F0E8;
-    --grey:    #1a1a1a;
-    --grey2:   #2a2a2a;
-    --grey3:   #3a3a3a;
-    --red:     #E63232;
-    --green:   #2ECC71;
-    --text:    #c8c0b0;
+    --bg:        #faf9f7;
+    --white:     #ffffff;
+    --navy:      #1F3864;
+    --blue:      #1a4fad;
+    --light-blue:#e8f0fe;
+    --yellow:    #FFD000;
+    --yellow-bg: #fff8e1;
+    --orange:    #C55A11;
+    --orange-bg: #fce4d6;
+    --green:     #1a8a4a;
+    --green-bg:  #e6f9ef;
+    --red:       #9C0006;
+    --red-bg:    #FFC7CE;
+    --border:    #e0ddd6;
+    --grey:      #f0ede6;
+    --text:      #111111;
+    --text-mid:  #555555;
+    --text-light:#888888;
   }
 
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
   body {
-    background: var(--black);
-    color: var(--white);
+    background: var(--bg);
+    color: var(--text);
     font-family: 'Barlow', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
   }
 
-  /* diagonal stripe background */
+  /* subtle dot grid pattern */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background: repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 40px,
-      rgba(255,208,0,0.018) 40px,
-      rgba(255,208,0,0.018) 42px
-    );
+    background-image: radial-gradient(circle, #c8c0b0 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.25;
     pointer-events: none;
     z-index: 0;
   }
 
-  .app { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 0 0 40px; }
+  .app { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 0 0 48px; }
 
   /* ── HEADER ── */
   .header {
-    background: var(--yellow);
+    background: var(--navy);
     padding: 18px 20px 16px;
     display: flex;
     align-items: center;
@@ -58,10 +62,11 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
   }
   .header-icon {
     width: 42px; height: 42px;
-    background: var(--black);
+    background: var(--yellow);
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
@@ -71,14 +76,14 @@
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 22px;
     font-weight: 900;
-    color: var(--black);
+    color: var(--white);
     letter-spacing: 0.5px;
     line-height: 1;
   }
   .header-sub {
     font-size: 11px;
     font-weight: 600;
-    color: rgba(0,0,0,0.55);
+    color: rgba(255,255,255,0.5);
     letter-spacing: 1px;
     text-transform: uppercase;
     margin-top: 3px;
@@ -93,7 +98,7 @@
     font-weight: 700;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: var(--yellow);
+    color: var(--blue);
     margin-bottom: 8px;
     display: flex;
     align-items: center;
@@ -103,12 +108,12 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: var(--grey3);
+    background: var(--border);
   }
   .step-num {
     width: 20px; height: 20px;
-    background: var(--yellow);
-    color: var(--black);
+    background: var(--navy);
+    color: var(--yellow);
     border-radius: 50%;
     font-size: 11px;
     font-weight: 900;
@@ -120,21 +125,22 @@
   .driver-search-wrap { position: relative; margin-bottom: 10px; }
   .driver-search {
     width: 100%;
-    background: var(--grey2);
-    border: 2px solid var(--grey3);
+    background: var(--white);
+    border: 2px solid var(--border);
     border-radius: 10px;
     padding: 12px 14px 12px 40px;
-    color: var(--white);
+    color: var(--text);
     font-family: 'Barlow', sans-serif;
     font-size: 15px;
     outline: none;
     transition: border-color 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
-  .driver-search:focus { border-color: var(--yellow); }
-  .driver-search::placeholder { color: #555; }
+  .driver-search:focus { border-color: var(--blue); }
+  .driver-search::placeholder { color: var(--text-light); }
   .search-icon {
     position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-    color: #555; width: 18px; height: 18px;
+    color: var(--text-light); width: 18px; height: 18px;
     pointer-events: none;
   }
 
@@ -148,14 +154,14 @@
   }
   .driver-grid::-webkit-scrollbar { width: 4px; }
   .driver-grid::-webkit-scrollbar-track { background: transparent; }
-  .driver-grid::-webkit-scrollbar-thumb { background: var(--grey3); border-radius: 2px; }
+  .driver-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
   .driver-btn {
-    background: var(--grey2);
-    border: 2px solid var(--grey3);
+    background: var(--white);
+    border: 2px solid var(--border);
     border-radius: 10px;
     padding: 11px 10px;
-    color: var(--text);
+    color: var(--text-mid);
     font-family: 'Barlow', sans-serif;
     font-size: 13px;
     font-weight: 500;
@@ -164,12 +170,13 @@
     transition: all 0.15s;
     line-height: 1.2;
     word-break: break-word;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
   .driver-btn:active { transform: scale(0.97); }
   .driver-btn.selected {
-    background: var(--yellow);
-    border-color: var(--yellow);
-    color: var(--black);
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--yellow);
     font-weight: 700;
   }
 
@@ -177,20 +184,25 @@
   .items-list { display: flex; flex-direction: column; gap: 8px; }
 
   .item-row {
-    background: var(--grey2);
-    border: 2px solid var(--grey3);
+    background: var(--white);
+    border: 2px solid var(--border);
     border-radius: 12px;
     padding: 14px;
     display: flex;
     align-items: center;
     gap: 12px;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
-  .item-row.has-qty { border-color: var(--yellow); }
+  .item-row.has-qty {
+    border-color: var(--blue);
+    box-shadow: 0 2px 8px rgba(26,79,173,0.12);
+    background: var(--light-blue);
+  }
 
   .item-icon {
     width: 38px; height: 38px;
-    background: var(--grey3);
+    background: var(--grey);
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
@@ -200,29 +212,24 @@
     flex: 1;
     font-size: 14px;
     font-weight: 600;
-    color: var(--white);
+    color: var(--text);
     line-height: 1.2;
   }
-  .item-stock {
-    font-size: 11px;
-    color: #555;
-    font-weight: 400;
-    margin-top: 2px;
-  }
+
   .qty-ctrl {
     display: flex;
     align-items: center;
-    gap: 0;
-    background: var(--grey3);
+    background: var(--grey);
     border-radius: 8px;
     overflow: hidden;
     flex-shrink: 0;
+    border: 1px solid var(--border);
   }
   .qty-btn {
     width: 36px; height: 36px;
     background: none;
     border: none;
-    color: var(--white);
+    color: var(--text-mid);
     font-size: 20px;
     font-weight: 700;
     cursor: pointer;
@@ -230,32 +237,33 @@
     transition: background 0.15s;
     line-height: 1;
   }
-  .qty-btn:active { background: var(--yellow); color: var(--black); }
+  .qty-btn:active { background: var(--navy); color: var(--yellow); }
   .qty-val {
     min-width: 28px;
     text-align: center;
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 18px;
     font-weight: 800;
-    color: var(--yellow);
+    color: var(--navy);
   }
+  .item-row.has-qty .qty-val { color: var(--blue); }
 
   /* ── DATE ── */
   .date-input {
     width: 100%;
-    background: var(--grey2);
-    border: 2px solid var(--grey3);
+    background: var(--white);
+    border: 2px solid var(--border);
     border-radius: 10px;
     padding: 14px;
-    color: var(--white);
+    color: var(--text);
     font-family: 'Barlow', sans-serif;
     font-size: 15px;
     font-weight: 500;
     outline: none;
     transition: border-color 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
-  .date-input:focus { border-color: var(--yellow); }
-  .date-input::-webkit-calendar-picker-indicator { filter: invert(0.6); }
+  .date-input:focus { border-color: var(--blue); }
 
   /* ── REASON ── */
   .reason-grid {
@@ -264,22 +272,23 @@
     gap: 8px;
   }
   .reason-btn {
-    background: var(--grey2);
-    border: 2px solid var(--grey3);
+    background: var(--white);
+    border: 2px solid var(--border);
     border-radius: 10px;
     padding: 12px 10px;
-    color: var(--text);
+    color: var(--text-mid);
     font-family: 'Barlow', sans-serif;
     font-size: 13px;
     font-weight: 600;
     text-align: center;
     cursor: pointer;
     transition: all 0.15s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
   .reason-btn:active { transform: scale(0.97); }
   .reason-btn.selected {
-    background: var(--grey);
-    border-color: var(--yellow);
+    background: var(--navy);
+    border-color: var(--navy);
     color: var(--yellow);
   }
 
@@ -287,7 +296,7 @@
   .submit-wrap { padding: 24px 16px 0; }
   .submit-btn {
     width: 100%;
-    background: var(--yellow);
+    background: var(--navy);
     border: none;
     border-radius: 12px;
     padding: 18px;
@@ -296,33 +305,30 @@
     font-weight: 900;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: var(--black);
+    color: var(--yellow);
     cursor: pointer;
     transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(31,56,100,0.3);
     position: relative;
     overflow: hidden;
   }
-  .submit-btn:active { transform: scale(0.98); }
+  .submit-btn:active { transform: scale(0.98); box-shadow: 0 2px 6px rgba(31,56,100,0.2); }
   .submit-btn:disabled {
-    background: var(--grey3);
-    color: #555;
+    background: var(--border);
+    color: var(--text-light);
     cursor: not-allowed;
-  }
-  .submit-btn.loading::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.15);
+    box-shadow: none;
   }
 
   .validation-msg {
-    background: rgba(230,50,50,0.12);
+    background: var(--red-bg);
     border: 1px solid var(--red);
     border-radius: 8px;
     padding: 10px 14px;
     margin-top: 12px;
     font-size: 13px;
-    color: #ff8080;
+    color: var(--red);
+    font-weight: 600;
     display: none;
   }
   .validation-msg.show { display: block; }
@@ -332,7 +338,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    background: var(--black);
+    background: var(--bg);
     z-index: 999;
     flex-direction: column;
     align-items: center;
@@ -349,6 +355,7 @@
     display: flex; align-items: center; justify-content: center;
     margin-bottom: 24px;
     animation: pop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 8px 24px rgba(26,138,74,0.3);
   }
   @keyframes pop {
     from { transform: scale(0); opacity: 0; }
@@ -358,77 +365,76 @@
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 36px;
     font-weight: 900;
-    color: var(--white);
+    color: var(--navy);
     letter-spacing: 1px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   .success-sub {
     font-size: 15px;
-    color: var(--text);
+    color: var(--text-mid);
     line-height: 1.5;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     max-width: 280px;
   }
   .success-items {
-    background: var(--grey2);
+    background: var(--white);
+    border: 2px solid var(--border);
     border-radius: 12px;
     padding: 16px 20px;
     width: 100%;
     max-width: 340px;
     text-align: left;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .success-items-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 10px;
   }
   .success-item-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--grey3);
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
     font-size: 14px;
   }
   .success-item-row:last-child { border-bottom: none; }
-  .success-item-name { color: var(--white); }
+  .success-item-name { color: var(--text); font-weight: 500; }
   .success-item-qty {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 800;
     font-size: 16px;
-    color: var(--yellow);
+    color: var(--navy);
+    background: var(--yellow);
+    padding: 2px 10px;
+    border-radius: 20px;
   }
   .new-request-btn {
     background: none;
-    border: 2px solid var(--grey3);
+    border: 2px solid var(--border);
     border-radius: 10px;
     padding: 14px 32px;
-    color: var(--text);
+    color: var(--text-mid);
     font-family: 'Barlow', sans-serif;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
   }
-  .new-request-btn:active { border-color: var(--yellow); color: var(--yellow); }
+  .new-request-btn:active { border-color: var(--navy); color: var(--navy); }
 
-  /* ── CONFIG BANNER ── */
-  .config-banner {
-    background: rgba(255,165,0,0.12);
-    border: 1px solid rgba(255,165,0,0.4);
-    border-radius: 10px;
-    padding: 12px 14px;
-    margin: 16px 16px 0;
-    font-size: 12px;
-    color: #ffb347;
-    line-height: 1.5;
-  }
-  .config-banner strong { color: var(--yellow2); display: block; margin-bottom: 3px; }
-
-  .divider { height: 1px; background: var(--grey2); margin: 20px 16px 0; }
+  .divider { height: 1px; background: var(--border); margin: 20px 16px 0; }
 </style>
 </head>
 <body>
 
-
 <div class="app">
   <div class="header">
     <div class="header-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#FFD000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1F3864" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
         <rect x="9" y="3" width="6" height="4" rx="1"/>
         <path d="M9 12h6M9 16h4"/>
@@ -493,14 +499,12 @@
     </svg>
   </div>
   <div class="success-title">Request Sent!</div>
-  <div class="success-sub" id="successSub">Your request has been logged and your supervisor will be notified.</div>
+  <div class="success-sub" id="successSub">Your request has been logged.</div>
   <div class="success-items" id="successItems"></div>
   <button class="new-request-btn" onclick="resetForm()">Submit Another Request</button>
 </div>
 
 <script>
-// ── CONFIG ────────────────────────────────────────────────────────────────────
-// REPLACE THIS with your Google Apps Script Web App URL
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3E72EZpz55krg8eKehiTYicD8sf_VYNbCU6xgDHKqeRzfWQgC2DkmuqULtLCQ-A0N/exec";
 
 const DRIVERS = [
@@ -534,27 +538,21 @@ const ITEMS = [
 
 const REASONS = ["Worn Out","Damaged/Broken","Lost Item","New Driver","Replacement","Other"];
 
-// ── STATE ─────────────────────────────────────────────────────────────────────
 let selectedDriver = null;
 let quantities = {};
 let selectedReason = null;
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
 function init() {
-  // Set default date to today
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('dateInput').value = today;
   document.getElementById('dateInput').min = today;
-
   renderDrivers(DRIVERS);
   renderItems();
   renderReasons();
 }
 
-// ── DRIVERS ───────────────────────────────────────────────────────────────────
 function renderDrivers(list) {
-  const grid = document.getElementById('driverGrid');
-  grid.innerHTML = list.map(d => `
+  document.getElementById('driverGrid').innerHTML = list.map(d => `
     <button class="driver-btn ${d === selectedDriver ? 'selected' : ''}"
             onclick="selectDriver('${d.replace(/'/g, "\\'")}')">
       ${d}
@@ -572,16 +570,13 @@ function selectDriver(name) {
   selectedDriver = name;
   document.getElementById('driverSearch').value = name;
   renderDrivers([name]);
-  // Small scroll to next section
   setTimeout(() => {
     document.getElementById('itemsList').scrollIntoView({behavior:'smooth', block:'start'});
   }, 150);
 }
 
-// ── ITEMS ─────────────────────────────────────────────────────────────────────
 function renderItems() {
-  const list = document.getElementById('itemsList');
-  list.innerHTML = ITEMS.map((item, i) => `
+  document.getElementById('itemsList').innerHTML = ITEMS.map((item, i) => `
     <div class="item-row ${(quantities[item.name]||0) > 0 ? 'has-qty' : ''}" id="itemrow-${i}">
       <div class="item-icon">${item.icon}</div>
       <div style="flex:1">
@@ -596,15 +591,12 @@ function renderItems() {
 }
 
 function changeQty(itemName, idx, delta) {
-  const current = quantities[itemName] || 0;
-  const newVal = Math.max(0, Math.min(20, current + delta));
+  const newVal = Math.max(0, Math.min(20, (quantities[itemName] || 0) + delta));
   quantities[itemName] = newVal;
   document.getElementById(`qty-${idx}`).textContent = newVal;
-  const row = document.getElementById(`itemrow-${idx}`);
-  row.classList.toggle('has-qty', newVal > 0);
+  document.getElementById(`itemrow-${idx}`).classList.toggle('has-qty', newVal > 0);
 }
 
-// ── REASONS ───────────────────────────────────────────────────────────────────
 function renderReasons() {
   document.getElementById('reasonGrid').innerHTML = REASONS.map(r => `
     <button class="reason-btn ${r === selectedReason ? 'selected' : ''}"
@@ -618,11 +610,9 @@ function selectReason(r) {
   renderReasons();
 }
 
-// ── SUBMIT ────────────────────────────────────────────────────────────────────
 function validate() {
   if (!selectedDriver) return "Please select your name.";
-  const items = Object.entries(quantities).filter(([,q]) => q > 0);
-  if (items.length === 0) return "Please select at least one item and quantity.";
+  if (!Object.values(quantities).some(q => q > 0)) return "Please select at least one item and quantity.";
   if (!selectedReason) return "Please select a reason.";
   return null;
 }
@@ -630,44 +620,25 @@ function validate() {
 async function submitRequest() {
   const err = validate();
   const msg = document.getElementById('validationMsg');
-  if (err) {
-    msg.textContent = err;
-    msg.classList.add('show');
-    return;
-  }
+  if (err) { msg.textContent = err; msg.classList.add('show'); return; }
   msg.classList.remove('show');
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
   btn.textContent = "Submitting...";
-  btn.classList.add('loading');
 
   const items = Object.entries(quantities).filter(([,q]) => q > 0);
-  const dateVal = document.getElementById('dateInput').value;
-  const now = new Date().toISOString().split('T')[0];
-
   const payload = {
     driver: selectedDriver,
-    dateTaken: now,
-    dateNeededBy: dateVal,
+    dateTaken: new Date().toISOString().split('T')[0],
+    dateNeededBy: document.getElementById('dateInput').value,
     reason: selectedReason,
     items: items.map(([name, qty]) => ({ name, qty }))
   };
 
-  // If no script URL set, show demo success
-  if (SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL") {
-    await new Promise(r => setTimeout(r, 1000));
-    showSuccess(payload);
-    btn.disabled = false;
-    btn.textContent = "Submit Request";
-    btn.classList.remove('loading');
-    return;
-  }
-
   try {
     await fetch(SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
+      method: "POST", mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
@@ -679,36 +650,29 @@ async function submitRequest() {
 
   btn.disabled = false;
   btn.textContent = "Submit Request";
-  btn.classList.remove('loading');
 }
 
 function showSuccess(payload) {
-  const screen = document.getElementById('successScreen');
-  const itemsDiv = document.getElementById('successItems');
-  const sub = document.getElementById('successSub');
+  document.getElementById('successSub').textContent =
+    `Logged for ${payload.driver} — needed by ${payload.dateNeededBy}.`;
 
-  sub.textContent = `Request logged for ${payload.driver} — needed by ${payload.dateNeededBy}.`;
+  document.getElementById('successItems').innerHTML =
+    `<div class="success-items-title">Items Requested</div>` +
+    payload.items.map(i => `
+      <div class="success-item-row">
+        <span class="success-item-name">${i.name}</span>
+        <span class="success-item-qty">×${i.qty}</span>
+      </div>`).join('');
 
-  itemsDiv.innerHTML = payload.items.map(i => `
-    <div class="success-item-row">
-      <span class="success-item-name">${i.name}</span>
-      <span class="success-item-qty">×${i.qty}</span>
-    </div>`).join('');
-
-  screen.classList.add('show');
+  document.getElementById('successScreen').classList.add('show');
 }
 
 function resetForm() {
-  selectedDriver = null;
-  quantities = {};
-  selectedReason = null;
+  selectedDriver = null; quantities = {}; selectedReason = null;
   document.getElementById('driverSearch').value = '';
   document.getElementById('successScreen').classList.remove('show');
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('dateInput').value = today;
-  renderDrivers(DRIVERS);
-  renderItems();
-  renderReasons();
+  document.getElementById('dateInput').value = new Date().toISOString().split('T')[0];
+  renderDrivers(DRIVERS); renderItems(); renderReasons();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
