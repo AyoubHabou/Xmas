@@ -49,7 +49,6 @@
     z-index: 0;
   }
 
-  /* ── LAYOUT WRAPPER — desktop-friendly ── */
   .page-wrap {
     position: relative;
     z-index: 1;
@@ -59,7 +58,6 @@
     align-items: center;
   }
 
-  /* sticky header full-width */
   .header {
     width: 100%;
     background: var(--navy);
@@ -97,14 +95,12 @@
     margin-top: 3px;
   }
 
-  /* main form card */
   .app {
     width: 100%;
     max-width: 780px;
     padding: 32px 24px 64px;
   }
 
-  /* two-column layout for desktop */
   .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -115,7 +111,6 @@
   .col-right { grid-column: 2; }
   .col-full  { grid-column: 1 / -1; }
 
-  /* ── STEP LABELS ── */
   .step-label {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 11px;
@@ -146,7 +141,7 @@
     flex-shrink: 0;
   }
 
-  /* ── DRIVER ── */
+  /* DRIVER */
   .driver-search-wrap { position: relative; margin-bottom: 10px; }
   .driver-search {
     width: 100%;
@@ -204,7 +199,6 @@
     color: var(--yellow);
     font-weight: 700;
   }
-  /* "Other" button gets a distinct look */
   .driver-btn.other-btn {
     border-style: dashed;
     color: var(--orange);
@@ -220,11 +214,7 @@
     font-style: normal;
   }
 
-  /* other name input */
-  .other-name-wrap {
-    margin-top: 8px;
-    display: none;
-  }
+  .other-name-wrap { margin-top: 8px; display: none; }
   .other-name-wrap.show { display: block; }
   .other-name-input {
     width: 100%;
@@ -242,7 +232,7 @@
   .other-name-input:focus { border-color: var(--navy); }
   .other-name-input::placeholder { color: var(--text-light); font-style: italic; }
 
-  /* ── ITEMS ── */
+  /* ITEMS */
   .items-list { display: flex; flex-direction: column; gap: 7px; }
 
   .item-row {
@@ -260,6 +250,18 @@
     border-color: var(--blue);
     box-shadow: 0 2px 8px rgba(26,79,173,0.12);
     background: var(--light-blue);
+  }
+  .item-row.other-item-row {
+    border-style: dashed;
+    border-color: var(--orange);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .item-row.other-item-row.has-qty {
+    border-style: solid;
+    border-color: var(--orange);
+    background: var(--orange-bg);
   }
   .item-icon {
     width: 36px; height: 36px;
@@ -309,7 +311,27 @@
   }
   .item-row.has-qty .qty-val { color: var(--blue); }
 
-  /* ── DATE ── */
+  /* Other item text input inside the row */
+  .other-item-top { display: flex; align-items: center; gap: 12px; }
+  .other-item-input-wrap { display: none; }
+  .other-item-input-wrap.show { display: block; }
+  .other-item-input {
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--orange);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .other-item-input:focus { border-color: var(--navy); border-width: 2px; }
+  .other-item-input::placeholder { color: var(--text-light); font-style: italic; }
+
+  /* DATE */
   .date-input {
     width: 100%;
     background: var(--white);
@@ -326,7 +348,7 @@
   }
   .date-input:focus { border-color: var(--blue); }
 
-  /* ── REASON ── */
+  /* REASON */
   .reason-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -353,7 +375,7 @@
     color: var(--yellow);
   }
 
-  /* ── SUBMIT ── */
+  /* SUBMIT */
   .submit-wrap { margin-top: 32px; }
   .submit-btn {
     width: 100%;
@@ -392,7 +414,7 @@
   }
   .validation-msg.show { display: block; }
 
-  /* ── SUCCESS SCREEN ── */
+  /* SUCCESS */
   .success-screen {
     display: none;
     position: fixed;
@@ -484,7 +506,6 @@
   }
   .new-request-btn:hover { border-color: var(--navy); color: var(--navy); }
 
-  /* ── RESPONSIVE — collapse to single column on narrow screens ── */
   @media (max-width: 620px) {
     .form-grid { grid-template-columns: 1fr; }
     .col-left, .col-right, .col-full { grid-column: 1; }
@@ -513,10 +534,7 @@
   <div class="app">
     <div class="form-grid">
 
-      <!-- LEFT COLUMN: Driver + Date + Reason -->
       <div class="col-left">
-
-        <!-- STEP 1: DRIVER -->
         <div class="step-label"><span class="step-num">1</span> Your Name</div>
         <div class="driver-search-wrap">
           <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -525,32 +543,24 @@
           <input type="text" class="driver-search" id="driverSearch" placeholder="Search your name..." oninput="filterDrivers(this.value)" autocomplete="off">
         </div>
         <div class="driver-grid" id="driverGrid"></div>
-        <!-- Other name input -->
         <div class="other-name-wrap" id="otherNameWrap">
           <input type="text" class="other-name-input" id="otherNameInput" placeholder="Enter your full name..." autocomplete="off">
         </div>
 
-        <!-- STEP 3: DATE -->
         <div class="step-label"><span class="step-num">3</span> Date Needed By</div>
         <input type="date" class="date-input" id="dateInput">
 
-        <!-- STEP 4: REASON -->
         <div class="step-label"><span class="step-num">4</span> Reason</div>
         <div class="reason-grid" id="reasonGrid"></div>
-
       </div>
 
-      <!-- RIGHT COLUMN: Items -->
       <div class="col-right">
         <div class="step-label"><span class="step-num">2</span> Items Needed</div>
         <div class="items-list" id="itemsList"></div>
       </div>
 
-      <!-- SUBMIT — full width -->
       <div class="col-full submit-wrap">
-        <button class="submit-btn" id="submitBtn" onclick="submitRequest()">
-          Submit Request
-        </button>
+        <button class="submit-btn" id="submitBtn" onclick="submitRequest()">Submit Request</button>
         <div class="validation-msg" id="validationMsg"></div>
       </div>
 
@@ -558,7 +568,6 @@
   </div>
 </div>
 
-<!-- SUCCESS SCREEN -->
 <div class="success-screen" id="successScreen">
   <div class="success-icon">
     <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -605,9 +614,11 @@ const ITEMS = [
 
 const REASONS = ["Worn Out","Damaged/Broken","Lost Item","New Driver","Replacement","Other"];
 
+const OTHER_ITEM_KEY = "__other__";
+
 let selectedDriver = null;
 let isOtherDriver  = false;
-let quantities = {};
+let quantities     = {};
 let selectedReason = null;
 
 function init() {
@@ -619,25 +630,17 @@ function init() {
   renderReasons();
 }
 
+/* ── DRIVERS ── */
 function renderDrivers(list) {
-  const grid = document.getElementById('driverGrid');
-  const btns = list.map(d => `
-    <button class="driver-btn ${d === selectedDriver && !isOtherDriver ? 'selected' : ''}"
-            onclick="selectDriver('${d.replace(/'/g, "\\'")}')">
-      ${d}
-    </button>`).join('');
-
-  // Always add "Other" at the end
-  const otherBtn = `<button class="driver-btn other-btn ${isOtherDriver ? 'selected' : ''}"
-          onclick="selectOther()">✏️ Other / Not Listed</button>`;
-
-  grid.innerHTML = btns + otherBtn;
+  const btns = list.map(d =>
+    '<button class="driver-btn ' + (d === selectedDriver && !isOtherDriver ? 'selected' : '') + '" onclick="selectDriver(\'' + d.replace(/'/g, "\\'") + '\')">' + d + '</button>'
+  ).join('');
+  const otherBtn = '<button class="driver-btn other-btn ' + (isOtherDriver ? 'selected' : '') + '" onclick="selectOther()">&#9998; Other / Not Listed</button>';
+  document.getElementById('driverGrid').innerHTML = btns + otherBtn;
 }
 
 function filterDrivers(query) {
-  const filtered = query
-    ? DRIVERS.filter(d => d.toLowerCase().includes(query.toLowerCase()))
-    : DRIVERS;
+  const filtered = query ? DRIVERS.filter(d => d.toLowerCase().includes(query.toLowerCase())) : DRIVERS;
   renderDrivers(filtered);
 }
 
@@ -647,9 +650,7 @@ function selectDriver(name) {
   document.getElementById('driverSearch').value = name;
   document.getElementById('otherNameWrap').classList.remove('show');
   renderDrivers([name]);
-  setTimeout(() => {
-    document.getElementById('itemsList').scrollIntoView({behavior:'smooth', block:'start'});
-  }, 150);
+  setTimeout(() => document.getElementById('itemsList').scrollIntoView({behavior:'smooth',block:'start'}), 150);
 }
 
 function selectOther() {
@@ -658,60 +659,92 @@ function selectOther() {
   document.getElementById('driverSearch').value = '';
   document.getElementById('otherNameWrap').classList.add('show');
   document.getElementById('otherNameInput').focus();
-  renderDrivers([]); // show only Other button
+  renderDrivers([]);
 }
 
+/* ── ITEMS ── */
 function renderItems() {
-  document.getElementById('itemsList').innerHTML = ITEMS.map((item, i) => `
-    <div class="item-row ${(quantities[item.name]||0) > 0 ? 'has-qty' : ''}" id="itemrow-${i}">
-      <div class="item-icon">${item.icon}</div>
-      <div style="flex:1">
-        <div class="item-name">${item.name}</div>
-      </div>
-      <div class="qty-ctrl">
-        <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g,"\\'")}', ${i}, -1)">−</button>
-        <div class="qty-val" id="qty-${i}">${quantities[item.name] || 0}</div>
-        <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g,"\\'")}', ${i}, 1)">+</button>
-      </div>
-    </div>`).join('');
+  const regularRows = ITEMS.map((item, i) => {
+    const qty = quantities[item.name] || 0;
+    return '<div class="item-row ' + (qty > 0 ? 'has-qty' : '') + '" id="itemrow-' + i + '">' +
+      '<div class="item-icon">' + item.icon + '</div>' +
+      '<div style="flex:1"><div class="item-name">' + item.name + '</div></div>' +
+      '<div class="qty-ctrl">' +
+        '<button class="qty-btn" onclick="changeQty(\'' + item.name.replace(/'/g,"\\'") + '\',' + i + ',-1)">&#8722;</button>' +
+        '<div class="qty-val" id="qty-' + i + '">' + qty + '</div>' +
+        '<button class="qty-btn" onclick="changeQty(\'' + item.name.replace(/'/g,"\\'") + '\',' + i + ',1)">+</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  const otherQty = quantities[OTHER_ITEM_KEY] || 0;
+  const otherRow =
+    '<div class="item-row other-item-row ' + (otherQty > 0 ? 'has-qty' : '') + '" id="itemrow-other">' +
+      '<div class="other-item-top">' +
+        '<div class="item-icon">&#9998;</div>' +
+        '<div style="flex:1"><div class="item-name" style="color:var(--orange)">Other Item</div></div>' +
+        '<div class="qty-ctrl">' +
+          '<button class="qty-btn" onclick="changeOtherQty(-1)">&#8722;</button>' +
+          '<div class="qty-val" id="qty-other">' + otherQty + '</div>' +
+          '<button class="qty-btn" onclick="changeOtherQty(1)">+</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="other-item-input-wrap ' + (otherQty > 0 ? 'show' : '') + '" id="otherItemInputWrap">' +
+        '<input type="text" class="other-item-input" id="otherItemInput" placeholder="Describe the item..." autocomplete="off">' +
+      '</div>' +
+    '</div>';
+
+  document.getElementById('itemsList').innerHTML = regularRows + otherRow;
 }
 
 function changeQty(itemName, idx, delta) {
   const newVal = Math.max(0, Math.min(20, (quantities[itemName] || 0) + delta));
   quantities[itemName] = newVal;
-  document.getElementById(`qty-${idx}`).textContent = newVal;
-  document.getElementById(`itemrow-${idx}`).classList.toggle('has-qty', newVal > 0);
+  document.getElementById('qty-' + idx).textContent = newVal;
+  document.getElementById('itemrow-' + idx).classList.toggle('has-qty', newVal > 0);
 }
 
+function changeOtherQty(delta) {
+  const newVal = Math.max(0, Math.min(20, (quantities[OTHER_ITEM_KEY] || 0) + delta));
+  quantities[OTHER_ITEM_KEY] = newVal;
+  document.getElementById('qty-other').textContent = newVal;
+  document.getElementById('itemrow-other').classList.toggle('has-qty', newVal > 0);
+  document.getElementById('otherItemInputWrap').classList.toggle('show', newVal > 0);
+  if (newVal > 0) document.getElementById('otherItemInput').focus();
+}
+
+/* ── REASONS ── */
 function renderReasons() {
-  document.getElementById('reasonGrid').innerHTML = REASONS.map(r => `
-    <button class="reason-btn ${r === selectedReason ? 'selected' : ''}"
-            onclick="selectReason('${r}')">
-      ${r}
-    </button>`).join('');
+  document.getElementById('reasonGrid').innerHTML = REASONS.map(r =>
+    '<button class="reason-btn ' + (r === selectedReason ? 'selected' : '') + '" onclick="selectReason(\'' + r + '\')">' + r + '</button>'
+  ).join('');
 }
 
-function selectReason(r) {
-  selectedReason = r;
-  renderReasons();
-}
+function selectReason(r) { selectedReason = r; renderReasons(); }
 
+/* ── HELPERS ── */
 function getDriverName() {
-  if (isOtherDriver) {
-    return document.getElementById('otherNameInput').value.trim();
-  }
+  if (isOtherDriver) return document.getElementById('otherNameInput').value.trim();
   return selectedDriver;
 }
 
 function validate() {
   const driver = getDriverName();
-  if (!driver && !isOtherDriver) return "Please select your name.";
-  if (isOtherDriver && !driver) return "Please enter your name in the 'Other' field.";
-  if (!Object.values(quantities).some(q => q > 0)) return "Please select at least one item and quantity.";
+  if (!driver) return "Please select your name.";
+  if (isOtherDriver && !driver) return "Please enter your name in the Other field.";
+
+  // Build items including other
+  const hasRegular = Object.entries(quantities).some(([k,q]) => k !== OTHER_ITEM_KEY && q > 0);
+  const otherQty   = quantities[OTHER_ITEM_KEY] || 0;
+  const otherName  = (document.getElementById('otherItemInput') || {}).value || '';
+  if (otherQty > 0 && !otherName.trim()) return "Please describe the 'Other' item.";
+  if (!hasRegular && otherQty === 0) return "Please select at least one item and quantity.";
+
   if (!selectedReason) return "Please select a reason.";
   return null;
 }
 
+/* ── SUBMIT ── */
 async function submitRequest() {
   const err = validate();
   const msg = document.getElementById('validationMsg');
@@ -722,13 +755,23 @@ async function submitRequest() {
   btn.disabled = true;
   btn.textContent = "Submitting...";
 
-  const items = Object.entries(quantities).filter(([,q]) => q > 0);
+  // Build items array
+  const items = Object.entries(quantities)
+    .filter(([k, q]) => q > 0 && k !== OTHER_ITEM_KEY)
+    .map(([name, qty]) => ({ name, qty }));
+
+  const otherQty = quantities[OTHER_ITEM_KEY] || 0;
+  if (otherQty > 0) {
+    const otherName = document.getElementById('otherItemInput').value.trim();
+    items.push({ name: 'Other: ' + otherName, qty: otherQty });
+  }
+
   const payload = {
     driver: getDriverName(),
     dateTaken: new Date().toISOString().split('T')[0],
     dateNeededBy: document.getElementById('dateInput').value,
     reason: selectedReason,
-    items: items.map(([name, qty]) => ({ name, qty }))
+    items
   };
 
   try {
@@ -749,16 +792,13 @@ async function submitRequest() {
 
 function showSuccess(payload) {
   document.getElementById('successSub').textContent =
-    `Logged for ${payload.driver} — needed by ${payload.dateNeededBy}.`;
-
+    'Logged for ' + payload.driver + ' — needed by ' + payload.dateNeededBy + '.';
   document.getElementById('successItems').innerHTML =
-    `<div class="success-items-title">Items Requested</div>` +
-    payload.items.map(i => `
-      <div class="success-item-row">
-        <span class="success-item-name">${i.name}</span>
-        <span class="success-item-qty">×${i.qty}</span>
-      </div>`).join('');
-
+    '<div class="success-items-title">Items Requested</div>' +
+    payload.items.map(i =>
+      '<div class="success-item-row"><span class="success-item-name">' + i.name + '</span>' +
+      '<span class="success-item-qty">x' + i.qty + '</span></div>'
+    ).join('');
   document.getElementById('successScreen').classList.add('show');
 }
 
