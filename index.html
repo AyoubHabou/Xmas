@@ -1,682 +1,846 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Equipment Request</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Schooner — Equipment Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:        #faf9f7;
-    --white:     #ffffff;
-    --navy:      #1F3864;
-    --blue:      #1a4fad;
-    --light-blue:#e8f0fe;
-    --yellow:    #FFD000;
-    --yellow-bg: #fff8e1;
-    --orange:    #C55A11;
-    --orange-bg: #fce4d6;
-    --green:     #1a8a4a;
-    --green-bg:  #e6f9ef;
-    --red:       #9C0006;
-    --red-bg:    #FFC7CE;
-    --border:    #e0ddd6;
-    --grey:      #f0ede6;
-    --text:      #111111;
-    --text-mid:  #555555;
-    --text-light:#888888;
+    --navy: #1F3864; --blue: #1a4fad; --blue-light: #e8f0fe;
+    --yellow: #FFD000; --yellow-light: #fff8e1;
+    --orange: #C55A11; --orange-light: #fce4d6;
+    --green: #1a8a4a; --green-light: #e6f9ef;
+    --red: #9C0006; --red-light: #FFC7CE;
+    --white: #ffffff; --off-white: #f5f4f1; --grey: #e8e5df;
+    --text: #111111; --text-mid: #555555;
+    --radius: 8px; --shadow: 0 2px 12px rgba(0,0,0,0.08); --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
   }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Barlow', sans-serif; background: var(--off-white); color: var(--text); min-height: 100vh; }
 
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+  header {
+    background: var(--navy); padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px; position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; color: var(--white); letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; }
+  .logo span { color: var(--yellow); }
+  nav { display: flex; gap: 4px; }
+  nav button { background: transparent; border: none; color: rgba(255,255,255,0.65); font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 13px; padding: 8px 14px; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
+  nav button:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  nav button.active { background: var(--yellow); color: var(--navy); }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+  main { max-width: 1100px; margin: 0 auto; padding: 28px 20px; }
+  .page { display: none; }
+  .page.active { display: block; }
 
-  /* subtle dot grid pattern */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: radial-gradient(circle, #c8c0b0 1px, transparent 1px);
-    background-size: 24px 24px;
-    opacity: 0.25;
-    pointer-events: none;
-    z-index: 0;
-  }
+  .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px; }
+  .card-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; color: var(--navy); margin-bottom: 18px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
 
-  .app { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 0 0 48px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label { font-size: 12px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.5px; }
 
-  /* ── HEADER ── */
-  .header {
-    background: var(--navy);
-    padding: 18px 20px 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  select, input[type="text"], input[type="number"], input[type="date"], textarea {
+    font-family: 'Barlow', sans-serif; font-size: 14px; padding: 9px 12px;
+    border: 1.5px solid var(--grey); border-radius: var(--radius);
+    background: var(--white); color: var(--text); transition: border-color 0.15s; width: 100%;
   }
-  .header-icon {
-    width: 42px; height: 42px;
-    background: var(--yellow);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .header-icon svg { width: 24px; height: 24px; }
-  .header-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 22px;
-    font-weight: 900;
-    color: var(--white);
-    letter-spacing: 0.5px;
-    line-height: 1;
-  }
-  .header-sub {
-    font-size: 11px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-top: 3px;
-  }
+  select:focus, input:focus, textarea:focus { outline: none; border-color: var(--blue); }
 
-  /* ── SECTIONS ── */
-  .section { padding: 20px 16px 0; }
+  .btn { font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 14px; padding: 10px 20px; border: none; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 7px; letter-spacing: 0.2px; }
+  .btn-primary { background: var(--blue); color: #fff; }
+  .btn-primary:hover { background: var(--navy); }
+  .btn-success { background: var(--green); color: #fff; }
+  .btn-success:hover { filter: brightness(0.9); }
+  .btn-yellow { background: var(--yellow); color: var(--navy); }
+  .btn-yellow:hover { filter: brightness(0.95); }
+  .btn-danger { background: var(--red); color: #fff; }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+  .btn-outline { background: transparent; border: 1.5px solid var(--grey); color: var(--text-mid); }
+  .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
 
-  .step-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .step-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-  .step-num {
-    width: 20px; height: 20px;
-    background: var(--navy);
-    color: var(--yellow);
-    border-radius: 50%;
-    font-size: 11px;
-    font-weight: 900;
-    display: inline-flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
+  /* Item picker */
+  .item-picker { margin: 16px 0; }
+  .item-row { display: grid; grid-template-columns: 1fr 90px 36px; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--grey); }
+  .item-row:last-child { border-bottom: none; }
+  .item-name { font-size: 14px; font-weight: 500; }
+  .item-row input[type="number"] { text-align: center; padding: 7px 8px; }
+  .btn-remove { background: none; border: none; color: var(--red); font-size: 18px; cursor: pointer; line-height: 1; padding: 4px; border-radius: 4px; }
+  .btn-remove:hover { background: var(--red-light); }
+  .add-item-row { display: flex; gap: 10px; margin-top: 12px; align-items: flex-end; }
+  .add-item-row select { flex: 1; }
 
-  /* ── DRIVER GRID ── */
-  .driver-search-wrap { position: relative; margin-bottom: 10px; }
-  .driver-search {
-    width: 100%;
-    background: var(--white);
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 14px 12px 40px;
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    font-size: 15px;
-    outline: none;
-    transition: border-color 0.2s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  }
-  .driver-search:focus { border-color: var(--blue); }
-  .driver-search::placeholder { color: var(--text-light); }
-  .search-icon {
-    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-    color: var(--text-light); width: 18px; height: 18px;
-    pointer-events: none;
-  }
+  /* Tables */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--navy); color: #fff; }
+  thead th { padding: 10px 14px; text-align: left; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.5px; white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid var(--grey); transition: background 0.1s; }
+  tbody tr:hover { background: var(--blue-light); }
+  tbody tr:nth-child(even) { background: var(--off-white); }
+  tbody tr:nth-child(even):hover { background: var(--blue-light); }
+  td { padding: 10px 14px; vertical-align: middle; }
 
-  .driver-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    max-height: 240px;
-    overflow-y: auto;
-    padding-right: 2px;
-  }
-  .driver-grid::-webkit-scrollbar { width: 4px; }
-  .driver-grid::-webkit-scrollbar-track { background: transparent; }
-  .driver-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  /* Badges */
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge-ok { background: var(--green-light); color: var(--green); }
+  .badge-low { background: var(--yellow-light); color: #7a5000; }
+  .badge-out { background: var(--red-light); color: var(--red); }
+  .badge-flag { background: var(--orange-light); color: var(--orange); }
+  .badge-warn { background: var(--red-light); color: var(--red); }
 
-  .driver-btn {
-    background: var(--white);
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 11px 10px;
-    color: var(--text-mid);
-    font-family: 'Barlow', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.15s;
-    line-height: 1.2;
-    word-break: break-word;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  }
-  .driver-btn:active { transform: scale(0.97); }
-  .driver-btn.selected {
-    background: var(--navy);
-    border-color: var(--navy);
-    color: var(--yellow);
-    font-weight: 700;
-  }
+  /* Inventory grid */
+  .inv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-top: 4px; }
+  .inv-card { background: var(--off-white); border: 1.5px solid var(--grey); border-radius: var(--radius); padding: 16px; transition: box-shadow 0.15s; }
+  .inv-card:hover { box-shadow: var(--shadow); }
+  .inv-card.low { border-color: #f0a000; background: var(--yellow-light); }
+  .inv-card.out { border-color: var(--red); background: var(--red-light); }
+  .inv-card-name { font-weight: 700; font-size: 14px; margin-bottom: 10px; color: var(--navy); }
+  .inv-stock { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 36px; line-height: 1; margin-bottom: 2px; }
+  .inv-stock.ok { color: var(--green); }
+  .inv-stock.low { color: #c87000; }
+  .inv-stock.out { color: var(--red); }
+  .inv-min { font-size: 11px; color: var(--text-mid); margin-bottom: 12px; }
+  .inv-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 
-  /* ── ITEMS ── */
-  .items-list { display: flex; flex-direction: column; gap: 8px; }
+  /* Stat boxes */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .stat-box { background: var(--white); border-radius: var(--radius); padding: 16px 20px; box-shadow: var(--shadow); border-left: 4px solid var(--blue); }
+  .stat-box.red { border-left-color: var(--red); }
+  .stat-box.green { border-left-color: var(--green); }
+  .stat-box.orange { border-left-color: var(--orange); }
+  .stat-val { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; color: var(--navy); line-height: 1; }
+  .stat-label { font-size: 12px; color: var(--text-mid); font-weight: 600; margin-top: 4px; text-transform: uppercase; }
 
-  .item-row {
-    background: var(--white);
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    padding: 14px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: border-color 0.15s, box-shadow 0.15s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  }
-  .item-row.has-qty {
-    border-color: var(--blue);
-    box-shadow: 0 2px 8px rgba(26,79,173,0.12);
-    background: var(--light-blue);
-  }
+  /* Modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--white); border-radius: var(--radius); padding: 28px; width: 420px; max-width: 95vw; box-shadow: var(--shadow-lg); }
+  .modal-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px; color: var(--navy); margin-bottom: 18px; text-transform: uppercase; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 
-  .item-icon {
-    width: 38px; height: 38px;
-    background: var(--grey);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    font-size: 18px;
-  }
-  .item-name {
-    flex: 1;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.2;
-  }
+  /* Toast */
+  #toast { position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: var(--radius); font-weight: 600; font-size: 14px; box-shadow: var(--shadow-lg); transform: translateY(80px); opacity: 0; transition: all 0.25s; z-index: 300; }
+  #toast.show { transform: translateY(0); opacity: 1; }
+  #toast.success { background: var(--green); }
+  #toast.error { background: var(--red); }
 
-  .qty-ctrl {
-    display: flex;
-    align-items: center;
-    background: var(--grey);
-    border-radius: 8px;
-    overflow: hidden;
-    flex-shrink: 0;
-    border: 1px solid var(--border);
-  }
-  .qty-btn {
-    width: 36px; height: 36px;
-    background: none;
-    border: none;
-    color: var(--text-mid);
-    font-size: 20px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s;
-    line-height: 1;
-  }
-  .qty-btn:active { background: var(--navy); color: var(--yellow); }
-  .qty-val {
-    min-width: 28px;
-    text-align: center;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--navy);
-  }
-  .item-row.has-qty .qty-val { color: var(--blue); }
+  /* Section headers for reports */
+  .section-header { background: var(--navy); color: #fff; padding: 10px 16px; border-radius: var(--radius) var(--radius) 0 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 20px; display: flex; align-items: center; justify-content: space-between; }
+  .section-header .sub { font-size: 11px; font-weight: 400; opacity: 0.75; text-transform: none; letter-spacing: 0; }
+  .section-body { background: var(--white); border-radius: 0 0 var(--radius) var(--radius); box-shadow: var(--shadow); overflow: hidden; }
 
-  /* ── DATE ── */
-  .date-input {
-    width: 100%;
-    background: var(--white);
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 14px;
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    outline: none;
-    transition: border-color 0.2s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  }
-  .date-input:focus { border-color: var(--blue); }
+  /* Report tabs */
+  .report-tabs { display: flex; gap: 8px; margin-bottom: 4px; }
+  .report-tab { font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 600; padding: 7px 16px; border-radius: var(--radius); border: 1.5px solid var(--grey); background: var(--white); cursor: pointer; color: var(--text-mid); transition: all 0.15s; }
+  .report-tab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
 
-  /* ── REASON ── */
-  .reason-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-  .reason-btn {
-    background: var(--white);
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 10px;
-    color: var(--text-mid);
-    font-family: 'Barlow', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.15s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  }
-  .reason-btn:active { transform: scale(0.97); }
-  .reason-btn.selected {
-    background: var(--navy);
-    border-color: var(--navy);
-    color: var(--yellow);
-  }
+  .mt-12 { margin-top: 12px; }
+  .mt-20 { margin-top: 20px; }
+  .flex { display: flex; }
+  .gap-10 { gap: 10px; }
+  .align-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .text-center { text-align: center; }
+  .text-right { text-align: right !important; }
+  .bold { font-weight: 700; }
+  .muted { color: var(--text-mid); font-size: 12px; }
 
-  /* ── SUBMIT ── */
-  .submit-wrap { padding: 24px 16px 0; }
-  .submit-btn {
-    width: 100%;
-    background: var(--navy);
-    border: none;
-    border-radius: 12px;
-    padding: 18px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 20px;
-    font-weight: 900;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--yellow);
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 14px rgba(31,56,100,0.3);
-    position: relative;
-    overflow: hidden;
-  }
-  .submit-btn:active { transform: scale(0.98); box-shadow: 0 2px 6px rgba(31,56,100,0.2); }
-  .submit-btn:disabled {
-    background: var(--border);
-    color: var(--text-light);
-    cursor: not-allowed;
-    box-shadow: none;
-  }
+  .empty-state { text-align: center; padding: 30px 20px; color: var(--text-mid); font-size: 13px; }
 
-  .validation-msg {
-    background: var(--red-bg);
-    border: 1px solid var(--red);
-    border-radius: 8px;
-    padding: 10px 14px;
-    margin-top: 12px;
-    font-size: 13px;
-    color: var(--red);
-    font-weight: 600;
-    display: none;
-  }
-  .validation-msg.show { display: block; }
+  /* Setup banner */
+  .setup-banner { background: var(--yellow-light); border: 1.5px solid var(--yellow); border-radius: var(--radius); padding: 16px; margin-bottom: 20px; display: none; }
+  .setup-banner.open { display: block; }
+  .setup-banner h3 { color: #7a5000; margin-bottom: 8px; font-size: 14px; }
+  .setup-banner input { font-family: 'Barlow', sans-serif; padding: 8px 12px; border: 1.5px solid var(--grey); border-radius: var(--radius); width: 100%; margin-bottom: 8px; }
+  .setup-banner .btn { width: 100%; justify-content: center; }
 
-  /* ── SUCCESS SCREEN ── */
-  .success-screen {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: var(--bg);
-    z-index: 999;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 32px;
-    text-align: center;
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    header { padding: 0 12px; }
+    .logo { font-size: 16px; }
+    nav button { padding: 7px 8px; font-size: 11px; }
   }
-  .success-screen.show { display: flex; }
-
-  .success-icon {
-    width: 80px; height: 80px;
-    background: var(--green);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 24px;
-    animation: pop 0.4s cubic-bezier(0.34,1.56,0.64,1);
-    box-shadow: 0 8px 24px rgba(26,138,74,0.3);
-  }
-  @keyframes pop {
-    from { transform: scale(0); opacity: 0; }
-    to   { transform: scale(1); opacity: 1; }
-  }
-  .success-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 36px;
-    font-weight: 900;
-    color: var(--navy);
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-  }
-  .success-sub {
-    font-size: 15px;
-    color: var(--text-mid);
-    line-height: 1.5;
-    margin-bottom: 28px;
-    max-width: 280px;
-  }
-  .success-items {
-    background: var(--white);
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 20px;
-    width: 100%;
-    max-width: 340px;
-    text-align: left;
-    margin-bottom: 28px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  }
-  .success-items-title {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-light);
-    margin-bottom: 10px;
-  }
-  .success-item-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 7px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-  }
-  .success-item-row:last-child { border-bottom: none; }
-  .success-item-name { color: var(--text); font-weight: 500; }
-  .success-item-qty {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 16px;
-    color: var(--navy);
-    background: var(--yellow);
-    padding: 2px 10px;
-    border-radius: 20px;
-  }
-  .new-request-btn {
-    background: none;
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 32px;
-    color: var(--text-mid);
-    font-family: 'Barlow', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .new-request-btn:active { border-color: var(--navy); color: var(--navy); }
-
-  .divider { height: 1px; background: var(--border); margin: 20px 16px 0; }
 </style>
 </head>
 <body>
 
-<div class="app">
-  <div class="header">
-    <div class="header-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#1F3864" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
-        <rect x="9" y="3" width="6" height="4" rx="1"/>
-        <path d="M9 12h6M9 16h4"/>
-      </svg>
+<header>
+  <div class="logo">🚛 <span>SCHOONER</span> EQUIPMENT</div>
+  <nav>
+    <button class="active" onclick="showPage('log')">📋 Log Request</button>
+    <button onclick="showPage('inventory')">📦 Inventory</button>
+    <button onclick="showPage('history')">📜 History</button>
+    <button onclick="showPage('reports')">📊 Reports</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- Setup Banner (shown if no API URL configured) -->
+  <div class="setup-banner" id="setup-banner">
+    <h3>⚙️ First Time Setup</h3>
+    <p class="muted" style="margin-bottom:10px;">Paste your Google Apps Script Web App URL here to connect:</p>
+    <input type="text" id="api-url-input" placeholder="https://script.google.com/macros/s/.../exec"/>
+    <button class="btn btn-yellow" onclick="saveApiUrl()">🔗 Connect to Google Sheet</button>
+  </div>
+
+  <!-- ══ LOG REQUEST ══ -->
+  <div id="page-log" class="page active">
+    <div class="card">
+      <div class="card-title">📋 New Equipment Request</div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Driver Name</label>
+          <div class="flex gap-10 align-center">
+            <select id="driver-select" style="flex:1">
+              <option value="">— Select driver —</option>
+            </select>
+            <button class="btn btn-outline btn-sm" onclick="openAddDriver()">+ New</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Date Taken</label>
+          <input type="date" id="date-taken"/>
+        </div>
+        <div class="field" style="grid-column:1/-1">
+          <label>Reason</label>
+          <select id="reason">
+            <option value="">— Select reason —</option>
+            <option>Worn Out</option>
+            <option>Damaged/Broken</option>
+            <option>Lost Item</option>
+            <option>New Driver</option>
+            <option>Replacement</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="item-picker">
+        <div class="flex justify-between align-center mt-12" style="margin-bottom:8px;">
+          <div style="font-size:13px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:.5px;">Items</div>
+        </div>
+        <div id="selected-items"></div>
+        <div class="add-item-row">
+          <div class="field" style="flex:1;margin:0;">
+            <select id="item-select">
+              <option value="">— Pick an item to add —</option>
+            </select>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="addItemRow()">+ Add Item</button>
+        </div>
+      </div>
+
+      <div class="mt-20">
+        <button class="btn btn-success" onclick="submitRequest()" style="width:100%;justify-content:center;padding:13px;">
+          ✅ Submit Request
+        </button>
+      </div>
     </div>
-    <div>
-      <div class="header-title">Equipment Request</div>
-      <div class="header-sub">Fill out all steps to submit</div>
+  </div>
+
+  <!-- ══ INVENTORY ══ -->
+  <div id="page-inventory" class="page">
+    <div class="flex justify-between align-center" style="margin-bottom:16px;">
+      <div class="card-title" style="margin:0;">📦 Current Inventory</div>
+      <button class="btn btn-primary btn-sm" onclick="openAddItem()">+ Add New Item</button>
+    </div>
+    <div class="inv-grid" id="inv-grid">
+      <div class="empty-state">Loading...</div>
     </div>
   </div>
 
-  <!-- STEP 1: DRIVER -->
-  <div class="section">
-    <div class="step-label"><span class="step-num">1</span> Your Name</div>
-    <div class="driver-search-wrap">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-      </svg>
-      <input type="text" class="driver-search" id="driverSearch" placeholder="Search your name..." oninput="filterDrivers(this.value)" autocomplete="off">
+  <!-- ══ HISTORY ══ -->
+  <div id="page-history" class="page">
+    <div class="card">
+      <div class="flex justify-between align-center" style="margin-bottom:16px;">
+        <div class="card-title" style="margin:0;">📜 Request History</div>
+        <input type="text" id="history-search" placeholder="Search driver / item..." style="width:200px;" oninput="filterHistory()"/>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Driver</th><th>Item</th><th>Qty</th><th>Reason</th></tr>
+          </thead>
+          <tbody id="history-body">
+            <tr><td colspan="5" class="empty-state">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="driver-grid" id="driverGrid"></div>
   </div>
 
-  <div class="divider"></div>
+  <!-- ══ REPORTS ══ -->
+  <div id="page-reports" class="page">
+    <div id="report-stats" class="stats-row"></div>
 
-  <!-- STEP 2: ITEMS -->
-  <div class="section">
-    <div class="step-label"><span class="step-num">2</span> Items Needed</div>
-    <div class="items-list" id="itemsList"></div>
+    <!-- Frequent takers -->
+    <div class="section-header">
+      🚨 Frequent Item Takers
+      <span class="sub">Drivers who took the same item multiple times</span>
+    </div>
+    <div class="section-body" style="padding:12px 16px 8px;">
+      <div class="report-tabs">
+        <button class="report-tab active" onclick="switchRepeatTab('14')">Last 14 Days</button>
+        <button class="report-tab" onclick="switchRepeatTab('30')">Last 30 Days</button>
+        <button class="report-tab" onclick="switchRepeatTab('all')">All Time</button>
+      </div>
+    </div>
+    <div class="section-body" style="border-radius:0 0 var(--radius) var(--radius);">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Driver</th><th>Item</th><th>Times</th><th>Total Qty</th><th>First</th><th>Last</th><th>Flag</th></tr>
+          </thead>
+          <tbody id="repeats-body">
+            <tr><td colspan="7" class="empty-state">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:24px;">📦 Total Items Issued — All Time</div>
+    <div class="section-body">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th class="text-right">Requests</th><th class="text-right">Total Qty</th></tr></thead>
+          <tbody id="items-body"><tr><td colspan="3" class="empty-state">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:24px;">🧑 Total By Driver — All Time</div>
+    <div class="section-body">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Driver</th><th class="text-right">Requests</th><th class="text-right">Total Qty</th></tr></thead>
+          <tbody id="drivers-body"><tr><td colspan="3" class="empty-state">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
-  <div class="divider"></div>
+</main>
 
-  <!-- STEP 3: DATE -->
-  <div class="section">
-    <div class="step-label"><span class="step-num">3</span> Date Needed By</div>
-    <input type="date" class="date-input" id="dateInput">
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- STEP 4: REASON -->
-  <div class="section">
-    <div class="step-label"><span class="step-num">4</span> Reason</div>
-    <div class="reason-grid" id="reasonGrid"></div>
-  </div>
-
-  <!-- SUBMIT -->
-  <div class="submit-wrap">
-    <button class="submit-btn" id="submitBtn" onclick="submitRequest()">
-      Submit Request
-    </button>
-    <div class="validation-msg" id="validationMsg"></div>
+<!-- MODAL: Add Driver -->
+<div class="modal-overlay" id="modal-driver">
+  <div class="modal">
+    <div class="modal-title">+ Add New Driver</div>
+    <div class="field">
+      <label>Driver Full Name</label>
+      <input type="text" id="new-driver-name" placeholder="e.g. John Smith"/>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-driver')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveDriver()">Save Driver</button>
+    </div>
   </div>
 </div>
 
-<!-- SUCCESS SCREEN -->
-<div class="success-screen" id="successScreen">
-  <div class="success-icon">
-    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"/>
-    </svg>
+<!-- MODAL: Restock -->
+<div class="modal-overlay" id="modal-restock">
+  <div class="modal">
+    <div class="modal-title">📦 Restock Item</div>
+    <input type="hidden" id="restock-item-id"/>
+    <div class="field">
+      <label>Item</label>
+      <input type="text" id="restock-item-name" readonly style="background:var(--off-white);"/>
+    </div>
+    <div class="form-grid">
+      <div class="field">
+        <label>Qty Received</label>
+        <input type="number" id="restock-qty" min="1" placeholder="e.g. 24"/>
+      </div>
+      <div class="field">
+        <label>Note (optional)</label>
+        <input type="text" id="restock-note" placeholder="e.g. Order #1234"/>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-restock')">Cancel</button>
+      <button class="btn btn-success" onclick="saveRestock()">✅ Save Restock</button>
+    </div>
   </div>
-  <div class="success-title">Request Sent!</div>
-  <div class="success-sub" id="successSub">Your request has been logged.</div>
-  <div class="success-items" id="successItems"></div>
-  <button class="new-request-btn" onclick="resetForm()">Submit Another Request</button>
 </div>
+
+<!-- MODAL: Add Item -->
+<div class="modal-overlay" id="modal-add-item">
+  <div class="modal">
+    <div class="modal-title">+ Add New Item</div>
+    <div class="field">
+      <label>Item Name</label>
+      <input type="text" id="new-item-name" placeholder="e.g. High-Vis Vest"/>
+    </div>
+    <div class="form-grid">
+      <div class="field">
+        <label>Starting Stock</label>
+        <input type="number" id="new-item-stock" min="0" placeholder="0"/>
+      </div>
+      <div class="field">
+        <label>Min Level (alert threshold)</label>
+        <input type="number" id="new-item-min" min="1" placeholder="2"/>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-add-item')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveNewItem()">Save Item</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Edit Stock -->
+<div class="modal-overlay" id="modal-edit-stock">
+  <div class="modal">
+    <div class="modal-title">✏️ Edit Stock Quantity</div>
+    <input type="hidden" id="edit-stock-item-id"/>
+    <div class="field">
+      <label>Item</label>
+      <input type="text" id="edit-stock-item-name" readonly style="background:var(--off-white);"/>
+    </div>
+    <div class="field">
+      <label>Current Quantity (what's physically on the shelf right now)</label>
+      <input type="number" id="edit-stock-qty" min="0" placeholder="e.g. 12"/>
+    </div>
+    <p class="muted" style="margin-top:8px;">This sets the actual count — use this to correct mistakes.</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-edit-stock')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEditStock()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3E72EZpz55krg8eKehiTYicD8sf_VYNbCU6xgDHKqeRzfWQgC2DkmuqULtLCQ-A0N/exec";
+// ═══════════════════════════════════════════════════════════════════════════════
+// CONFIGURATION — Paste your Apps Script Web App URL here or use setup banner
+// ═══════════════════════════════════════════════════════════════════════════════
+const API_BASE = 'https://script.google.com/macros/s/AKfycbyh4tIWOGNusCDNzvHOF9IJ1i0bs3fYSS1EzKYIz-5euLR4OKy8aUSswy1tbQcPep1V_g/exec';
 
-const DRIVERS = [
-  "Abdalrazek Abdalrazek","Ahmad Kammouni","Allen Brown","Andre Larche",
-  "Andrii Riabeka","Anthony Zanni","Arthur Lacroix","Arthur Nguyen",
-  "Ayoub Habou","Bader Saif","Christophe Tremblay","Daniel Jima",
-  "Dauphin Sinzinkayo","Don Bigras","Duane Locke","FAWAZ Matar",
-  "Fawaz Kazem","George Chalhoub","Habtamu Tadesse","Jacques Parent",
-  "James Burchill","James Masse","Jarren Miehm","Jean-Francois b Hebert",
-  "Khalid Wahid","Leon Richard Kabinda","Loranc Alkhouri",
-  "Louis-philippe Gravel","Mark Manery","Matt McCormick",
-  "Michael Bellefeuille","Mohamed Abougafar","Musa Al-sohail",
-  "Neil Fellner","Nidal Zouwayni","Nidal Farara","Omojero Imonia",
-  "Parfait Ngabonziza","Randy Armitage","Robert Given","Rock Auger",
-  "Rohan James","Sahnd Almufti","Sean VanWallegham","Stephane Dore",
-  "Tarek Abou Karnib","WILLY SENOGA"
-];
+let drivers = [], items = [], logs = [], reportData = null;
+let selectedItems = [];
+let activeRepeatTab = '14';
 
-const ITEMS = [
-  { name: "Safety Glasses",       icon: "🥽" },
-  { name: "Blue Summer Gloves",   icon: "🧤" },
-  { name: "Orange Summer Gloves", icon: "🧤" },
-  { name: "Blue Winter Gloves",   icon: "🧤" },
-  { name: "Safety Hard Hat",      icon: "⛑️" },
-  { name: "Ice Cleat",            icon: "🦶" },
-  { name: "Face Shield",          icon: "🛡️" },
-  { name: "Brackets",             icon: "🔩" },
-  { name: "Coveralls",            icon: "🦺" },
-  { name: "Hearing Protection",   icon: "🎧" },
-];
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('date-taken').value = today();
+  
+  if (!API_BASE) {
+    document.getElementById('setup-banner').classList.add('open');
+  } else {
+    loadAll();
+  }
+});
 
-const REASONS = ["Worn Out","Damaged/Broken","Lost Item","New Driver","Replacement","Other"];
+function today() { return new Date().toISOString().split('T')[0]; }
 
-let selectedDriver = null;
-let quantities = {};
-let selectedReason = null;
-
-function init() {
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('dateInput').value = today;
-  document.getElementById('dateInput').min = today;
-  renderDrivers(DRIVERS);
-  renderItems();
-  renderReasons();
+function saveApiUrl() {
+  const url = document.getElementById('api-url-input').value.trim();
+  if (!url || !url.includes('script.google.com')) {
+    return toast('Please paste a valid Google Apps Script URL', 'error');
+  }
+  localStorage.setItem('schooner_api_url', url);
+  location.reload();
 }
 
-function renderDrivers(list) {
-  document.getElementById('driverGrid').innerHTML = list.map(d => `
-    <button class="driver-btn ${d === selectedDriver ? 'selected' : ''}"
-            onclick="selectDriver('${d.replace(/'/g, "\\'")}')">
-      ${d}
-    </button>`).join('');
+// ── API Helpers ──────────────────────────────────────────────────────────────
+async function apiGet(path) {
+  if (!API_BASE) throw new Error('API not configured');
+  const url = `${API_BASE}?path=${path}`;
+  const res = await fetch(url, { method: 'GET', mode: 'cors' });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
 }
 
-function filterDrivers(query) {
-  const filtered = query
-    ? DRIVERS.filter(d => d.toLowerCase().includes(query.toLowerCase()))
-    : DRIVERS;
-  renderDrivers(filtered);
+async function apiPost(path, data) {
+  if (!API_BASE) throw new Error('API not configured');
+  const url = `${API_BASE}?path=${path}`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+    mode: 'cors'
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
 }
 
-function selectDriver(name) {
-  selectedDriver = name;
-  document.getElementById('driverSearch').value = name;
-  renderDrivers([name]);
-  setTimeout(() => {
-    document.getElementById('itemsList').scrollIntoView({behavior:'smooth', block:'start'});
-  }, 150);
+async function apiPatch(path, id, data) {
+  if (!API_BASE) throw new Error('API not configured');
+  const url = `${API_BASE}?path=${path}&id=${id}`;
+  const res = await fetch(url, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+    mode: 'cors'
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
 }
 
-function renderItems() {
-  document.getElementById('itemsList').innerHTML = ITEMS.map((item, i) => `
-    <div class="item-row ${(quantities[item.name]||0) > 0 ? 'has-qty' : ''}" id="itemrow-${i}">
-      <div class="item-icon">${item.icon}</div>
-      <div style="flex:1">
-        <div class="item-name">${item.name}</div>
-      </div>
-      <div class="qty-ctrl">
-        <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g,"\\'")}', ${i}, -1)">−</button>
-        <div class="qty-val" id="qty-${i}">${quantities[item.name] || 0}</div>
-        <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g,"\\'")}', ${i}, 1)">+</button>
-      </div>
-    </div>`).join('');
+async function loadAll() {
+  try {
+    await Promise.all([loadDrivers(), loadItems()]);
+  } catch(err) {
+    toast('Failed to load data. Check your API URL.', 'error');
+    console.error(err);
+  }
 }
 
-function changeQty(itemName, idx, delta) {
-  const newVal = Math.max(0, Math.min(20, (quantities[itemName] || 0) + delta));
-  quantities[itemName] = newVal;
-  document.getElementById(`qty-${idx}`).textContent = newVal;
-  document.getElementById(`itemrow-${idx}`).classList.toggle('has-qty', newVal > 0);
+async function loadDrivers() {
+  drivers = await apiGet('drivers');
+  const sel = document.getElementById('driver-select');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">— Select driver —</option>';
+  drivers.forEach(d => {
+    const o = document.createElement('option');
+    o.value = d.id; o.textContent = d.name;
+    sel.appendChild(o);
+  });
+  if (cur) sel.value = cur;
 }
 
-function renderReasons() {
-  document.getElementById('reasonGrid').innerHTML = REASONS.map(r => `
-    <button class="reason-btn ${r === selectedReason ? 'selected' : ''}"
-            onclick="selectReason('${r}')">
-      ${r}
-    </button>`).join('');
+async function loadItems() {
+  items = await apiGet('items');
+  buildItemSelect();
+  renderInventory();
 }
 
-function selectReason(r) {
-  selectedReason = r;
-  renderReasons();
+async function loadLogs() {
+  logs = await apiGet('logs');
+  renderHistory();
 }
 
-function validate() {
-  if (!selectedDriver) return "Please select your name.";
-  if (!Object.values(quantities).some(q => q > 0)) return "Please select at least one item and quantity.";
-  if (!selectedReason) return "Please select a reason.";
-  return null;
+async function loadReports() {
+  reportData = await apiGet('reports');
+  renderReports(reportData);
 }
 
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('nav button')[['log','inventory','history','reports'].indexOf(name)].classList.add('active');
+  if (name === 'inventory') loadItems();
+  if (name === 'history') loadLogs();
+  if (name === 'reports') loadReports();
+}
+
+// ── Item select ──────────────────────────────────────────────────────────────
+function buildItemSelect() {
+  const sel = document.getElementById('item-select');
+  sel.innerHTML = '<option value="">— Pick an item to add —</option>';
+  items.forEach(i => {
+    const o = document.createElement('option');
+    o.value = i.id; o.dataset.name = i.name;
+    o.textContent = `${i.name}  (${i.stock} in stock)`;
+    if (i.stock <= 0) o.disabled = true;
+    sel.appendChild(o);
+  });
+}
+
+function addItemRow() {
+  const sel = document.getElementById('item-select');
+  const id = parseInt(sel.value);
+  if (!id) return toast('Pick an item first', 'error');
+  const name = sel.options[sel.selectedIndex].dataset.name;
+  if (selectedItems.find(x => x.item_id === id)) return toast('Already added', 'error');
+  selectedItems.push({ item_id: id, item_name: name, qty: 1 });
+  sel.value = '';
+  renderSelectedItems();
+}
+
+function renderSelectedItems() {
+  const container = document.getElementById('selected-items');
+  if (!selectedItems.length) {
+    container.innerHTML = '<div class="muted" style="padding:10px 0 6px;">No items added yet.</div>';
+    return;
+  }
+  container.innerHTML = selectedItems.map((it, idx) => `
+    <div class="item-row">
+      <div class="item-name">${it.item_name}</div>
+      <input type="number" min="1" value="${it.qty}"
+        onchange="selectedItems[${idx}].qty = Math.max(1, parseInt(this.value)||1)"
+        style="width:80px;"/>
+      <button class="btn-remove" onclick="removeItem(${idx})">×</button>
+    </div>
+  `).join('');
+}
+
+function removeItem(idx) { selectedItems.splice(idx, 1); renderSelectedItems(); }
+
+// ── Submit request ─────────────────────────────────────────────────────────────
 async function submitRequest() {
-  const err = validate();
-  const msg = document.getElementById('validationMsg');
-  if (err) { msg.textContent = err; msg.classList.add('show'); return; }
-  msg.classList.remove('show');
+  const driver_id = parseInt(document.getElementById('driver-select').value);
+  if (!driver_id) return toast('Select a driver', 'error');
+  if (!selectedItems.length) return toast('Add at least one item', 'error');
 
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = "Submitting...";
-
-  const items = Object.entries(quantities).filter(([,q]) => q > 0);
   const payload = {
-    driver: selectedDriver,
-    dateTaken: new Date().toISOString().split('T')[0],
-    dateNeededBy: document.getElementById('dateInput').value,
-    reason: selectedReason,
-    items: items.map(([name, qty]) => ({ name, qty }))
+    driver_id,
+    items: selectedItems.map(i => ({ item_id: i.item_id, qty: i.qty })),
+    reason: document.getElementById('reason').value,
+    date_taken: document.getElementById('date-taken').value,
   };
 
   try {
-    await fetch(SCRIPT_URL, {
-      method: "POST", mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    showSuccess(payload);
-  } catch(e) {
-    msg.textContent = "Network error. Please check your connection and try again.";
-    msg.classList.add('show');
+    const data = await apiPost('logs', payload);
+    if (data.ok) {
+      toast('Request submitted! Inventory updated.', 'success');
+      selectedItems = [];
+      renderSelectedItems();
+      document.getElementById('driver-select').value = '';
+      document.getElementById('reason').value = '';
+      document.getElementById('date-taken').value = today();
+      loadItems(); // Refresh inventory
+    } else {
+      toast(data.error || 'Error submitting', 'error');
+    }
+  } catch(err) {
+    toast('Network error. Try again.', 'error');
+    console.error(err);
   }
-
-  btn.disabled = false;
-  btn.textContent = "Submit Request";
 }
 
-function showSuccess(payload) {
-  document.getElementById('successSub').textContent =
-    `Logged for ${payload.driver} — needed by ${payload.dateNeededBy}.`;
+// ── Inventory ──────────────────────────────────────────────────────────────────
+function renderInventory() {
+  const grid = document.getElementById('inv-grid');
+  if (!items.length) { grid.innerHTML = '<div class="empty-state">No items yet. Click "+ Add New Item" to start.</div>'; return; }
 
-  document.getElementById('successItems').innerHTML =
-    `<div class="success-items-title">Items Requested</div>` +
-    payload.items.map(i => `
-      <div class="success-item-row">
-        <span class="success-item-name">${i.name}</span>
-        <span class="success-item-qty">×${i.qty}</span>
-      </div>`).join('');
-
-  document.getElementById('successScreen').classList.add('show');
+  grid.innerHTML = items.map(item => {
+    const s = item.stock;
+    const status = s <= 0 ? 'out' : s <= item.min_level ? 'low' : 'ok';
+    const badge = s <= 0 ? 'OUT OF STOCK' : s <= item.min_level ? 'LOW STOCK' : 'OK';
+    const badgeClass = s <= 0 ? 'badge-out' : s <= item.min_level ? 'badge-low' : 'badge-ok';
+    return `
+      <div class="inv-card ${status}">
+        <div class="inv-card-name">${item.name}</div>
+        <div class="inv-stock ${status}">${s}</div>
+        <div class="inv-min">min: ${item.min_level}</div>
+        <div class="inv-actions">
+          <span class="badge ${badgeClass}">${badge}</span>
+        </div>
+        <div class="inv-actions" style="margin-top:8px;">
+          <button class="btn btn-yellow btn-sm" onclick="openRestock(${item.id}, '${item.name.replace(/'/g,"\\'")}')">+ Restock</button>
+          <button class="btn btn-outline btn-sm" onclick="openEditStock(${item.id}, '${item.name.replace(/'/g,"\\'")}', ${s})">✏️ Edit</button>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
-function resetForm() {
-  selectedDriver = null; quantities = {}; selectedReason = null;
-  document.getElementById('driverSearch').value = '';
-  document.getElementById('successScreen').classList.remove('show');
-  document.getElementById('dateInput').value = new Date().toISOString().split('T')[0];
-  renderDrivers(DRIVERS); renderItems(); renderReasons();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+// ── History ────────────────────────────────────────────────────────────────────
+function renderHistory() { filterHistory(); }
+
+function filterHistory() {
+  const q = document.getElementById('history-search').value.toLowerCase();
+  const filtered = q ? logs.filter(l => l.driver.toLowerCase().includes(q) || l.item.toLowerCase().includes(q)) : logs;
+  const body = document.getElementById('history-body');
+  if (!filtered.length) { body.innerHTML = '<tr><td colspan="5" class="empty-state">No records found.</td></tr>'; return; }
+  body.innerHTML = filtered.map(l => `
+    <tr>
+      <td>${l.date_taken}</td>
+      <td class="bold">${l.driver}</td>
+      <td>${l.item}</td>
+      <td class="text-center bold">${l.qty}</td>
+      <td class="muted">${l.reason || '—'}</td>
+    </tr>
+  `).join('');
 }
 
-init();
+// ── Reports ────────────────────────────────────────────────────────────────────
+function renderReports(data) {
+  const totalReqs = data.totalByItem.reduce((s, i) => s + i.requests, 0);
+  const totalQty = data.totalByItem.reduce((s, i) => s + i.total_qty, 0);
+  const lowCount = items.filter(i => i.stock <= i.min_level && i.stock > 0).length;
+  const outCount = items.filter(i => i.stock <= 0).length;
+
+  document.getElementById('report-stats').innerHTML = `
+    <div class="stat-box"><div class="stat-val">${totalReqs}</div><div class="stat-label">Total Requests</div></div>
+    <div class="stat-box green"><div class="stat-val">${totalQty}</div><div class="stat-label">Items Issued</div></div>
+    <div class="stat-box orange"><div class="stat-val">${lowCount}</div><div class="stat-label">Low Stock</div></div>
+    <div class="stat-box red"><div class="stat-val">${outCount}</div><div class="stat-label">Out of Stock</div></div>
+  `;
+
+  renderRepeatTab();
+
+  document.getElementById('items-body').innerHTML = data.totalByItem.length ? data.totalByItem.map(i => `
+    <tr><td class="bold">${i.item}</td><td class="text-right">${i.requests}</td><td class="text-right bold">${i.total_qty}</td></tr>
+  `).join('') : '<tr><td colspan="3" class="empty-state">No data yet.</td></tr>';
+
+  document.getElementById('drivers-body').innerHTML = data.totalByDriver.length ? data.totalByDriver.map(d => `
+    <tr><td class="bold">${d.driver}</td><td class="text-right">${d.requests}</td><td class="text-right bold">${d.total_qty}</td></tr>
+  `).join('') : '<tr><td colspan="3" class="empty-state">No data yet.</td></tr>';
+}
+
+function switchRepeatTab(tab) {
+  activeRepeatTab = tab;
+  document.querySelectorAll('.report-tab').forEach((b, i) => {
+    b.classList.toggle('active', ['14','30','all'][i] === tab);
+  });
+  renderRepeatTab();
+}
+
+function renderRepeatTab() {
+  if (!reportData) return;
+  let rows;
+  if (activeRepeatTab === '14') rows = reportData.repeats14;
+  else if (activeRepeatTab === '30') rows = reportData.repeats30;
+  else rows = reportData.topRequesters;
+
+  const body = document.getElementById('repeats-body');
+
+  if (activeRepeatTab === 'all') {
+    body.innerHTML = rows.length ? rows.map(r => `
+      <tr>
+        <td class="bold">${r.driver}</td>
+        <td>${r.item}</td>
+        <td class="text-center">${r.requests}</td>
+        <td class="text-center bold">${r.total_qty}</td>
+        <td colspan="2" class="muted">All time</td>
+        <td><span class="badge badge-flag">High Usage</span></td>
+      </tr>
+    `).join('') : '<tr><td colspan="7" class="empty-state">No data yet.</td></tr>';
+  } else {
+    body.innerHTML = rows.length ? rows.map(r => `
+      <tr>
+        <td class="bold">${r.driver}</td>
+        <td>${r.item}</td>
+        <td class="text-center bold" style="color:${r.count>=3?'var(--red)':'var(--orange)'}">${r.count}×</td>
+        <td class="text-center">${r.qty}</td>
+        <td>${r.first_date}</td>
+        <td>${r.last_date}</td>
+        <td><span class="badge ${r.count>=3?'badge-warn':'badge-flag'}">${r.count>=3?'⚠ Investigate':'Check'}</span></td>
+      </tr>
+    `).join('') : `<tr><td colspan="7" class="empty-state">No repeat requesters in this period.</td></tr>`;
+  }
+}
+
+// ── Modals ─────────────────────────────────────────────────────────────────────
+function openAddDriver() {
+  document.getElementById('new-driver-name').value = '';
+  document.getElementById('modal-driver').classList.add('open');
+  setTimeout(() => document.getElementById('new-driver-name').focus(), 100);
+}
+
+async function saveDriver() {
+  const name = document.getElementById('new-driver-name').value.trim();
+  if (!name) return toast('Enter a name', 'error');
+  try {
+    const data = await apiPost('drivers', { name });
+    if (data.id) {
+      await loadDrivers();
+      document.getElementById('driver-select').value = data.id;
+      closeModal('modal-driver');
+      toast(`"${name}" added`, 'success');
+    } else {
+      toast(data.error || 'Error', 'error');
+    }
+  } catch(err) {
+    toast('Failed to save driver', 'error');
+  }
+}
+
+function openRestock(id, name) {
+  document.getElementById('restock-item-id').value = id;
+  document.getElementById('restock-item-name').value = name;
+  document.getElementById('restock-qty').value = '';
+  document.getElementById('restock-note').value = '';
+  document.getElementById('modal-restock').classList.add('open');
+  setTimeout(() => document.getElementById('restock-qty').focus(), 100);
+}
+
+async function saveRestock() {
+  const id = document.getElementById('restock-item-id').value;
+  const qty = parseInt(document.getElementById('restock-qty').value);
+  const note = document.getElementById('restock-note').value.trim();
+  if (!qty || qty <= 0) return toast('Enter a valid quantity', 'error');
+  
+  try {
+    // Get current item to calculate new stock
+    const item = items.find(i => i.id == id);
+    if (!item) return toast('Item not found', 'error');
+    const newStock = item.stock + qty;
+    
+    const data = await apiPatch('items', id, { stock: newStock, note });
+    if (data.ok) { 
+      closeModal('modal-restock'); 
+      toast(`Restocked +${qty}. New stock: ${newStock}`, 'success'); 
+      loadItems(); 
+    }
+    else toast(data.error || 'Error', 'error');
+  } catch(err) {
+    toast('Failed to restock', 'error');
+  }
+}
+
+function openEditStock(id, name, currentStock) {
+  document.getElementById('edit-stock-item-id').value = id;
+  document.getElementById('edit-stock-item-name').value = name;
+  document.getElementById('edit-stock-qty').value = currentStock;
+  document.getElementById('modal-edit-stock').classList.add('open');
+  setTimeout(() => { const el = document.getElementById('edit-stock-qty'); el.focus(); el.select(); }, 100);
+}
+
+async function saveEditStock() {
+  const id = document.getElementById('edit-stock-item-id').value;
+  const stock = parseInt(document.getElementById('edit-stock-qty').value);
+  if (isNaN(stock) || stock < 0) return toast('Enter a valid number', 'error');
+  try {
+    const data = await apiPatch('items', id, { stock });
+    if (data.ok) { closeModal('modal-edit-stock'); toast('Stock updated', 'success'); loadItems(); }
+    else toast(data.error || 'Error', 'error');
+  } catch(err) {
+    toast('Failed to update stock', 'error');
+  }
+}
+
+function openAddItem() {
+  document.getElementById('new-item-name').value = '';
+  document.getElementById('new-item-stock').value = '';
+  document.getElementById('new-item-min').value = '2';
+  document.getElementById('modal-add-item').classList.add('open');
+  setTimeout(() => document.getElementById('new-item-name').focus(), 100);
+}
+
+async function saveNewItem() {
+  const name = document.getElementById('new-item-name').value.trim();
+  const stock = parseInt(document.getElementById('new-item-stock').value) || 0;
+  const min_level = parseInt(document.getElementById('new-item-min').value) || 2;
+  if (!name) return toast('Enter an item name', 'error');
+  try {
+    const data = await apiPost('items', { name, stock, min_level });
+    if (data.id) { closeModal('modal-add-item'); toast(`"${name}" added`, 'success'); loadItems(); }
+    else toast(data.error || 'Error', 'error');
+  } catch(err) {
+    toast('Failed to add item', 'error');
+  }
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+});
+
+// ── Toast ──────────────────────────────────────────────────────────────────────
+let toastTimer;
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.className = '', 3000);
+}
+
+// Enter key handlers
+document.getElementById('new-driver-name').addEventListener('keydown', e => { if (e.key==='Enter') saveDriver(); });
+document.getElementById('restock-qty').addEventListener('keydown', e => { if (e.key==='Enter') saveRestock(); });
+document.getElementById('edit-stock-qty').addEventListener('keydown', e => { if (e.key==='Enter') saveEditStock(); });
+document.getElementById('new-item-name').addEventListener('keydown', e => { if (e.key==='Enter') saveNewItem(); });
 </script>
 </body>
 </html>
