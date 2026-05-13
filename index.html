@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Equipment Request</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
@@ -38,7 +38,6 @@
     overflow-x: hidden;
   }
 
-  /* subtle dot grid pattern */
   body::before {
     content: '';
     position: fixed;
@@ -50,38 +49,47 @@
     z-index: 0;
   }
 
-  .app { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 0 0 48px; }
+  /* ── LAYOUT WRAPPER — desktop-friendly ── */
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-  /* ── HEADER ── */
+  /* sticky header full-width */
   .header {
+    width: 100%;
     background: var(--navy);
-    padding: 18px 20px 16px;
+    padding: 18px 40px 16px;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
   }
   .header-icon {
-    width: 42px; height: 42px;
+    width: 46px; height: 46px;
     background: var(--yellow);
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
-  .header-icon svg { width: 24px; height: 24px; }
+  .header-icon svg { width: 26px; height: 26px; }
   .header-title {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 900;
     color: var(--white);
     letter-spacing: 0.5px;
     line-height: 1;
   }
   .header-sub {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     color: rgba(255,255,255,0.5);
     letter-spacing: 1px;
@@ -89,9 +97,25 @@
     margin-top: 3px;
   }
 
-  /* ── SECTIONS ── */
-  .section { padding: 20px 16px 0; }
+  /* main form card */
+  .app {
+    width: 100%;
+    max-width: 780px;
+    padding: 32px 24px 64px;
+  }
 
+  /* two-column layout for desktop */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 32px;
+  }
+
+  .col-left  { grid-column: 1; }
+  .col-right { grid-column: 2; }
+  .col-full  { grid-column: 1 / -1; }
+
+  /* ── STEP LABELS ── */
   .step-label {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 11px;
@@ -99,7 +123,8 @@
     letter-spacing: 2.5px;
     text-transform: uppercase;
     color: var(--blue);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    margin-top: 28px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -111,24 +136,24 @@
     background: var(--border);
   }
   .step-num {
-    width: 20px; height: 20px;
+    width: 22px; height: 22px;
     background: var(--navy);
     color: var(--yellow);
     border-radius: 50%;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
     display: inline-flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
 
-  /* ── DRIVER GRID ── */
+  /* ── DRIVER ── */
   .driver-search-wrap { position: relative; margin-bottom: 10px; }
   .driver-search {
     width: 100%;
     background: var(--white);
     border: 2px solid var(--border);
     border-radius: 10px;
-    padding: 12px 14px 12px 40px;
+    padding: 12px 14px 12px 42px;
     color: var(--text);
     font-family: 'Barlow', sans-serif;
     font-size: 15px;
@@ -139,7 +164,7 @@
   .driver-search:focus { border-color: var(--blue); }
   .driver-search::placeholder { color: var(--text-light); }
   .search-icon {
-    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
     color: var(--text-light); width: 18px; height: 18px;
     pointer-events: none;
   }
@@ -147,8 +172,8 @@
   .driver-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    max-height: 240px;
+    gap: 6px;
+    max-height: 280px;
     overflow-y: auto;
     padding-right: 2px;
   }
@@ -160,7 +185,7 @@
     background: var(--white);
     border: 2px solid var(--border);
     border-radius: 10px;
-    padding: 11px 10px;
+    padding: 10px 10px;
     color: var(--text-mid);
     font-family: 'Barlow', sans-serif;
     font-size: 13px;
@@ -172,22 +197,59 @@
     word-break: break-word;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
-  .driver-btn:active { transform: scale(0.97); }
+  .driver-btn:hover { border-color: var(--blue); color: var(--blue); }
   .driver-btn.selected {
     background: var(--navy);
     border-color: var(--navy);
     color: var(--yellow);
     font-weight: 700;
   }
+  /* "Other" button gets a distinct look */
+  .driver-btn.other-btn {
+    border-style: dashed;
+    color: var(--orange);
+    border-color: var(--orange);
+    font-style: italic;
+    grid-column: 1 / -1;
+  }
+  .driver-btn.other-btn.selected {
+    background: var(--orange);
+    border-color: var(--orange);
+    border-style: solid;
+    color: var(--white);
+    font-style: normal;
+  }
+
+  /* other name input */
+  .other-name-wrap {
+    margin-top: 8px;
+    display: none;
+  }
+  .other-name-wrap.show { display: block; }
+  .other-name-input {
+    width: 100%;
+    background: var(--white);
+    border: 2px solid var(--orange);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .other-name-input:focus { border-color: var(--navy); }
+  .other-name-input::placeholder { color: var(--text-light); font-style: italic; }
 
   /* ── ITEMS ── */
-  .items-list { display: flex; flex-direction: column; gap: 8px; }
+  .items-list { display: flex; flex-direction: column; gap: 7px; }
 
   .item-row {
     background: var(--white);
     border: 2px solid var(--border);
     border-radius: 12px;
-    padding: 14px;
+    padding: 12px 14px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -199,14 +261,13 @@
     box-shadow: 0 2px 8px rgba(26,79,173,0.12);
     background: var(--light-blue);
   }
-
   .item-icon {
-    width: 38px; height: 38px;
+    width: 36px; height: 36px;
     background: var(--grey);
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
-    font-size: 18px;
+    font-size: 17px;
   }
   .item-name {
     flex: 1;
@@ -215,7 +276,6 @@
     color: var(--text);
     line-height: 1.2;
   }
-
   .qty-ctrl {
     display: flex;
     align-items: center;
@@ -226,7 +286,7 @@
     border: 1px solid var(--border);
   }
   .qty-btn {
-    width: 36px; height: 36px;
+    width: 34px; height: 34px;
     background: none;
     border: none;
     color: var(--text-mid);
@@ -236,10 +296,11 @@
     display: flex; align-items: center; justify-content: center;
     transition: background 0.15s;
     line-height: 1;
+    user-select: none;
   }
-  .qty-btn:active { background: var(--navy); color: var(--yellow); }
+  .qty-btn:hover { background: var(--navy); color: var(--yellow); }
   .qty-val {
-    min-width: 28px;
+    min-width: 30px;
     text-align: center;
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 18px;
@@ -285,7 +346,7 @@
     transition: all 0.15s;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
-  .reason-btn:active { transform: scale(0.97); }
+  .reason-btn:hover { border-color: var(--blue); color: var(--blue); }
   .reason-btn.selected {
     background: var(--navy);
     border-color: var(--navy);
@@ -293,33 +354,31 @@
   }
 
   /* ── SUBMIT ── */
-  .submit-wrap { padding: 24px 16px 0; }
+  .submit-wrap { margin-top: 32px; }
   .submit-btn {
     width: 100%;
     background: var(--navy);
     border: none;
     border-radius: 12px;
-    padding: 18px;
+    padding: 20px;
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 900;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--yellow);
     cursor: pointer;
     transition: all 0.2s;
     box-shadow: 0 4px 14px rgba(31,56,100,0.3);
-    position: relative;
-    overflow: hidden;
   }
-  .submit-btn:active { transform: scale(0.98); box-shadow: 0 2px 6px rgba(31,56,100,0.2); }
+  .submit-btn:hover { background: #162a54; box-shadow: 0 6px 20px rgba(31,56,100,0.4); }
+  .submit-btn:active { transform: scale(0.99); }
   .submit-btn:disabled {
     background: var(--border);
     color: var(--text-light);
     cursor: not-allowed;
     box-shadow: none;
   }
-
   .validation-msg {
     background: var(--red-bg);
     border: 1px solid var(--red);
@@ -347,9 +406,8 @@
     text-align: center;
   }
   .success-screen.show { display: flex; }
-
   .success-icon {
-    width: 80px; height: 80px;
+    width: 88px; height: 88px;
     background: var(--green);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
@@ -363,26 +421,26 @@
   }
   .success-title {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 36px;
+    font-size: 42px;
     font-weight: 900;
     color: var(--navy);
     letter-spacing: 1px;
     margin-bottom: 8px;
   }
   .success-sub {
-    font-size: 15px;
+    font-size: 16px;
     color: var(--text-mid);
     line-height: 1.5;
     margin-bottom: 28px;
-    max-width: 280px;
+    max-width: 360px;
   }
   .success-items {
     background: var(--white);
     border: 2px solid var(--border);
     border-radius: 12px;
-    padding: 16px 20px;
+    padding: 18px 24px;
     width: 100%;
-    max-width: 340px;
+    max-width: 440px;
     text-align: left;
     margin-bottom: 28px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
@@ -393,30 +451,30 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--text-light);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
   .success-item-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 7px 0;
+    padding: 8px 0;
     border-bottom: 1px solid var(--border);
-    font-size: 14px;
+    font-size: 15px;
   }
   .success-item-row:last-child { border-bottom: none; }
   .success-item-name { color: var(--text); font-weight: 500; }
   .success-item-qty {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 17px;
     color: var(--navy);
     background: var(--yellow);
-    padding: 2px 10px;
+    padding: 2px 12px;
     border-radius: 20px;
   }
   .new-request-btn {
     background: none;
     border: 2px solid var(--border);
     border-radius: 10px;
-    padding: 14px 32px;
+    padding: 14px 40px;
     color: var(--text-mid);
     font-family: 'Barlow', sans-serif;
     font-size: 15px;
@@ -424,14 +482,20 @@
     cursor: pointer;
     transition: all 0.2s;
   }
-  .new-request-btn:active { border-color: var(--navy); color: var(--navy); }
+  .new-request-btn:hover { border-color: var(--navy); color: var(--navy); }
 
-  .divider { height: 1px; background: var(--border); margin: 20px 16px 0; }
+  /* ── RESPONSIVE — collapse to single column on narrow screens ── */
+  @media (max-width: 620px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .col-left, .col-right, .col-full { grid-column: 1; }
+    .header { padding: 16px 16px; }
+    .app { padding: 20px 14px 48px; }
+  }
 </style>
 </head>
 <body>
 
-<div class="app">
+<div class="page-wrap">
   <div class="header">
     <div class="header-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="#1F3864" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -442,59 +506,62 @@
     </div>
     <div>
       <div class="header-title">Equipment Request</div>
-      <div class="header-sub">Fill out all steps to submit</div>
+      <div class="header-sub">Schooner Transport — Fill out all steps to submit</div>
     </div>
   </div>
 
-  <!-- STEP 1: DRIVER -->
-  <div class="section">
-    <div class="step-label"><span class="step-num">1</span> Your Name</div>
-    <div class="driver-search-wrap">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-      </svg>
-      <input type="text" class="driver-search" id="driverSearch" placeholder="Search your name..." oninput="filterDrivers(this.value)" autocomplete="off">
+  <div class="app">
+    <div class="form-grid">
+
+      <!-- LEFT COLUMN: Driver + Date + Reason -->
+      <div class="col-left">
+
+        <!-- STEP 1: DRIVER -->
+        <div class="step-label"><span class="step-num">1</span> Your Name</div>
+        <div class="driver-search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <input type="text" class="driver-search" id="driverSearch" placeholder="Search your name..." oninput="filterDrivers(this.value)" autocomplete="off">
+        </div>
+        <div class="driver-grid" id="driverGrid"></div>
+        <!-- Other name input -->
+        <div class="other-name-wrap" id="otherNameWrap">
+          <input type="text" class="other-name-input" id="otherNameInput" placeholder="Enter your full name..." autocomplete="off">
+        </div>
+
+        <!-- STEP 3: DATE -->
+        <div class="step-label"><span class="step-num">3</span> Date Needed By</div>
+        <input type="date" class="date-input" id="dateInput">
+
+        <!-- STEP 4: REASON -->
+        <div class="step-label"><span class="step-num">4</span> Reason</div>
+        <div class="reason-grid" id="reasonGrid"></div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Items -->
+      <div class="col-right">
+        <div class="step-label"><span class="step-num">2</span> Items Needed</div>
+        <div class="items-list" id="itemsList"></div>
+      </div>
+
+      <!-- SUBMIT — full width -->
+      <div class="col-full submit-wrap">
+        <button class="submit-btn" id="submitBtn" onclick="submitRequest()">
+          Submit Request
+        </button>
+        <div class="validation-msg" id="validationMsg"></div>
+      </div>
+
     </div>
-    <div class="driver-grid" id="driverGrid"></div>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- STEP 2: ITEMS -->
-  <div class="section">
-    <div class="step-label"><span class="step-num">2</span> Items Needed</div>
-    <div class="items-list" id="itemsList"></div>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- STEP 3: DATE -->
-  <div class="section">
-    <div class="step-label"><span class="step-num">3</span> Date Needed By</div>
-    <input type="date" class="date-input" id="dateInput">
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- STEP 4: REASON -->
-  <div class="section">
-    <div class="step-label"><span class="step-num">4</span> Reason</div>
-    <div class="reason-grid" id="reasonGrid"></div>
-  </div>
-
-  <!-- SUBMIT -->
-  <div class="submit-wrap">
-    <button class="submit-btn" id="submitBtn" onclick="submitRequest()">
-      Submit Request
-    </button>
-    <div class="validation-msg" id="validationMsg"></div>
   </div>
 </div>
 
 <!-- SUCCESS SCREEN -->
 <div class="success-screen" id="successScreen">
   <div class="success-icon">
-    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="20 6 9 17 4 12"/>
     </svg>
   </div>
@@ -539,6 +606,7 @@ const ITEMS = [
 const REASONS = ["Worn Out","Damaged/Broken","Lost Item","New Driver","Replacement","Other"];
 
 let selectedDriver = null;
+let isOtherDriver  = false;
 let quantities = {};
 let selectedReason = null;
 
@@ -552,11 +620,18 @@ function init() {
 }
 
 function renderDrivers(list) {
-  document.getElementById('driverGrid').innerHTML = list.map(d => `
-    <button class="driver-btn ${d === selectedDriver ? 'selected' : ''}"
+  const grid = document.getElementById('driverGrid');
+  const btns = list.map(d => `
+    <button class="driver-btn ${d === selectedDriver && !isOtherDriver ? 'selected' : ''}"
             onclick="selectDriver('${d.replace(/'/g, "\\'")}')">
       ${d}
     </button>`).join('');
+
+  // Always add "Other" at the end
+  const otherBtn = `<button class="driver-btn other-btn ${isOtherDriver ? 'selected' : ''}"
+          onclick="selectOther()">✏️ Other / Not Listed</button>`;
+
+  grid.innerHTML = btns + otherBtn;
 }
 
 function filterDrivers(query) {
@@ -568,11 +643,22 @@ function filterDrivers(query) {
 
 function selectDriver(name) {
   selectedDriver = name;
+  isOtherDriver  = false;
   document.getElementById('driverSearch').value = name;
+  document.getElementById('otherNameWrap').classList.remove('show');
   renderDrivers([name]);
   setTimeout(() => {
     document.getElementById('itemsList').scrollIntoView({behavior:'smooth', block:'start'});
   }, 150);
+}
+
+function selectOther() {
+  selectedDriver = null;
+  isOtherDriver  = true;
+  document.getElementById('driverSearch').value = '';
+  document.getElementById('otherNameWrap').classList.add('show');
+  document.getElementById('otherNameInput').focus();
+  renderDrivers([]); // show only Other button
 }
 
 function renderItems() {
@@ -610,8 +696,17 @@ function selectReason(r) {
   renderReasons();
 }
 
+function getDriverName() {
+  if (isOtherDriver) {
+    return document.getElementById('otherNameInput').value.trim();
+  }
+  return selectedDriver;
+}
+
 function validate() {
-  if (!selectedDriver) return "Please select your name.";
+  const driver = getDriverName();
+  if (!driver && !isOtherDriver) return "Please select your name.";
+  if (isOtherDriver && !driver) return "Please enter your name in the 'Other' field.";
   if (!Object.values(quantities).some(q => q > 0)) return "Please select at least one item and quantity.";
   if (!selectedReason) return "Please select a reason.";
   return null;
@@ -629,7 +724,7 @@ async function submitRequest() {
 
   const items = Object.entries(quantities).filter(([,q]) => q > 0);
   const payload = {
-    driver: selectedDriver,
+    driver: getDriverName(),
     dateTaken: new Date().toISOString().split('T')[0],
     dateNeededBy: document.getElementById('dateInput').value,
     reason: selectedReason,
@@ -668,8 +763,11 @@ function showSuccess(payload) {
 }
 
 function resetForm() {
-  selectedDriver = null; quantities = {}; selectedReason = null;
+  selectedDriver = null; isOtherDriver = false;
+  quantities = {}; selectedReason = null;
   document.getElementById('driverSearch').value = '';
+  document.getElementById('otherNameInput').value = '';
+  document.getElementById('otherNameWrap').classList.remove('show');
   document.getElementById('successScreen').classList.remove('show');
   document.getElementById('dateInput').value = new Date().toISOString().split('T')[0];
   renderDrivers(DRIVERS); renderItems(); renderReasons();
